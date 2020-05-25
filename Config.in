@@ -1,0 +1,7 @@
+config TEST
+	bool "un test"
+	default n
+
+config OTHER_TEST
+	bool "un autre test"
+	default y

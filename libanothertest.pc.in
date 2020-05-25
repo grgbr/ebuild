@@ -1,0 +1,10 @@
+prefix=$(PREFIX)
+exec_prefix=$${prefix}
+libdir=$${exec_prefix}/lib
+
+Name: libanothertest
+Description: Ebuild anothertest library
+Version: %%PKG_VERSION%%
+Requires:
+Cflags: -rdynamic
+Libs: -rdynamic -L$${libdir} -Wl,--no-as-needed,-lbtrace,--as-needed
