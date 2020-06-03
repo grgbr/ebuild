@@ -34,5 +34,3 @@ test-objs                  := main.o
 
 config-in                  := Config.in
 config-h                   := ebuild/config.h
-
-include core.mk
