@@ -43,7 +43,9 @@ $(BUILDDIR)/$(1): $(addprefix $(BUILDDIR)/,$($(1)-objs)) \
                   $(addprefix $(BUILDDIR)/,$(solibs)) \
                   $(addprefix $(BUILDDIR)/,$(arlibs))
 	@echo "  LD      $$(@)"
-	$(Q)$(LD) -o $$(@) $$(^) -L$(BUILDDIR) $(call link_ldflags,$(1))
+	$(Q)$(LD) -o $$(@) \
+	          $(addprefix $(BUILDDIR)/,$($(1)-objs)) \
+	          -L$(BUILDDIR) $(call link_ldflags,$(1))
 
 $(foreach o,$($(1)-objs),$(call gen_obj_rule,$(o),$(1))$(newline))
 endef
