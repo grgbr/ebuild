@@ -12,7 +12,9 @@ export DESTDIR       :=
 export PREFIX        := /usr/local
 export INCLUDEDIR    := $(abspath $(PREFIX)/include)
 export BINDIR        := $(abspath $(PREFIX)/bin)
+export SBINDIR       := $(abspath $(PREFIX)/sbin)
 export LIBDIR        := $(abspath $(PREFIX)/lib)
+export LIBEXECDIR    := $(abspath $(PREFIX)/libexec)
 export PKGCONFIGDIR  := $(abspath $(LIBDIR)/pkgconfig)
 export LOCALSTATEDIR := $(abspath $(PREFIX)/var)
 
