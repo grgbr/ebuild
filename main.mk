@@ -8,6 +8,7 @@ $(error Missing PACKAGE definition !)
 endif
 export PACKAGE
 
+export CROSS_COMPILE :=
 export DESTDIR       :=
 export PREFIX        := /usr/local
 export INCLUDEDIR    := $(abspath $(PREFIX)/include)
@@ -18,10 +19,10 @@ export LIBEXECDIR    := $(abspath $(PREFIX)/libexec)
 export PKGCONFIGDIR  := $(abspath $(LIBDIR)/pkgconfig)
 export LOCALSTATEDIR := $(abspath $(PREFIX)/var)
 
-export CC            := gcc
-export AR            := gcc-ar
-export LD            := gcc
-export STRIP         := strip
+export CC            := $(CROSS_COMPILE)gcc
+export AR            := $(CROSS_COMPILE)gcc-ar
+export LD            := $(CROSS_COMPILE)gcc
+export STRIP         := $(CROSS_COMPILE)strip
 export RM            := rm -f
 export LN            := ln -f
 export PKG_CONFIG    := pkg-config
