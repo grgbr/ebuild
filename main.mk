@@ -21,6 +21,7 @@ export AR            := gcc-ar
 export LD            := gcc
 export STRIP         := strip
 export RM            := rm -f
+export LN            := ln -f
 export PKG_CONFIG    := pkg-config
 export INSTALL       := install
 export KCONF         := kconfig-conf

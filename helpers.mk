@@ -26,6 +26,11 @@ define rmr_recipe
 $(Q)$(RM) -r $(1)
 endef
 
+define ln_recipe
+@echo "  LN      $(2)"
+$(Q)$(LN) -s $(1) $(2)
+endef
+
 define kconf_enabled
 $(if $(filter __y__,__$(subst $(space),,$(strip $(CONFIG_$(1))))__),$(2))
 endef
