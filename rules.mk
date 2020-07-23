@@ -7,7 +7,7 @@ $(BUILDDIR)/$(1): $(SRCDIR)/$(patsubst %.o,%.c,$(notdir $(1))) \
                   $(all_deps) \
                   | $(dir $(BUILDDIR)/$(1))
 	@echo "  CC      $$(@)"
-	$(Q)$(CC) -I$$(call obj_includes,$$(@),$$(<)) \
+	$(Q)$(CC) $$(call obj_includes,$$(@),$$(<)) \
 	          -MD -g $(call obj_cflags,$(1),$(2)) -o $$(@) -c $$(<)
 endef
 
