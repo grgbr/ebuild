@@ -106,13 +106,33 @@ clean: $(addprefix clean-,$(subdirs))
 # Install handling
 ################################################################################
 
+define bin_install_path
+$(DESTDIR)$(if $($(1)-path),$($(1)-path),$(BINDIR)/$(1))
+endef
+
+define install_bin_rule
+$(call bin_install_path,$(1)): $(BUILDDIR)/$(1)
+	$$(call install_recipe,-m755,$$(<),$$(@))
+
+install: $(call bin_install_path,$(1))
+endef
+
+define solib_install_path
+$(DESTDIR)$(if $($(1)-path),$($(1)-path),$(LIBDIR)/$(1))
+endef
+
+define install_solib_rule
+$(call solib_install_path,$(1)): $(BUILDDIR)/$(1)
+	$$(call install_recipe,-m755,$$(<),$$(@))
+
+install: $(call solib_install_path,$(1))
+endef
+
 .PHONY: install
 install: $(addprefix install-,$(subdirs)) \
          $(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(headers)) \
          $(addprefix $(DESTDIR)$(LIBDIR)/,$(arlibs)) \
-         $(addprefix $(DESTDIR)$(LIBDIR)/,$(solibs)) \
-         $(addprefix $(DESTDIR)$(PKGCONFIGDIR)/,$(pkgconfigs)) \
-         $(addprefix $(DESTDIR)$(BINDIR)/,$(bins))
+         $(addprefix $(DESTDIR)$(PKGCONFIGDIR)/,$(pkgconfigs))
 
 $(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(headers)): \
 	$(DESTDIR)$(INCLUDEDIR)/%: $(HEADERDIR)/% $(all_deps)
@@ -122,17 +142,13 @@ $(addprefix $(DESTDIR)$(LIBDIR)/,$(arlibs)): \
 	$(DESTDIR)$(LIBDIR)/%: $(BUILDDIR)/%
 	$(call install_recipe,-m644,$(<),$(@))
 
-$(addprefix $(DESTDIR)$(LIBDIR)/,$(solibs)): \
-	$(DESTDIR)$(LIBDIR)/%: $(BUILDDIR)/%
-	$(call install_recipe,-m755,$(<),$(@))
-
 $(addprefix $(DESTDIR)$(PKGCONFIGDIR)/,$(pkgconfigs)): \
 	$(DESTDIR)$(PKGCONFIGDIR)/%: $(BUILDDIR)/%
 	$(call install_recipe,-m644,$(<),$(@))
 
-$(addprefix $(DESTDIR)$(BINDIR)/,$(bins)): \
-	$(DESTDIR)$(BINDIR)/%: $(BUILDDIR)/%
-	$(call install_recipe,-m755,$(<),$(@))
+$(eval $(foreach b,$(solibs),$(call install_solib_rule,$(b))$(newline)))
+
+$(eval $(foreach b,$(bins),$(call install_bin_rule,$(b))$(newline)))
 
 ifdef config-in
 
@@ -145,12 +161,14 @@ endif # config-in
 
 .PHONY: install-strip
 install-strip: install
-	$(foreach l, \
-	          $(addprefix $(DESTDIR)$(LIBDIR)/,$(solibs)), \
-	          $(call strip_lib_recipe,$(l))$(newline))
 	$(foreach b, \
-	          $(addprefix $(DESTDIR)$(BINDIR)/,$(bins)), \
-	          $(call strip_bin_recipe,$(b))$(newline))
+	          $(solibs), \
+	          $(call strip_solib_recipe, \
+	          $(call solib_install_path,$(b)))$(newline))
+	$(foreach b, \
+	          $(bins), \
+	          $(call strip_bin_recipe, \
+	          $(call bin_install_path,$(b)))$(newline))
 
 ################################################################################
 # Uninstall handling
@@ -163,9 +181,13 @@ ifdef config-in
 	$(call uninstall_recipe,$(DESTDIR)$(INCLUDEDIR),$(config-h))
 endif # config-in
 	$(call uninstall_recipe,$(DESTDIR)$(LIBDIR),$(arlibs))
-	$(call uninstall_recipe,$(DESTDIR)$(LIBDIR),$(solibs))
+	$(foreach l, \
+	          $(solibs), \
+	          $(call rm_recipe,$(call solib_install_path,$(l)))$(newline))
 	$(call uninstall_recipe,$(DESTDIR)$(PKGCONFIGDIR),$(pkgconfigs))
-	$(call uninstall_recipe,$(DESTDIR)$(BINDIR),$(bins))
+	$(foreach b, \
+	          $(bins), \
+	          $(call rm_recipe,$(call bin_install_path,$(b)))$(newline))
 
 ################################################################################
 # Various

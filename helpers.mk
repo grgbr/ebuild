@@ -79,7 +79,7 @@ $(foreach l, \
           $(call rm_recipe,$(BUILDDIR)/$(l))$(newline))
 endef
 
-define strip_lib_recipe
+define strip_solib_recipe
 @echo "  STRIP   $(1)"
 $(Q)$(STRIP) --strip-unneeded $(1)
 endef
