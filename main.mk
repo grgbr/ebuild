@@ -35,6 +35,7 @@ export KNCONF        := kconfig-nconf
 
 export TOPDIR        := $(CURDIR)
 
+DEFCONFIG            :=
 SRCDIR               := $(CURDIR)
 HEADERDIR            := $(CURDIR)
 BUILDDIR             := $(CURDIR)/build
@@ -135,10 +136,18 @@ gconfig: | $(kconfdir)
 nconfig: | $(kconfdir)
 	$(call kconf_runui_recipe,$(KNCONF))
 
+ifneq ($(strip $(DEFCONFIG)),)
+.PHONY: defconfig
+defconfig: | $(kconfdir)
+	$(Q)cp $(DEFCONFIG) $(kconf_config)
+	$(Q)$(call kconf_sync_cmd,olddefconfig)
+	$(Q)$(kconf_regen_cmd)
+else
 .PHONY: defconfig
 defconfig: | $(kconfdir)
 	$(Q)$(call kconf_sync_cmd,alldefconfig)
 	$(Q)$(kconf_regen_cmd)
+endif
 
 saveconfig: $(kconf_config)
 	$(Q)if [ ! -f "$(<)" ]; then \
