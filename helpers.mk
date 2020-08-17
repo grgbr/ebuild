@@ -36,7 +36,10 @@ $(if $(filter __y__,__$(subst $(space),,$(strip $(CONFIG_$(1))))__),$(2))
 endef
 
 define pkgconfig_cmd
-$(shell env PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)" $(PKG_CONFIG) $(1))
+$(shell env PKG_CONFIG_LIBDIR="$(PKG_CONFIG_LIBDIR)" \
+            PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)" \
+            PKG_CONFIG_SYSROOT_DIR="$(PKG_CONFIG_SYSROOT_DIR)" \
+            $(PKG_CONFIG) $(1))
 endef
 
 define pkgconfig_cflags
