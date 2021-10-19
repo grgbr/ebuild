@@ -32,7 +32,11 @@ $(Q)$(LN) -s $(1) $(2)
 endef
 
 define kconf_enabled
-$(if $(filter __y__,__$(subst $(space),,$(strip $(CONFIG_$(1))))__),$(2))
+$(if $(filter __y__,__$(subst $(space),,$(strip $(CONFIG_$(1))))__),$(2),$(3))
+endef
+
+define kconf_disabled
+$(if $(filter __y__,__$(subst $(space),,$(strip $(CONFIG_$(1))))__),$(3),$(2))
 endef
 
 define pkgconfig_cmd
