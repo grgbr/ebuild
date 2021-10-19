@@ -11,6 +11,7 @@ export PACKAGE
 export CROSS_COMPILE :=
 export DESTDIR       :=
 export PREFIX        := /usr/local
+export SYSCONFDIR    := $(abspath $(PREFIX)/etc)
 export INCLUDEDIR    := $(abspath $(PREFIX)/include)
 export BINDIR        := $(abspath $(PREFIX)/bin)
 export SBINDIR       := $(abspath $(PREFIX)/sbin)
@@ -18,6 +19,7 @@ export LIBDIR        := $(abspath $(PREFIX)/lib)
 export LIBEXECDIR    := $(abspath $(PREFIX)/libexec)
 export PKGCONFIGDIR  := $(abspath $(LIBDIR)/pkgconfig)
 export LOCALSTATEDIR := $(abspath $(PREFIX)/var)
+export RUNSTATEDIR   := $(abspath $(PREFIX)/run)
 
 export CC            := $(CROSS_COMPILE)gcc
 export AR            := $(CROSS_COMPILE)gcc-ar
