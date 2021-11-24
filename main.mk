@@ -48,8 +48,12 @@ ebuild_deps   := $(ebuild_mkfile) \
                  $(EBUILDDIR)/helpers.mk \
                  $(EBUILDDIR)/rules.mk
 
-include $(EBUILDDIR)/helpers.mk
+# If existing, load configuration early in the process so that project's
+# ebuild.mk may access kconfig make definitions (if any).
+__kconf_autoconf_path := $(BUILDDIR)/auto.conf
+-include $(__kconf_autoconf_path)
 
+include $(EBUILDDIR)/helpers.mk
 include $(CURDIR)/ebuild.mk
 
 ################################################################################
@@ -61,15 +65,15 @@ kconf_config := $(BUILDDIR)/.config
 ifdef config-in
 
 kconf_head   := $(BUILDDIR)/include/$(PACKAGE)/config.h
-all_deps := $(kconf_head)
+all_deps     := $(kconf_head)
 
-config-in := $(CURDIR)/$(config-in)
+config-in    := $(CURDIR)/$(config-in)
 ifeq ($(wildcard $(config-in)),)
 $(error '$(config-in)' configuration template file not found !)
 endif
 
 kconfdir       := $(BUILDDIR)/include/config/
-kconf_autoconf := $(BUILDDIR)/auto.conf
+kconf_autoconf := $(__kconf_autoconf_path)
 kconf_autohead := $(BUILDDIR)/autoconf.h
 
 define kconf_cmd
@@ -96,8 +100,6 @@ $(ebuild_mkfile): $(kconf_autoconf)
 
 $(kconf_autoconf): $(kconf_config)
 	@:
-
--include $(kconf_autoconf)
 
 .PHONY: config
 config: $(kconf_config)
