@@ -31,12 +31,16 @@ define ln_recipe
 $(Q)$(LN) -s $(1) $(2)
 endef
 
+define kconf_is_enabled
+$(strip $(filter __y__,__$(subst $(space),,$(strip $(CONFIG_$(strip $(1)))))__))
+endef
+
 define kconf_enabled
-$(if $(filter __y__,__$(subst $(space),,$(strip $(CONFIG_$(1))))__),$(2),$(3))
+$(strip $(if $(call kconf_is_enabled,$(1)),$(strip $(2)),$(strip $(3))))
 endef
 
 define kconf_disabled
-$(if $(filter __y__,__$(subst $(space),,$(strip $(CONFIG_$(1))))__),$(3),$(2))
+$(strip $(if $(call kconf_is_enabled,$(1)),$(strip $(3)),$(strip $(2))))
 endef
 
 define pkgconfig_cmd
