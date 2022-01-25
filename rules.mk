@@ -5,7 +5,7 @@
 define gen_obj_rule
 $(BUILDDIR)/$(1): $(SRCDIR)/$(patsubst %.o,%.c,$(notdir $(1))) \
                   $(all_deps) \
-                  | $(dir $(BUILDDIR)/$(1))
+                  | $(dir $(BUILDDIR)/$(1)) $(addprefix build-,$(subdirs))
 	@echo "  CC      $$(@)"
 	$(Q)$(CC) $$(call obj_includes,$$(@),$$(<)) \
 	          -MD -g $(call obj_cflags,$(1),$(2)) -o $$(@) -c $$(<)
@@ -80,6 +80,7 @@ endef
 .PHONY: build
 build: $(addprefix build-,$(subdirs)) \
        $(addprefix $(BUILDDIR)/,$(arlibs)) \
+       $(addprefix $(BUILDDIR)/,$(builtins)) \
        $(addprefix $(BUILDDIR)/,$(solibs)) \
        $(addprefix $(BUILDDIR)/,$(pkgconfigs)) \
        $(addprefix $(BUILDDIR)/,$(bins))
@@ -87,6 +88,8 @@ build: $(addprefix build-,$(subdirs)) \
 $(eval $(foreach d,$(subdirs),$(call gen_subdir_rule,$(d))$(newline)))
 
 $(eval $(foreach l,$(arlibs),$(call gen_arlib_rule,$(l))$(newline)))
+
+$(eval $(foreach l,$(builtins),$(call gen_arlib_rule,$(l))$(newline)))
 
 $(eval $(foreach l,$(solibs),$(call gen_solib_rule,$(l))$(newline)))
 
