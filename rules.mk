@@ -2,8 +2,12 @@
 # Build handling
 ################################################################################
 
+define get_obj_src
+$(if $($(1)-src),$($(1)-src),$(SRCDIR)/$(patsubst %.o,%.c,$(1)))
+endef
+
 define gen_obj_rule
-$(BUILDDIR)/$(1): $(SRCDIR)/$(patsubst %.o,%.c,$(notdir $(1))) \
+$(BUILDDIR)/$(1): $(call get_obj_src,$(notdir $(strip $(1)))) \
                   $(all_deps) \
                   | $(dir $(BUILDDIR)/$(1)) $(addprefix build-,$(subdirs))
 	@echo "  CC      $$(@)"
