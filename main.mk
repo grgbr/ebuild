@@ -105,13 +105,19 @@ $(kconf_autoconf): $(kconf_config)
 config: $(kconf_config)
 
 $(kconf_config): $(config-in) \
-                 $(subst $(ebuild_mkfile),,$(ebuild_mkfile)) \
                  | $(kconfdir)
 	@echo "  KCONF   $(@)"
 	$(Q)$(call kconf_sync_cmd,olddefconfig)
 	$(Q)$(kconf_regen_cmd)
 
-$(kconf_autohead): $(kconf_config)
+.PHONY: olddefconfig
+olddefconfig: $(config-in) \
+              | $(kconfdir)
+	@echo "  KCONF   $(kconf_config)"
+	$(Q)$(call kconf_sync_cmd,olddefconfig)
+	$(Q)$(kconf_regen_cmd)
+
+$(kconf_autohead): | $(kconfdir)
 	@:
 
 $(kconf_head): $(kconf_autohead) | $(dir $(kconf_head))
