@@ -20,11 +20,16 @@ export LIBEXECDIR    := $(abspath $(PREFIX)/libexec)
 export PKGCONFIGDIR  := $(abspath $(LIBDIR)/pkgconfig)
 export LOCALSTATEDIR := $(abspath $(PREFIX)/var)
 export RUNSTATEDIR   := $(abspath $(PREFIX)/run)
+export DATADIR       := $(abspath $(PREFIX)/share)
+export DOCDIR        := $(abspath $(DATADIR)/doc)
+export INFODIR       := $(abspath $(DATADIR)/info)
+export MANDIR        := $(abspath $(DATADIR)/man)
 
 export CC            := $(CROSS_COMPILE)gcc
 export AR            := $(CROSS_COMPILE)gcc-ar
 export LD            := $(CROSS_COMPILE)gcc
 export STRIP         := $(CROSS_COMPILE)strip
+export ECHOE         := /bin/echo -e
 export RM            := rm -f
 export LN            := ln -f
 export PKG_CONFIG    := pkg-config
@@ -195,3 +200,201 @@ ifdef config-in
 	$(call rm_recipe,$(kconf_config).old)
 	$(call rm_recipe,$(BUILDDIR)/defconfig)
 endif # config-in
+
+################################################################################
+# Help handling
+################################################################################
+
+# Help message common block
+# $(1): project name
+define help_common_msg
+## $(strip $(1)) build usage ##
+
+==Synopsis==
+
+make <TARGET> [<VARIABLE>[=<VALUE>]]...
+
+::Where::
+  <TARGET>      -- one of the targets described in `Targets' section below
+  <VARIABLE>    -- one of the variables described in the `Variables' section
+                   below
+  <VALUE>       -- a value to assign to the given <VARIABLE>
+
+==Targets==
+
+::Configuration::
+  menuconfig    -- configure build using a menu-driven interface
+  xconfig       -- configure build using a QT menu-driven interface
+  gconfig       -- configure build using a GTK menu-driven interface
+  defconfig     -- configure build using default settings
+  saveconfig    -- save current build configuration as default settings
+
+::Documentation::
+  doc           -- build documentation
+  clean-doc     -- remove built documentation
+  install-doc   -- install built documentation
+  uninstall-doc -- remove installed documentation
+
+::Construction::
+  build         -- compile and link objects
+  clean         -- remove built objects and documentation
+  install       -- install built objects and documentation
+  install-strip -- run `install' target and strip installed objects
+  uninstall     -- remove installed objects and documentation
+  distclean     -- run `clean' target then remove build configuration
+
+::Help::
+  help          -- this help message
+  help-full     -- a full reference help message
+endef
+
+# Short help message
+# $(1): project name
+define help_short_msg
+$(call help_common_msg,$(1))
+
+==Variables==
+
+EBUILDDIR       -- directory where ebuild logic is located
+                   [$(EBUILDDIR)]
+DEFCONFIG       -- optional file containing default build configuration settings
+                   [$(DEFCONFIG)]
+PREFIX          -- prefix prepended to install location variables default value
+                   [$(PREFIX)]
+DESTDIR         -- root install hierarchy top-level directory
+                   [$(DESTDIR)]
+BUILDDIR        -- directory where intermediate built objects are generated
+                   [$(BUILDDIR)]
+CROSS_COMPILE   -- prefix prepended to executables used at compile / link time
+                   [$(CROSS_COMPILE)]
+EXTRA_CFLAGS    -- additional flags passed to $$(CC) at compile time
+                   [$(EXTRA_CFLAGS)]
+EXTRA_LDFLAGS   -- additional flags passed to $$(LD) at link time
+                   [$(EXTRA_LDFLAGS)]
+
+Use `help-full' target for further details.
+endef
+
+# Detailed help message
+# $(1): project name
+define help_full_msg
+$(call help_common_msg,$(1))
+
+==Variables==
+
+::Configuration::
+  EBUILDDIR DEFCONFIG KCONF KGCONF KMCONF KNCONF KXCONF
+
+::Install::
+  PREFIX DESTDIR
+  SYSCONFDIR BINDIR SBINDIR LIBDIR LIBEXECDIR LOCALSTATEDIR RUNSTATEDIR
+  INCLUDEDIR  PKGCONFIGDIR DATADIR DOCDIR INFODIR MANDIR
+
+::Construction::
+  BUILDDIR CROSS_COMPILE EXTRA_CFLAGS EXTRA_LDFLAGS
+  AR CC LD PKG_CONFIG STRIP
+
+::Tools::
+  INSTALL LN RM ECHOE
+
+::Reference::
+  AR            -- objects archiver `ar' tool
+                   [$(AR)]
+  BINDIR        -- install variable holding pathname to directory where to
+                   install executables
+                   [$(BINDIR)]
+  BUILDDIR      -- pathname to directory under which intermediate built objects
+                   will be generated
+                   [$(BUILDDIR)]
+  CC            -- C compiler `cc' tool
+                   [$(CC)]
+  CROSS_COMPILE -- prefix prepended to all executables used during compilation
+                   [$(CROSS_COMPILE)]
+  DEFCONFIG     -- pathname to optional file containing default build
+                   configuration settings
+                   [$(DEFCONFIG)]
+  DATADIR       -- install variable holding pathname to directory under which
+                   to install read-only architecture-independent data files
+                   [$(DATADIR)]
+  DESTDIR       -- optional pathname to root install directory
+                   [$(DESTDIR)]
+  DOCDIR        -- install variable holding pathname to directory where to
+                   install documentation files
+                   [$(DOCDIR)]
+  EBUILDDIR     -- pathname to directory where ebuild logic is located
+                   [$(EBUILDDIR)]
+  ECHOE         -- `echo' tool with backslash escapes interpretation enabled
+                   [$(ECHOE)]
+  EXTRA_CFLAGS  -- additional flags passed to $$(CC) at compile time
+                   [$(EXTRA_CFLAGS)]
+  EXTRA_LDFLAGS -- additional flags passed to $$(LD) at link time
+                   [$(EXTRA_LDFLAGS)]
+  INFODIR       -- install variable holding pathname to directory where to
+                   install info files
+                   [$(INFODIR)]
+  INCLUDEDIR    -- install variable holding pathname to directory where to
+                   install development header files
+                   [$(INCLUDEDIR)]
+  INSTALL       -- `install' tool used to copy / create filesystem entries
+                   [$(INSTALL)]
+  KCONF         -- Kconfig `conf' line-oriented tool
+                   [$(KCONF)]
+  KGCONF        -- Kconfig `gconf' GTK menu based tool
+                   [$(KGCONF)]
+  KMCONF        -- Kconfig `mconf' menu based tool
+                   [$(KMCONF)]
+  KNCONF        -- Kconfig `nconf' Ncurses menu based tool
+                   [$(KNCONF)]
+  KXCONF        -- Kconfig `qconf' QT menu based tool
+                   [$(KXCONF)]
+  LD            -- linker `ld' tool
+                   [$(LD)]
+  LIBDIR        -- install variable holding pathname to directory where to
+                   install libraries
+                   [$(LIBDIR)]
+  LIBEXECDIR    -- install variable holding pathname to directory where to
+                   install executables to be run by other programs
+                   [$(LIBEXECDIR)]
+  LN            -- `ln' tool used to create symbolic links
+                   [$(LN)]
+  LOCALSTATEDIR -- install variable holding pathname to directory where to
+                   install machine specific persistent data files which programs
+                   modify while they run
+                   [$(LOCALSTATEDIR)]
+  MANDIR        -- install variable holding pathname to directory where to
+                   install manual pages
+                   [$(MANDIR)]
+  PREFIX        -- pathname prefix prepended to install variable values listed
+                   here
+                   [$(PREFIX)]
+  PKG_CONFIG    -- `pkg-config' tool used retrieve informations about installed
+                   libraries
+                   [$(PKG_CONFIG)]
+  PKGCONFIGDIR  -- install variable holding pathname to directory where to
+                   install $$(PKG_CONFIG) metadata files
+                   [$(PKGCONFIGDIR)]
+  RM            -- `rm' tool used to delete filesystem entries
+                   [$(RM)]
+  RUNSTATEDIR   -- install variable holding pathname to directory where to
+                   install machine specific temporary data files which programs
+                   modify while they run
+                   [$(RUNSTATEDIR)]
+  SBINDIR       -- install variable holding pathname to directory where to
+                   install system administration executables
+                   [$(SBINDIR)]
+  STRIP         -- `strip' tool used to discard symbols from object files
+                   [$(STRIP)]
+  SYSCONFDIR    -- install variable holding pathname to directory where to
+                   install machine specific read-only system configuration files
+                   [$(SYSCONFDIR)]
+endef
+
+.PHONY: help
+help: SHELL := bash
+help:
+	@$(call echo_multi_line,$(call help_short_msg,$(PACKAGE)))
+
+.PHONY: help
+help-full: SHELL := bash
+help-full:
+	@$(call echo_multi_line,$(call help_full_msg,$(PACKAGE)))

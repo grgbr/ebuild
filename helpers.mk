@@ -4,8 +4,30 @@ MAKEFLAGS += --no-print-directory
 Q         := @
 endif
 
-empty :=
-space := $(empty) $(empty)
+empty  :=
+space  := $(empty) $(empty)
+squote := '
+
+# Escape message given in argument for echo'ing to the console
+# $(1): (unescaped) message to print
+#
+# Message will be escaped as required for echo'ing to the console according to
+# bash(1) single quoted string escaping rules.
+# See bash(1) "QUOTING" section.
+define escape_shell_string
+$(subst $(squote),\$(squote),$(1))
+endef
+
+# Print multi-line message given in argument to the console
+# $(1): (unescaped) message to print
+#
+# Message will be escaped as required for echo'ing to the console.
+# Recipes calling this macro MUST run a shell that understands bash(1) single
+# quoted string escaping rules.
+# See macro escape_shell_string().
+define echo_multi_line
+$(ECHOE) $$'$(subst $(newline),\n,$(call escape_shell_string,$(1)))'
+endef
 
 define newline
 $(empty)
