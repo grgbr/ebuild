@@ -223,7 +223,7 @@ make <TARGET> [<VARIABLE>[=<VALUE>]]...
 ==Targets==
 
 ::Configuration::
-  menuconfig    -- configure build using a menu-driven interface
+  menuconfig    -- configure build using a NCurses menu-driven interface
   xconfig       -- configure build using a QT menu-driven interface
   gconfig       -- configure build using a GTK menu-driven interface
   defconfig     -- configure build using default settings
@@ -283,109 +283,97 @@ $(call help_common_msg,$(1))
 ==Variables==
 
 ::Configuration::
-  EBUILDDIR DEFCONFIG KCONF KGCONF KMCONF KNCONF KXCONF
+  * EBUILDDIR
+  * DEFCONFIG
+  * BUILDDIR
+  * KCONF KGCONF KMCONF KNCONF KXCONF
+
+::Build::
+  * EBUILDDIR DEFCONFIG KCONF
+  * BUILDDIR
+  * PREFIX SYSCONFDIR BINDIR SBINDIR LIBDIR LIBEXECDIR LOCALSTATEDIR RUNSTATEDIR
+    INCLUDEDIR PKGCONFIGDIR DATADIR DOCDIR INFODIR MANDIR
+  * CROSS_COMPILE AR CC LD PKG_CONFIG EXTRA_CFLAGS EXTRA_LDFLAGS
 
 ::Install::
-  PREFIX DESTDIR
-  SYSCONFDIR BINDIR SBINDIR LIBDIR LIBEXECDIR LOCALSTATEDIR RUNSTATEDIR
-  INCLUDEDIR  PKGCONFIGDIR DATADIR DOCDIR INFODIR MANDIR
-
-::Construction::
-  BUILDDIR CROSS_COMPILE EXTRA_CFLAGS EXTRA_LDFLAGS
-  AR CC LD PKG_CONFIG STRIP
+  * EBUILDDIR DEFCONFIG KCONF
+  * BUILDDIR
+  * PREFIX SYSCONFDIR BINDIR SBINDIR LIBDIR LIBEXECDIR LOCALSTATEDIR RUNSTATEDIR
+    INCLUDEDIR  PKGCONFIGDIR DATADIR DOCDIR INFODIR MANDIR
+  * CROSS_COMPILE STRIP
+  * DESTDIR
 
 ::Tools::
   INSTALL LN RM ECHOE
 
 ::Reference::
-  AR            -- objects archiver `ar' tool
+  AR            -- objects archiver `ar'
                    [$(AR)]
-  BINDIR        -- install variable holding pathname to directory where to
-                   install executables
+  BINDIR        -- executable programs install directory
                    [$(BINDIR)]
-  BUILDDIR      -- pathname to directory under which intermediate built objects
-                   will be generated
+  BUILDDIR      -- build directory
                    [$(BUILDDIR)]
-  CC            -- C compiler `cc' tool
+  CC            -- C compiler `cc'
                    [$(CC)]
-  CROSS_COMPILE -- prefix prepended to all executables used during compilation
+  CROSS_COMPILE -- cross compile tool prefix
                    [$(CROSS_COMPILE)]
-  DEFCONFIG     -- pathname to optional file containing default build
-                   configuration settings
+  DEFCONFIG     -- default build configuration file
                    [$(DEFCONFIG)]
-  DATADIR       -- install variable holding pathname to directory under which
-                   to install read-only architecture-independent data files
+  DATADIR       -- read-only architecture-independent data install directory
                    [$(DATADIR)]
-  DESTDIR       -- optional pathname to root install directory
+  DESTDIR       -- top-level staged / root install directory
                    [$(DESTDIR)]
-  DOCDIR        -- install variable holding pathname to directory where to
-                   install documentation files
+  DOCDIR        -- documentation install directory
                    [$(DOCDIR)]
-  EBUILDDIR     -- pathname to directory where ebuild logic is located
+  EBUILDDIR     -- ebuild directory
                    [$(EBUILDDIR)]
-  ECHOE         -- `echo' tool with backslash escapes interpretation enabled
+  ECHOE         -- shell escaped string `echo' tool
                    [$(ECHOE)]
   EXTRA_CFLAGS  -- additional flags passed to $$(CC) at compile time
                    [$(EXTRA_CFLAGS)]
   EXTRA_LDFLAGS -- additional flags passed to $$(LD) at link time
                    [$(EXTRA_LDFLAGS)]
-  INFODIR       -- install variable holding pathname to directory where to
-                   install info files
+  INFODIR       -- Info files install directory
                    [$(INFODIR)]
-  INCLUDEDIR    -- install variable holding pathname to directory where to
-                   install development header files
+  INCLUDEDIR    -- Header files install directory
                    [$(INCLUDEDIR)]
-  INSTALL       -- `install' tool used to copy / create filesystem entries
+  INSTALL       -- `install' tool
                    [$(INSTALL)]
-  KCONF         -- Kconfig `conf' line-oriented tool
+  KCONF         -- KConfig `conf' line-oriented tool
                    [$(KCONF)]
-  KGCONF        -- Kconfig `gconf' GTK menu based tool
+  KGCONF        -- KConfig `gconf' GTK menu based tool
                    [$(KGCONF)]
-  KMCONF        -- Kconfig `mconf' menu based tool
+  KMCONF        -- Kconfig `mconf' NCurses menu based tool
                    [$(KMCONF)]
-  KNCONF        -- Kconfig `nconf' Ncurses menu based tool
-                   [$(KNCONF)]
   KXCONF        -- Kconfig `qconf' QT menu based tool
                    [$(KXCONF)]
   LD            -- linker `ld' tool
                    [$(LD)]
-  LIBDIR        -- install variable holding pathname to directory where to
-                   install libraries
+  LIBDIR        -- libraries install directory
                    [$(LIBDIR)]
-  LIBEXECDIR    -- install variable holding pathname to directory where to
-                   install executables to be run by other programs
+  LIBEXECDIR    -- executable programs install directory
                    [$(LIBEXECDIR)]
-  LN            -- `ln' tool used to create symbolic links
+  LN            -- link maker `ln' tool
                    [$(LN)]
-  LOCALSTATEDIR -- install variable holding pathname to directory where to
-                   install machine specific persistent data files which programs
-                   modify while they run
+  LOCALSTATEDIR -- machine specific persistent data files install directory
                    [$(LOCALSTATEDIR)]
-  MANDIR        -- install variable holding pathname to directory where to
-                   install manual pages
+  MANDIR        -- man pages install directory
                    [$(MANDIR)]
-  PREFIX        -- pathname prefix prepended to install variable values listed
-                   here
+  PREFIX        --  prefix prepended to install variable default values.
                    [$(PREFIX)]
-  PKG_CONFIG    -- `pkg-config' tool used retrieve informations about installed
-                   libraries
+  PKG_CONFIG    -- `pkg-config' compile and link helper tool
                    [$(PKG_CONFIG)]
-  PKGCONFIGDIR  -- install variable holding pathname to directory where to
-                   install $$(PKG_CONFIG) metadata files
+  PKGCONFIGDIR  -- $$(PKG_CONFIG) metadata files install directory
                    [$(PKGCONFIGDIR)]
-  RM            -- `rm' tool used to delete filesystem entries
+  RM            -- `rm' filesystem entry removal tool
                    [$(RM)]
-  RUNSTATEDIR   -- install variable holding pathname to directory where to
-                   install machine specific temporary data files which programs
-                   modify while they run
+  RUNSTATEDIR   -- machine specific temporary data files install directory
                    [$(RUNSTATEDIR)]
-  SBINDIR       -- install variable holding pathname to directory where to
-                   install system administration executables
+  SBINDIR       -- system administration executable programs install directory
                    [$(SBINDIR)]
-  STRIP         -- `strip' tool used to discard symbols from object files
+  STRIP         -- `strip' object symbols discarding tool.
                    [$(STRIP)]
-  SYSCONFDIR    -- install variable holding pathname to directory where to
-                   install machine specific read-only system configuration files
+  SYSCONFDIR    -- machine specific read-only configuration install directory
                    [$(SYSCONFDIR)]
 endef
 
