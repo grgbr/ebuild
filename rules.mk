@@ -81,13 +81,15 @@ uninstall-$(1): $(addprefix uninstall-,$($(1)-deps))
 	$(Q)$(call make_subdir_cmd,uninstall,$(1))
 endef
 
+override build_prereqs := $(addprefix build-,$(subdirs)) \
+                          $(addprefix $(BUILDDIR)/,$(arlibs) \
+                                                   $(builtins) \
+                                                   $(solibs) \
+                                                   $(pkgconfigs) \
+                                                   $(bins))
+
 .PHONY: build
-build: $(addprefix build-,$(subdirs)) \
-       $(addprefix $(BUILDDIR)/,$(arlibs)) \
-       $(addprefix $(BUILDDIR)/,$(builtins)) \
-       $(addprefix $(BUILDDIR)/,$(solibs)) \
-       $(addprefix $(BUILDDIR)/,$(pkgconfigs)) \
-       $(addprefix $(BUILDDIR)/,$(bins))
+build: $(build_prereqs)
 
 $(eval $(foreach d,$(subdirs),$(call gen_subdir_rule,$(d))$(newline)))
 

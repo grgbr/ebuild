@@ -39,6 +39,7 @@ export KMCONF        := kconfig-mconf
 export KXCONF        := kconfig-qconf
 export KGCONF        := kconfig-gconf
 export KNCONF        := kconfig-nconf
+export DOXY          := doxygen
 
 export TOPDIR        := $(CURDIR)
 
@@ -184,6 +185,44 @@ config menuconfig xconfig gconfig nconfig defconfig saveconfig:
 endif # config-in
 
 include $(EBUILDDIR)/rules.mk
+
+################################################################################
+# Doxygen handling
+################################################################################
+
+# Handle doxygen targets only when $(doxyconf) is defined.
+ifneq ($(strip $(doxyconf)),)
+
+# Doxygen generated documentation output directory
+doxy_outdir := $(BUILDDIR)/doc/doxy
+
+ifneq ($(call has_cmd,$(DOXY)),y)
+
+# Make doxy target depend on every other build targets so that Doxygen may
+# build documentation for generated sources if needed.
+.PHONY: doxy
+doxy: $(build_prereqs) | $(doxy_outdir)
+	$(call doxy_recipe,$(doxyconf),$(|),$(doxyenv))
+
+else  # !($(call has_cmd,$(DOXY)),y)
+
+.PHONY: doxy
+doxy: $(build_prereqs)
+	$(error Doxygen tool not found ! \
+	        Setup $$(DOXY) to generate documentation)
+
+endif # ($(call has_cmd,$(DOXY)),y)
+
+clean: clean-doxy
+
+.PHONY: clean-doxy
+clean-doxy:
+	$(call rmr_recipe,$(doxy_outdir))
+
+$(doxy_outdir):
+	@mkdir -p $(@)
+
+endif # ($(strip $(doxyconf)),)
 
 ################################################################################
 # Distclean handling

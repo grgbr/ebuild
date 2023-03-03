@@ -132,6 +132,20 @@ define uninstall_recipe
 $(foreach f,$(addprefix $(1)/,$(2)),$(call rm_recipe,$(f))$(newline))
 endef
 
+define has_cmd
+$(shell type $(1) 2>/dev/null && echo y)
+endef
+
+# Run doxygen
+# $(1): pathname to Doxyfile
+# $(2): pathname to generated documentation base output directory
+# $(3): additional environment variables given to doxygen
+define doxy_recipe
+@echo "  DOXY    $(2)"
+$(Q)env OUTDIR="$(strip $(2))" $(3) $(if $(Q),QUIET="YES",QUIET="NO") \
+        $(DOXY) $(1)
+endef
+
 .DEFAULT_GOAL := build
 
 .SUFFIXES:
