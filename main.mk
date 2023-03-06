@@ -187,6 +187,14 @@ endif # config-in
 
 include $(EBUILDDIR)/rules.mk
 
+.PHONY: doc
+doc:
+
+clean: clean-doc
+
+.PHONY: clean-doc
+clean-doc:
+
 ################################################################################
 # Doxygen handling
 #
@@ -216,6 +224,17 @@ ifneq ($(strip $(doxyconf)),)
 doxydir    := $(BUILDDIR)/doc/doxy
 doxyxmldir := $(doxydir)/xml
 
+doc: doxy
+
+clean-doc: clean-doxy
+
+.PHONY: clean-doxy
+clean-doxy:
+	$(call rmr_recipe,$(doxydir))
+
+$(doxydir):
+	@mkdir -p $(@)
+
 ifneq ($(call has_cmd,$(DOXY)),y)
 
 # Make doxy target depend on every other build targets so that doxygen may
@@ -232,15 +251,6 @@ doxy: $(build_prereqs)
 	        Setup $$(DOXY) to generate documentation)
 
 endif # ($(call has_cmd,$(DOXY)),y)
-
-clean: clean-doxy
-
-.PHONY: clean-doxy
-clean-doxy:
-	$(call rmr_recipe,$(doxydir))
-
-$(doxydir):
-	@mkdir -p $(@)
 
 endif # ($(strip $(doxyconf)),)
 
@@ -278,6 +288,24 @@ ifneq ($(strip $(sphinxsrc)),)
 sphinxdir      := $(BUILDDIR)/doc/sphinx
 sphinxcachedir := $(BUILDDIR)/doc/doctrees
 sphinxhtmldir  := $(BUILDDIR)/doc/html
+sphinxpdfdir   := $(BUILDDIR)/doc/pdf
+
+doc: html pdf
+
+clean-doc: clean-sphinx
+
+.PHONY: clean-sphinx
+clean-sphinx: clean-html clean-pdf
+	$(call rm_recipe,$(sphinxdir))
+	$(call rmr_recipe,$(sphinxcachedir))
+
+.PHONY: clean-html
+clean-html:
+	$(call rmr_recipe,$(sphinxhtmldir))
+
+.PHONY: clean-pdf
+clean-pdf:
+	$(call rmr_recipe,$(sphinxpdfdir))
 
 ifneq ($(call has_cmd,$(SPHINXBUILD)),y)
 
@@ -289,25 +317,25 @@ html: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
 	                          $(sphinxcachedir), \
 	                          $(sphinxenv) DOXYXMLDIR="$(doxyxmldir)")
 
+# Make pdf target depend onto doxy target if doxygen support is enabled.
+.PHONY: pdf
+pdf: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
+	$(call sphinx_pdf_recipe,$(sphinxdir), \
+	                         $(sphinxpdfdir), \
+	                         $(sphinxcachedir), \
+	                         $(sphinxenv) DOXYXMLDIR="$(doxyxmldir)")
+
 $(sphinxdir): | $(sphinxsrc)
 	@ln -sf $(|) $(@)
 
 else  # !($(call has_cmd,$(SPHINXBUILD)),y)
 
-.PHONY: html
-html: $(build_prereqs)
+.PHONY: html pdf
+html pdf: $(build_prereqs)
 	$(error sphinx-build tool not found ! \
 	        Setup $$(SPHINXBUILD) to generate documentation)
 
 endif # ($(call has_cmd,$(SPHINXBUILD)),y)
-
-clean: clean-html
-
-.PHONY: clean-html
-clean-html:
-	$(call rm_recipe,$(sphinxdir))
-	$(call rmr_recipe,$(sphinxhtmldir))
-	$(call rmr_recipe,$(sphinxcachedir))
 
 endif # ($(strip $(sphinxsrc)),)
 

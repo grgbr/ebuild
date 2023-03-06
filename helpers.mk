@@ -165,6 +165,30 @@ $(Q)$(if $(4),env $(4)) \
                    -j auto
 endef
 
+# Run sphinx-build to generate PDF
+# $(1): pathname to sphinx documentation source directory
+# $(2): pathname to generated PDF documentation output directory
+# $(3): pathname to sphinx cache directory
+# $(4): additional environment variables given to sphinx-build
+define sphinx_pdf_recipe
+@echo "  LATEX   $(2)"
+$(Q)$(if $(4),env $(4)) \
+    $(SPHINXBUILD) -b latex \
+                   "$(strip $(1))" \
+                   "$(strip $(2))" \
+                   $(if $(Q),-Q,-q) \
+                   -d "$(strip $(3))" \
+                   -a \
+                   -E \
+                   -j auto
+@echo "  PDF     $(2)"
++$(Q)$(MAKE) --directory "$(strip $(2))" \
+             all-pdf \
+             LATEXMKOPTS='-interaction=nonstopmode -halt-on-error' \
+             $(if $(Q),>/dev/null 2>&1)
+endef
+
+
 .DEFAULT_GOAL := build
 
 .SUFFIXES:
