@@ -143,7 +143,26 @@ endef
 define doxy_recipe
 @echo "  DOXY    $(2)"
 $(Q)env OUTDIR="$(strip $(2))" $(3) $(if $(Q),QUIET="YES",QUIET="NO") \
-        $(DOXY) $(1)
+        $(DOXY) \
+        $(1)
+endef
+
+# Run sphinx-build to generate HTML
+# $(1): pathname to sphinx documentation source directory
+# $(2): pathname to generated HTML documentation output directory
+# $(3): pathname to sphinx cache directory
+# $(4): additional environment variables given to sphinx-build
+define sphinx_html_recipe
+@echo "  HTML    $(2)"
+$(Q)$(if $(4),env $(4)) \
+    $(SPHINXBUILD) -b html \
+                   "$(strip $(1))" \
+                   "$(strip $(2))" \
+                   $(if $(Q),-Q,-q) \
+                   -d "$(strip $(3))" \
+                   -a \
+                   -E \
+                   -j auto
 endef
 
 .DEFAULT_GOAL := build

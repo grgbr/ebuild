@@ -40,6 +40,7 @@ export KXCONF        := kconfig-qconf
 export KGCONF        := kconfig-gconf
 export KNCONF        := kconfig-nconf
 export DOXY          := doxygen
+export SPHINXBUILD   := sphinx-build
 
 export TOPDIR        := $(CURDIR)
 
@@ -188,27 +189,46 @@ include $(EBUILDDIR)/rules.mk
 
 ################################################################################
 # Doxygen handling
-################################################################################
+#
+# For doxygen generation to properly work, the doxygen must be given the
+# location where to generate output files. This is performed by passing the
+# OUTDIR variable into doxygen tool environment (see doxy_recipe() macro
+# definition).
+# This requires the Doxyfile configuration file to contain the following output
+# directory definition:
+#     OUTPUT_DIRECTORY = $(OUTDIR)
+#
+# In addition, if combined with Sphinx / breathe documentation system, the
+# doxygen tool must be setup to generate XML output to a "xml" directory located
+# right under the directory pointed to by the OUTDIR variable mentioned above.
+# This requires the Doxyfile configuration file to contain the following XML
+# output directory definition:
+#
+#     XML_OUTPUT = xml
+#
+# See below for more about sphinx / breathe setup.
+###############################################################################
 
 # Handle doxygen targets only when $(doxyconf) is defined.
 ifneq ($(strip $(doxyconf)),)
 
-# Doxygen generated documentation output directory
-doxy_outdir := $(BUILDDIR)/doc/doxy
+# Doxygen build directories, i.e. where doxygen generates its output files.
+doxydir    := $(BUILDDIR)/doc/doxy
+doxyxmldir := $(doxydir)/xml
 
 ifneq ($(call has_cmd,$(DOXY)),y)
 
-# Make doxy target depend on every other build targets so that Doxygen may
+# Make doxy target depend on every other build targets so that doxygen may
 # build documentation for generated sources if needed.
 .PHONY: doxy
-doxy: $(build_prereqs) | $(doxy_outdir)
+doxy: $(build_prereqs) | $(doxydir)
 	$(call doxy_recipe,$(doxyconf),$(|),$(doxyenv))
 
 else  # !($(call has_cmd,$(DOXY)),y)
 
 .PHONY: doxy
 doxy: $(build_prereqs)
-	$(error Doxygen tool not found ! \
+	$(error doxygen tool not found ! \
 	        Setup $$(DOXY) to generate documentation)
 
 endif # ($(call has_cmd,$(DOXY)),y)
@@ -217,12 +237,79 @@ clean: clean-doxy
 
 .PHONY: clean-doxy
 clean-doxy:
-	$(call rmr_recipe,$(doxy_outdir))
+	$(call rmr_recipe,$(doxydir))
 
-$(doxy_outdir):
+$(doxydir):
 	@mkdir -p $(@)
 
 endif # ($(strip $(doxyconf)),)
+
+################################################################################
+# Sphinx handling
+#
+# When using breathe / doxygen combination for source code documentation
+# generation, breathe must be given the location where to retrieve doxygen XML
+# generated output.
+# This is performed by passing the DOXYXMLDIR variable into sphinx environment
+# (see the html target recipe for example).
+# This requires the sphinx configuration file (conf.py) to instruct breathe
+# the pathname to doxygen XML generated output:
+#
+#     # Get doxygen XML generated output directory
+#     doxyxmldir = os.getenv('DOXYXMLDIR')
+#     if not os.path.isdir(doxyxmldir):
+#         print('{}: Invalid Doxygen XML directory'.format(os.path.basename(sys.argv[0])),
+#               file=sys.stderr)
+#         sys.exit(1)
+#
+#     # Setup breathe default project name
+#     breathe_default_project        = 'myproject'
+#     # For default project, tell breathe to search for XML input into doxygen
+#     # XML generated output # directory.
+#     breathe_projects               = { 'myproject': doxyxmldir }
+#
+# See above for informations about how to enable doxygen output.
+################################################################################
+
+# Handle Sphinx targets only when $(sphinxsrc) is defined.
+ifneq ($(strip $(sphinxsrc)),)
+
+# Sphinx generated HTML documentation output directory
+sphinxdir      := $(BUILDDIR)/doc/sphinx
+sphinxcachedir := $(BUILDDIR)/doc/doctrees
+sphinxhtmldir  := $(BUILDDIR)/doc/html
+
+ifneq ($(call has_cmd,$(SPHINXBUILD)),y)
+
+# Make html target depend onto doxy target if doxygen support is enabled.
+.PHONY: html
+html: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
+	$(call sphinx_html_recipe,$(sphinxdir), \
+	                          $(sphinxhtmldir), \
+	                          $(sphinxcachedir), \
+	                          $(sphinxenv) DOXYXMLDIR="$(doxyxmldir)")
+
+$(sphinxdir): | $(sphinxsrc)
+	@ln -sf $(|) $(@)
+
+else  # !($(call has_cmd,$(SPHINXBUILD)),y)
+
+.PHONY: html
+html: $(build_prereqs)
+	$(error sphinx-build tool not found ! \
+	        Setup $$(SPHINXBUILD) to generate documentation)
+
+endif # ($(call has_cmd,$(SPHINXBUILD)),y)
+
+clean: clean-html
+
+.PHONY: clean-html
+clean-html:
+	$(call rm_recipe,$(sphinxdir))
+	$(call rmr_recipe,$(sphinxhtmldir))
+	$(call rmr_recipe,$(sphinxcachedir))
+
+endif # ($(strip $(sphinxsrc)),)
 
 ################################################################################
 # Distclean handling
