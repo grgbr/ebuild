@@ -8,6 +8,11 @@ empty  :=
 space  := $(empty) $(empty)
 squote := '
 
+define newline :=
+$(empty)
+$(empty)
+endef
+
 # Escape message given in argument for echo'ing to the console
 # $(1): (unescaped) message to print
 #
@@ -27,11 +32,6 @@ endef
 # See macro escape_shell_string().
 define echo_multi_line
 $(ECHOE) $$'$(subst $(newline),\n,$(call escape_shell_string,$(1)))'
-endef
-
-define newline
-$(empty)
-$(empty)
 endef
 
 define toupper
@@ -132,6 +132,19 @@ define uninstall_recipe
 $(foreach f,$(addprefix $(1)/,$(2)),$(call rm_recipe,$(f))$(newline))
 endef
 
+define installdir_recipe
+@echo "  INSTALL $(3)"
+$(Q)mkdir -p -m755 $(3)
+$(Q)$(RSYNC) --recursive \
+             --links \
+             --times \
+             --perms \
+             --delete \
+             $(1) \
+             $(abspath $(2))/ \
+             $(abspath $(3))/
+endef
+
 define has_cmd
 $(shell type $(1) 2>/dev/null && echo y)
 endef
@@ -184,8 +197,50 @@ $(Q)$(if $(4),env $(4)) \
 @echo "  PDF     $(2)"
 +$(Q)$(MAKE) --directory "$(strip $(2))" \
              all-pdf \
+             PDFLATEX='$(LATEXMK) -pdf -dvi- -ps-' \
              LATEXMKOPTS='-interaction=nonstopmode -halt-on-error' \
              $(if $(Q),>/dev/null 2>&1)
+endef
+
+# Run sphinx-build to generate info pages
+# $(1): pathname to sphinx documentation source directory
+# $(2): pathname to generated info documentation output directory
+# $(3): pathname to sphinx cache directory
+# $(4): additional environment variables given to sphinx-build
+define sphinx_info_recipe
+@echo "  TEXINFO $(2)"
+$(Q)$(if $(4),env $(4)) \
+    $(SPHINXBUILD) -b texinfo \
+                   "$(strip $(1))" \
+                   "$(strip $(2))" \
+                   $(if $(Q),-Q,-q) \
+                   -d "$(strip $(3))" \
+                   -a \
+                   -E \
+                   -j auto
+@echo "  INFO    $(2)"
++$(Q)$(MAKE) --directory "$(strip $(2))" \
+             info \
+             MAKEINFO='$(MAKEINFO) --no-split' \
+             $(if $(Q),>/dev/null 2>&1)
+endef
+
+# Run install-info to register an info page into info directory
+# $(1): pathname to info page to install
+# $(2): pathname to info page directory
+define install_info_recipe
+$(call install_recipe,-m644,$(1),$(2)/$(notdir $(1)))
+$(Q)$(INSTALL_INFO) $(2)/$(notdir $(1)) $(2)/dir
+endef
+
+# Run install-info to unregister an info page from info directory
+# $(1): basename of info page to uninstall
+# $(2): pathname to info page directory
+define uninstall_info_recipe
+$(Q)if [ -f $(2)/$(1) ]; then \
+	$(INSTALL_INFO) --delete $(2)/$(1) $(2)/dir; \
+fi
+$(call rm_recipe,$(2)/$(1))
 endef
 
 

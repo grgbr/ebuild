@@ -34,13 +34,18 @@ export RM            := rm -f
 export LN            := ln -f
 export PKG_CONFIG    := pkg-config
 export INSTALL       := install
+export RSYNC         := rsync
 export KCONF         := kconfig-conf
 export KMCONF        := kconfig-mconf
 export KXCONF        := kconfig-qconf
 export KGCONF        := kconfig-gconf
 export KNCONF        := kconfig-nconf
 export DOXY          := doxygen
+export PYTHON        := python3
 export SPHINXBUILD   := sphinx-build
+export LATEXMK       := latexmk
+export MAKEINFO      := makeinfo
+export INSTALL_INFO  := install-info
 
 export TOPDIR        := $(CURDIR)
 
@@ -195,6 +200,14 @@ clean: clean-doc
 .PHONY: clean-doc
 clean-doc:
 
+.PHONY: install-doc
+install-doc:
+
+uninstall: uninstall-doc
+
+.PHONY: uninstall-doc
+uninstall-doc:
+
 ################################################################################
 # Doxygen handling
 #
@@ -246,7 +259,7 @@ doxy: $(build_prereqs) | $(doxydir)
 else  # !($(call has_cmd,$(DOXY)),y)
 
 .PHONY: doxy
-doxy: $(build_prereqs)
+doxy:
 	$(error doxygen tool not found ! \
 	        Setup $$(DOXY) to generate documentation)
 
@@ -284,13 +297,36 @@ endif # ($(strip $(doxyconf)),)
 # Handle Sphinx targets only when $(sphinxsrc) is defined.
 ifneq ($(strip $(sphinxsrc)),)
 
+override docdir  := $(DESTDIR)$(DOCDIR)/$(PACKAGE)
+override infodir := $(DESTDIR)$(INFODIR)
+
+define sphinx_list_docs_cmd
+import os
+import doc.conf as cfg
+
+print(*[os.path.splitext(doc[1])[0] for doc in cfg.$(1)])
+endef
+
+define sphinx_list_docs
+$(shell $(PYTHON) -c '$(call sphinx_list_docs_cmd,$(1))')
+endef
+
+define sphinx_list_pdf
+$(notdir $(addsuffix .pdf,$(call sphinx_list_docs,latex_documents)))
+endef
+
+define sphinx_list_info
+$(notdir $(addsuffix .info,$(call sphinx_list_docs,texinfo_documents)))
+endef
+
 # Sphinx generated HTML documentation output directory
 sphinxdir      := $(BUILDDIR)/doc/sphinx
 sphinxcachedir := $(BUILDDIR)/doc/doctrees
 sphinxhtmldir  := $(BUILDDIR)/doc/html
 sphinxpdfdir   := $(BUILDDIR)/doc/pdf
+sphinxinfodir  := $(BUILDDIR)/doc/info
 
-doc: html pdf
+doc: html pdf info
 
 clean-doc: clean-sphinx
 
@@ -307,6 +343,28 @@ clean-html:
 clean-pdf:
 	$(call rmr_recipe,$(sphinxpdfdir))
 
+.PHONY: clean-info
+clean-info:
+	$(call rmr_recipe,$(sphinxinfodir))
+
+install-doc: install-html install-pdf install-info
+
+uninstall-doc: uninstall-html uninstall-pdf uninstall-info
+
+.PHONY: uninstall-html
+uninstall-html:
+	$(call rmr_recipe,$(docdir)/html)
+
+.PHONY: uninstall-pdf
+uninstall-pdf:
+	$(call uninstall_recipe,$(docdir),$(sphinx_list_pdf))
+
+.PHONY: uninstall-info
+uninstall-info:
+	$(foreach page, \
+	          $(sphinx_list_info), \
+	          $(call uninstall_info_recipe,$(page),$(infodir))$(newline))
+
 ifneq ($(call has_cmd,$(SPHINXBUILD)),y)
 
 # Make html target depend onto doxy target if doxygen support is enabled.
@@ -317,6 +375,12 @@ html: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
 	                          $(sphinxcachedir), \
 	                          $(sphinxenv) DOXYXMLDIR="$(doxyxmldir)")
 
+.PHONY: install-html
+install-html: html
+	$(call installdir_recipe,--chmod=D755 --chmod=F644, \
+	                         $(sphinxhtmldir), \
+	                         $(docdir)/html)
+
 # Make pdf target depend onto doxy target if doxygen support is enabled.
 .PHONY: pdf
 pdf: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
@@ -325,13 +389,38 @@ pdf: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
 	                         $(sphinxcachedir), \
 	                         $(sphinxenv) DOXYXMLDIR="$(doxyxmldir)")
 
+.PHONY: install-pdf
+install-pdf: pdf
+	$(foreach pdf, \
+	          $(sphinx_list_pdf), \
+	          $(call install_recipe, \
+	                 -m644, \
+	                 $(sphinxpdfdir)/$(pdf), \
+	                 $(docdir)/$(pdf))$(newline))
+
+# Make info target depend onto doxy target if doxygen support is enabled.
+.PHONY: info
+info: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
+	$(call sphinx_info_recipe,$(sphinxdir), \
+	                          $(sphinxinfodir), \
+	                          $(sphinxcachedir), \
+	                          $(sphinxenv) DOXYXMLDIR="$(doxyxmldir)")
+
+.PHONY: install-info
+install-info: info
+	$(foreach page, \
+	          $(sphinx_list_info), \
+	          $(call install_info_recipe,\
+	                 $(sphinxinfodir)/$(page),\
+	                 $(infodir))$(newline))
+
 $(sphinxdir): | $(sphinxsrc)
 	@ln -sf $(|) $(@)
 
 else  # !($(call has_cmd,$(SPHINXBUILD)),y)
 
-.PHONY: html pdf
-html pdf: $(build_prereqs)
+.PHONY: html install-html pdf install-pdf info install-info
+html install-html pdf install-pdf info install-info:
 	$(error sphinx-build tool not found ! \
 	        Setup $$(SPHINXBUILD) to generate documentation)
 
