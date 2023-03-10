@@ -354,6 +354,8 @@ $(call help_common_msg,$(1))
                    [$(DEFCONFIG)]
   DATADIR       -- read-only architecture-independent data install directory
                    [$(DATADIR)]
+  DOXY          -- `doxygen' documentation generation tool
+                   [$(DOXY)]
   DESTDIR       -- top-level staged / root install directory
                    [$(DESTDIR)]
   DOCDIR        -- documentation install directory
@@ -372,6 +374,8 @@ $(call help_common_msg,$(1))
                    [$(INCLUDEDIR)]
   INSTALL       -- `install' tool
                    [$(INSTALL)]
+  INSTALL_INFO  -- `install-info' Texinfo info page installer tool
+                   [$(INSTALL_INFO)]
   KCONF         -- KConfig `conf' line-oriented tool
                    [$(KCONF)]
   KGCONF        -- KConfig `gconf' GTK menu based tool
@@ -380,6 +384,8 @@ $(call help_common_msg,$(1))
                    [$(KMCONF)]
   KXCONF        -- Kconfig `qconf' QT menu based tool
                    [$(KXCONF)]
+  LATEXMK       -- `latexmk' LaTeX documentation builder tool
+                   [$(LATEXMK)]
   LD            -- linker `ld' tool
                    [$(LD)]
   LIBDIR        -- libraries install directory
@@ -390,6 +396,8 @@ $(call help_common_msg,$(1))
                    [$(LN)]
   LOCALSTATEDIR -- machine specific persistent data files install directory
                    [$(LOCALSTATEDIR)]
+  MAKEINFO      -- `makeinfo' Texinfo documentation conversion tool
+                   [$(MAKEINFO)]
   MANDIR        -- man pages install directory
                    [$(MANDIR)]
   PREFIX        --  prefix prepended to install variable default values.
@@ -398,10 +406,16 @@ $(call help_common_msg,$(1))
                    [$(PKG_CONFIG)]
   PKGCONFIGDIR  -- $$(PKG_CONFIG) metadata files install directory
                    [$(PKGCONFIGDIR)]
+  PYTHON        -- `python3' interpreter
+                   [$(PYTHON)]
   RM            -- `rm' filesystem entry removal tool
                    [$(RM)]
+  RSYNC         -- `rsync' filesystem synchronization tool
+                   [$(RSYNC)]
   RUNSTATEDIR   -- machine specific temporary data files install directory
                    [$(RUNSTATEDIR)]
+  SPHINXBUILD   -- `sphinx-build' documentation generation tool
+                   [$(SPHINXBUILD)]
   SBINDIR       -- system administration executable programs install directory
                    [$(SBINDIR)]
   STRIP         -- `strip' object symbols discarding tool.
