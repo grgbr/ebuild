@@ -41,7 +41,8 @@ print(*[os.path.splitext(doc[1])[0] for doc in cfg.$(1)]);
 endef
 
 define sphinx_list_docs
-$(shell $(PYTHON) -c '$(call sphinx_list_docs_cmd,$(1))')
+$(shell $(PYTHON) -X pycache_prefix="$(abspath $(BUILDDIR))/__pycache__" \
+                  -c '$(call sphinx_list_docs_cmd,$(1))')
 endef
 
 define sphinx_list_pdf
