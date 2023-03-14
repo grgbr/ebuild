@@ -152,9 +152,14 @@ endef
 # Run install-info to register an info page into info directory
 # $(1): pathname to info page to install
 # $(2): pathname to info page directory
+# $(3): optional directory entry name
+# $(4): optional directory entry description
 define install_info_recipe
 $(call install_recipe,-m644,$(1),$(2)/$(notdir $(1)))
-$(Q)$(INSTALL_INFO) $(2)/$(notdir $(1)) $(2)/dir
+$(Q)$(INSTALL_INFO) $(if $(strip $(3)),--name="$(strip $(3))") \
+                    $(if $(strip $(4)),--description="$(strip $(4))") \
+                    $(2)/$(notdir $(1)) \
+                    $(2)/dir
 endef
 
 # Run install-info to unregister an info page from info directory

@@ -53,6 +53,57 @@ define sphinx_list_info
 $(notdir $(addsuffix .info,$(call sphinx_list_docs,texinfo_documents)))
 endef
 
+# Return top-level directory menu entry attribute of info page given in
+# argument.
+# $(1): info page file basename
+# $(2): integer identifier of attribute to retrieve
+#
+# Parse the `texinfo_documents' list found into Sphinx configuration file,
+# find the tuple specifying attributes related to the info page given as
+# argument $(1), and return the value of attribute identified by argument $(2).
+#
+# texinfo_documents is a list of tuples structured according to the document
+# found here:
+#     https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-texinfo_documents
+# Argument $(2) is an integer identifying the tuple element to extract.
+define sphinx_info_menu_cmd
+import os;
+import $(subst /,.,$(subst $(CURDIR)/,,$(abspath $(sphinxsrc)))).conf as cfg;
+
+print([doc[$(2)] for doc in cfg.texinfo_documents if doc[1] == os.path.splitext("$(1)")[0]][0])
+endef
+
+# Return top-level directory menu entry attribute of info page given in
+# argument.
+# $(1): info page file basename
+# $(2): integer identifier of attribute to retrieve
+#
+# See sphinx_info_menu_cmd macro for more informations.
+define sphinx_info_menu
+$(shell $(PYTHON) -X pycache_prefix="$(abspath $(BUILDDIR))/__pycache__" \
+                  -c '$(call sphinx_info_menu_cmd,$(1),$(2))')
+endef
+
+# Return top-level directory menu entry name of info page given in argument.
+# $(1): info page file basename
+#
+# Probe the `texinfo_documents' list found into Sphinx configuration file and
+# extract the menu entry name related to the info page given as argument $(1).
+define sphinx_info_menu_name
+$(call sphinx_info_menu,$(1),4)
+endef
+
+# Return top-level directory menu entry description of info page given in
+# argument.
+# $(1): info page file basename
+#
+# Probe the `texinfo_documents' list found into Sphinx configuration file and
+# extract the menu entry description related to the info page given as argument
+# $(1).
+define sphinx_info_menu_desc
+$(call sphinx_info_menu,$(1),5)
+endef
+
 # Run sphinx-build to generate HTML
 # $(1): pathname to sphinx documentation source directory
 # $(2): pathname to generated HTML documentation output directory
@@ -242,7 +293,9 @@ install-info: info
 	          $(sphinx_list_info), \
 	          $(call install_info_recipe,\
 	                 $(sphinxinfodir)/$(page),\
-	                 $(infodir))$(newline))
+	                 $(infodir),\
+	                 $(call sphinx_info_menu_name,$(page)),\
+	                 $(call sphinx_info_menu_desc,$(page)))$(newline))
 
 uninstall-doc: uninstall-info
 
