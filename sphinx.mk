@@ -35,13 +35,14 @@ endif # ($(call has_cmd,$(SPHINXBUILD)),y)
 # document given in argument.
 define sphinx_list_docs_cmd
 import os;
-import $(subst /,.,$(subst $(CURDIR)/,,$(abspath $(sphinxsrc)))).conf as cfg;
+import conf as cfg;
 
 print(*[os.path.splitext(doc[1])[0] for doc in cfg.$(1)]);
 endef
 
 define sphinx_list_docs
-$(shell $(PYTHON) -X pycache_prefix="$(abspath $(BUILDDIR))/__pycache__" \
+$(shell cd $(sphinxsrc); \
+        $(PYTHON) -X pycache_prefix="$(abspath $(BUILDDIR))/__pycache__" \
                   -c '$(call sphinx_list_docs_cmd,$(1))')
 endef
 
@@ -68,7 +69,7 @@ endef
 # Argument $(2) is an integer identifying the tuple element to extract.
 define sphinx_info_menu_cmd
 import os;
-import $(subst /,.,$(subst $(CURDIR)/,,$(abspath $(sphinxsrc)))).conf as cfg;
+import conf as cfg;
 
 print([doc[$(2)] for doc in cfg.texinfo_documents if doc[1] == os.path.splitext("$(1)")[0]][0])
 endef
@@ -80,7 +81,8 @@ endef
 #
 # See sphinx_info_menu_cmd macro for more informations.
 define sphinx_info_menu
-$(shell $(PYTHON) -X pycache_prefix="$(abspath $(BUILDDIR))/__pycache__" \
+$(shell cd $(sphinxsrc); \
+        $(PYTHON) -X pycache_prefix="$(abspath $(BUILDDIR))/__pycache__" \
                   -c '$(call sphinx_info_menu_cmd,$(1),$(2))')
 endef
 
@@ -185,7 +187,8 @@ override sphinxpdfdir   := $(BUILDDIR)/doc/pdf
 override sphinxinfodir  := $(BUILDDIR)/doc/info
 
 $(sphinxdir): | $(sphinxsrc)
-	@ln -sf $(|) $(@)
+	@mkdir -p $(dir $(@))
+	@$(LN) -s $(|) $(@)
 
 clean-doc: clean-sphinx
 
