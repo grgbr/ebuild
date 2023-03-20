@@ -41,6 +41,9 @@ export SPHINXBUILD   := sphinx-build
 export LATEXMK       := latexmk
 export MAKEINFO      := makeinfo
 export INSTALL_INFO  := install-info
+export GIT           := git
+export SVN           := svn
+export TAR           := tar
 
 override TOPDIR      := $(CURDIR)
 export TOPDIR

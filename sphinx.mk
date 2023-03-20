@@ -112,7 +112,7 @@ endef
 # $(3): pathname to sphinx cache directory
 # $(4): additional environment variables given to sphinx-build
 define sphinx_html_recipe
-@echo "  HTML    $(2)"
+@echo "  HTML    $(strip $(2))"
 $(Q)$(if $(4),env $(4)) \
     $(SPHINXBUILD) -b html \
                    "$(strip $(1))" \
@@ -130,7 +130,7 @@ endef
 # $(3): pathname to sphinx cache directory
 # $(4): additional environment variables given to sphinx-build
 define sphinx_pdf_recipe
-@echo "  LATEX   $(2)"
+@echo "  LATEX   $(strip $(2))"
 $(Q)$(if $(4),env $(4)) \
     $(SPHINXBUILD) -b latex \
                    "$(strip $(1))" \
@@ -140,7 +140,7 @@ $(Q)$(if $(4),env $(4)) \
                    -a \
                    -E \
                    -j auto
-@echo "  PDF     $(2)"
+@echo "  PDF     $(strip $(2))"
 +$(Q)$(MAKE) --directory "$(strip $(2))" \
              all-pdf \
              PDFLATEX='$(LATEXMK) -pdf -dvi- -ps-' \
@@ -154,7 +154,7 @@ endef
 # $(3): pathname to sphinx cache directory
 # $(4): additional environment variables given to sphinx-build
 define sphinx_info_recipe
-@echo "  TEXINFO $(2)"
+@echo "  TEXINFO $(strip $(2))"
 $(Q)$(if $(4),env $(4)) \
     $(SPHINXBUILD) -b texinfo \
                    "$(strip $(1))" \
@@ -164,7 +164,7 @@ $(Q)$(if $(4),env $(4)) \
                    -a \
                    -E \
                    -j auto
-@echo "  INFO    $(2)"
+@echo "  INFO    $(strip $(2))"
 +$(Q)$(MAKE) --directory "$(strip $(2))" \
              info \
              MAKEINFO='$(MAKEINFO) --no-split' \

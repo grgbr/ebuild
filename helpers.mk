@@ -39,17 +39,17 @@ $(shell echo '$(1)' | tr '[:lower:]' '[:upper:]')
 endef
 
 define rm_recipe
-@echo "  RM      $(1)"
+@echo "  RM      $(strip $(1))"
 $(Q)$(RM) $(1)
 endef
 
 define rmr_recipe
-@echo "  RMR     $(1)"
+@echo "  RMR     $(strip $(1))"
 $(Q)$(RM) -r $(1)
 endef
 
 define ln_recipe
-@echo "  LN      $(2)"
+@echo "  LN      $(strip $(2))"
 $(Q)$(LN) -s $(1) $(2)
 endef
 
@@ -113,17 +113,17 @@ $(foreach l, \
 endef
 
 define strip_solib_recipe
-@echo "  STRIP   $(1)"
+@echo "  STRIP   $(strip $(1))"
 $(Q)$(STRIP) --strip-unneeded $(1)
 endef
 
 define strip_bin_recipe
-@echo "  STRIP   $(1)"
+@echo "  STRIP   $(strip $(1))"
 $(Q)$(STRIP) --strip-all $(1)
 endef
 
 define install_recipe
-@echo "  INSTALL $(3)"
+@echo "  INSTALL $(strip $(3))"
 $(Q)mkdir -p -m755 $(dir $(3))
 $(Q)$(INSTALL) $(1) $(2) $(3)
 endef
@@ -133,7 +133,7 @@ $(foreach f,$(addprefix $(1)/,$(2)),$(call rm_recipe,$(f))$(newline))
 endef
 
 define installdir_recipe
-@echo "  INSTALL $(3)"
+@echo "  INSTALL $(strip $(3))"
 $(Q)mkdir -p -m755 $(3)
 $(Q)$(RSYNC) --recursive \
              --links \
