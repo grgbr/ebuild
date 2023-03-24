@@ -17,6 +17,10 @@ build: doc
 clean:
 	$(call rmr_recipe,$(BUILDDIR))
 
+.NOTPARALLEL: doc
+.PHONY: doc
+doc:
+
 .PHONY: install
 install: install-doc
 	$(foreach f, \

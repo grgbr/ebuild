@@ -186,6 +186,9 @@ override sphinxpdfdir   := $(BUILDDIR)/doc/pdf
 # Sphinx generated (tex)info page output directory
 override sphinxinfodir  := $(BUILDDIR)/doc/info
 
+# Sphinx does not like running multiple generation processes in parallel.
+.NOTPARALLEL: doc
+
 $(sphinxdir): | $(sphinxsrc)
 	@mkdir -p $(dir $(@))
 	@$(LN) -s $(|) $(@)
@@ -209,7 +212,9 @@ html: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
 	$(call sphinx_html_recipe,$(sphinxdir), \
 	                          $(sphinxhtmldir), \
 	                          $(sphinxcachedir), \
-	                          $(sphinxenv) DOXYXMLDIR="$(doxyxmldir)")
+	                          $(sphinxenv) \
+	                          DOCDIR="$(docdir)" \
+	                          DOXYXMLDIR="$(doxyxmldir)")
 
 clean-sphinx: clean-html
 
@@ -243,7 +248,9 @@ pdf: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
 	$(call sphinx_pdf_recipe,$(sphinxdir), \
 	                         $(sphinxpdfdir), \
 	                         $(sphinxcachedir), \
-	                         $(sphinxenv) DOXYXMLDIR="$(doxyxmldir)")
+	                         $(sphinxenv) \
+	                         DOCDIR="$(docdir)" \
+	                         DOXYXMLDIR="$(doxyxmldir)")
 
 clean-sphinx: clean-pdf
 
@@ -280,7 +287,9 @@ info: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
 	$(call sphinx_info_recipe,$(sphinxdir), \
 	                          $(sphinxinfodir), \
 	                          $(sphinxcachedir), \
-	                          $(sphinxenv) DOXYXMLDIR="$(doxyxmldir)")
+	                          $(sphinxenv) \
+	                          DOCDIR="$(docdir)" \
+	                          DOXYXMLDIR="$(doxyxmldir)")
 
 clean-sphinx: clean-info
 
