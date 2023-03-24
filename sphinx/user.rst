@@ -12,6 +12,8 @@ This guide mainly focuses upon how to build and deploy software projects which
 build system is based upon |eBuild|.
 This document mainly targets software package integrators.
 
+.. _sect-user-prerequisites:
+
 Prerequisites
 =============
 
@@ -51,6 +53,8 @@ Prerequisites
    * |Python| version 3,
    * |Rsync|.
 
+.. _sect-user-workflow:
+
 Workflow
 ========
 
@@ -74,6 +78,8 @@ are 2 :command:`make` variables the user may specify on the command line to
 customize the final install location.
 
 To begin with, configure_ the build process according to the following section.
+
+.. _sect-user-configure:
 
 Configure
 ---------
@@ -232,6 +238,8 @@ customization purpose:
 You may also customize tools used at install time. Refer to section Tools_ for
 more informations.
 
+.. _sect-user-staged-install:
+
 Staged install
 --------------
 
@@ -314,6 +322,8 @@ In other words, this performs the inverse operation of |Install| target:
 
    $ make uninstall PREFIX= DESTDIR=$HOME/staging
 
+.. _sect-user-tools:
+
 Tools
 -----
 
@@ -350,6 +360,8 @@ tool customization purpose:
 * SPHINXBUILD_,
 * STRIP_,
 * SVN_.
+
+.. _sect-user-reference:
 
 Reference
 =========
@@ -437,10 +449,14 @@ run.
 Refer to section Configure_ for a list of variables affecting this target
 behavior.
 
+.. _target-help:
+
 help
 ****
 
 Show a brief help message.
+
+.. _target-help-full:
 
 help-full
 *********
@@ -549,6 +565,8 @@ run.
 Refer to section Configure_ for a list of variables affecting this target
 behavior.
 
+.. _sect-user-variables:
+
 Variables
 ---------
 
@@ -580,6 +598,8 @@ install location is also affected by the DESTDIR_ variable.
 
 See |gnu_vars_for_install_dirs|.
 
+.. _var-builddir:
+
 BUILDDIR
 ********
 
@@ -602,6 +622,8 @@ C compiler
 Tool used to build C objects.
 
 See |gcc(1)|.
+
+.. _var-cross_compile:
 
 CROSS_COMPILE
 *************
@@ -640,6 +662,8 @@ Pathname to directory where to install read-only architecture-independent data
 files.
 
 See |gnu_vars_for_install_dirs|.
+
+.. _var-destdir:
 
 DESTDIR
 *******
@@ -917,6 +941,8 @@ Pathname to top-level directory where to install man pages.
 
 See |gnu_vars_for_install_dirs| and |man-pages(7)|.
 
+.. _var-prefix:
+
 PREFIX
 ******
 
@@ -1074,6 +1100,8 @@ Source tree top-level directory
 :Mutable: no
 
 Pathname to source tree top-level directory.
+
+.. _sect-user-troubleshooting:
 
 Troubleshooting
 ===============
