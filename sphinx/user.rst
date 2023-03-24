@@ -332,6 +332,7 @@ tool customization purpose:
 * CC_,
 * DOXY_,
 * ECHOE_,
+* GIT_,
 * |INSTALL|,
 * INSTALL_INFO_,
 * KCONF_,
@@ -347,7 +348,8 @@ tool customization purpose:
 * RM_,
 * RSYNC_,
 * SPHINXBUILD_,
-* STRIP_.
+* STRIP_,
+* SVN_.
 
 Reference
 =========
@@ -673,7 +675,7 @@ See |gnu_vars_for_install_dirs|.
 DOXY
 ****
 
-|doxygen| documentation generation tool
+|Doxygen| documentation generation tool
 
 :Default: ``doxygen``
 :Mutable: yes
@@ -701,6 +703,17 @@ Shell escaped string echo'ing tool
 
 Tool used to print strings to console with shell backslash escapes
 interpretation enabled. See |echo(1)|.
+
+GIT
+***
+
+|Git|, the stupid content tracker command line tool
+
+:Default: ``git``
+:Mutable: yes
+
+Tool used to build source distribution tarballs for |Git| based projects.
+See |git(1)|.
 
 INFODIR
 *******
@@ -1026,6 +1039,17 @@ Object symbols discarding tool.
 
 Tool used to discard symbols from compiled and linked object files.
 See |strip(1)|.
+
+SVN
+***
+
+|Subversion|, the Subversion version control system command line tool
+
+:Default: ``svn``
+:Mutable: yes
+
+Tool used to build source distribution tarballs for |Subversion| based projects.
+See |svn(1)|.
 
 SYSCONFDIR
 **********

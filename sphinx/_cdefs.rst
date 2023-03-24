@@ -7,6 +7,9 @@
 .. _ebuild:                     https://github.com/grgbr/ebuild/
 .. |eBuild|                     replace:: `eBuild <ebuild_>`_
 
+.. _git:                        https://git-scm.com/
+.. |Git|                        replace:: `Git <git_>`_
+
 .. _gnu_binutils:               https://www.gnu.org/software/binutils/
 .. |GNU Binutils|               replace:: `GNU Binutils <gnu_binutils_>`_
 
@@ -58,6 +61,9 @@
 .. _sphinx_rtd_theme:           https://sphinx-rtd-theme.readthedocs.io/
 .. |Sphinx Read The Docs theme| replace:: `Sphinx Read The Docs theme <sphinx_rtd_theme_>`_
 
+.. _subversion:                 https://subversion.apache.org/
+.. |Subversion|                 replace:: `Subversion <subversion_>`_
+
 .. _texinfo:                    https://www.gnu.org/software/texinfo/
 .. |Texinfo|                    replace:: `Texinfo <texinfo_>`_
 .. |Info files|                 replace:: `Info files <texinfo_>`_
@@ -69,6 +75,7 @@
 .. |ar(1)|           replace:: :manpage:`ar(1)`
 .. |gcc(1)|          replace:: :manpage:`gcc(1)`
 .. |echo(1)|         replace:: :manpage:`echo(1)`
+.. |git(1)|          replace:: :manpage:`git(1)`
 .. |install(1)|      replace:: :manpage:`install(1)`
 .. |ld(1)|           replace:: :manpage:`ld(1)`
 .. |ln(1)|           replace:: :manpage:`ln(1)`
@@ -85,3 +92,4 @@
 .. |python3(1)|      replace:: :manpage:`python3(1)`
 .. |rsync(1)|        replace:: :manpage:`rsync(1)`
 .. |sphinx-build(1)| replace:: :manpage:`sphinx-build(1)`
+.. |svn(1)|          replace:: :manpage:`svn(1)`
