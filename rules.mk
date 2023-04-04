@@ -44,6 +44,7 @@ endef
 
 define gen_bin_rule
 $(BUILDDIR)/$(1): $(addprefix $(BUILDDIR)/,$($(1)-objs)) \
+                  $(addprefix $(BUILDDIR)/,$(builtins)) \
                   $(addprefix $(BUILDDIR)/,$(solibs)) \
                   $(addprefix $(BUILDDIR)/,$(arlibs))
 	@echo "  LD      $$(@)"
@@ -82,8 +83,8 @@ uninstall-$(1): $(addprefix uninstall-,$($(1)-deps))
 endef
 
 override build_prereqs := $(addprefix build-,$(subdirs)) \
-                          $(addprefix $(BUILDDIR)/,$(arlibs) \
-                                                   $(builtins) \
+                          $(addprefix $(BUILDDIR)/,$(builtins) \
+                                                   $(arlibs) \
                                                    $(solibs) \
                                                    $(pkgconfigs) \
                                                    $(bins))
@@ -109,7 +110,11 @@ $(eval $(foreach b,$(bins),$(call gen_bin_rule,$(b))$(newline)))
 
 .PHONY: clean
 clean: $(addprefix clean-,$(subdirs))
-	$(call clean_recipe,$(arlibs) $(solibs) $(pkgconfigs) $(bins))
+	$(call clean_recipe,$(builtins) \
+	                    $(arlibs) \
+	                    $(solibs) \
+	                    $(pkgconfigs) \
+	                    $(bins))
 
 ################################################################################
 # Install handling
