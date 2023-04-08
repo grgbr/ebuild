@@ -288,7 +288,8 @@ $(call help_common_msg,$(1))
   * DESTDIR
 
 ::Tools::
-  INSTALL LN RM ECHOE
+  ECHOE INSTALL LN RM RSYNC
+  DOXY INSTALL_INFO LATEXMK MAKEINFO PYTHON SPHINXBUILD
 
 ::Reference::
   AR            -- objects archiver `ar'
