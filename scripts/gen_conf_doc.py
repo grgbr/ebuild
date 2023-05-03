@@ -5,7 +5,7 @@ import sys
 import os
 import argparse
 import textwrap
-from kconfiglib import Kconfig, Symbol, Choice, MenuNode
+from kconfiglib import Kconfig, Symbol, Choice, MenuNode, BOOL
 
 # Wrap text lines while preserving newlines
 class HelpWrap(textwrap.TextWrapper):
@@ -30,6 +30,13 @@ def get_prompt(node):
         return node.prompt[0]
     else:
         return None
+
+
+def get_value(node):
+    if node.item.type is BOOL:
+        return "1"
+
+    return node.item.str_value
 
 
 def make_brief(node):
@@ -57,9 +64,10 @@ def print_symbol(node, outfile):
           '{brief}' \
           '{details}' \
           ' */\n' \
-          '#define CONFIG_{name} 1\n'.format(name=node.item.name,
-                                             brief=make_brief(node),
-                                             details=make_details(node)),
+          '#define CONFIG_{name} {value}\n'.format(name=node.item.name,
+                                                   brief=make_brief(node),
+                                                   details=make_details(node),
+                                                   value=get_value(node)),
           file = outfile)
 
 
@@ -126,8 +134,12 @@ def main():
         print("{}: Empty KConfig file.".format(arg0), file=sys.stderr)
         sys.exit(1)
 
+    if args.out_fpath:
+        out = args.out_fpath[0]
+    else:
+        out = sys.stdout
     try:
-        print_kconf(kconf, args.project_name[0], args.out_fpath[0])
+        print_kconf(kconf, args.project_name[0], out)
     except Exception as e:
         print("{}: KConfig documentation generation failed: {}.".format(arg0,
                                                                         e),
