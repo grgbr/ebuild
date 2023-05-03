@@ -4,6 +4,9 @@
 .. _doxygen:                    https://www.doxygen.nl/
 .. |Doxygen|                    replace:: `Doxygen <doxygen_>`_
 
+.. _kconfiglib:                 https://github.com/ulfalizer/Kconfiglib
+.. |Kconfiglib|                 replace:: `Kconfiglib <kconfiglib_>`_
+   
 .. _ebuild:                     https://github.com/grgbr/ebuild/
 .. |eBuild|                     replace:: `eBuild <ebuild_>`_
 

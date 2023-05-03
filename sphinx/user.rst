@@ -10,49 +10,43 @@ Overview
 
 This guide mainly focuses upon how to build and deploy software projects which
 build system is based upon |eBuild|.
-This document mainly targets software package integrators.
+This document mainly targets software package integration.
 
 .. _sect-user-prerequisites:
 
 Prerequisites
 =============
 
-.. topic:: At build time
+.. rubric:: Minimal requirements
 
-   The following package is required to build |eBuild|:
-   
-   * |GNU make|
-   
-   In addition, you will need the following installed packages to build the
-   documentation:
-   
-   * |Sphinx|,
-   * |Sphinx Read The Docs theme|,
-   * |Texinfo|,
-   * |LaTeX|,
-   * |Latexmk|,
-   * |Python| version 3,
-   * |Rsync|.
+The following installed package is required to build |eBuild| based packages:
 
-.. topic:: At run time
+* |GNU make|.
+ 
+.. rubric:: Documentation generation
 
-   The following package must be installed:
-   
-   * |GNU make|
-   
-   Optionally, you may need the following packages to enable a full-featured
-   |eBuild| at runtime:
-   
-   * |KConfig|
-   * A compile and link toolchain such as |GNU Binutils| and |GNU GCC|,
-   * |Pkg-config|,
-   * |Doxygen|,
-   * |Sphinx|
-   * |Texinfo|,
-   * |Latexmk|,
-   * |Python| version 3,
-   * |Rsync|.
+In addition, you might need the following installed packages to build the
+documentation:
 
+* |Doxygen|,
+* |Kconfiglib|,
+* |LaTeX|,
+* |Latexmk|,
+* |Python| version 3,
+* |Sphinx|,
+* |Sphinx Read The Docs theme|,
+* |Texinfo|,
+* |Rsync|.
+  
+.. rubric:: Full-feature requirements
+
+For a full-featured |eBuild| based package, the following is also required in
+addition to the above:
+
+* |KConfig|,
+* |Pkg-config|,
+* A compile and link toolchain such as |GNU Binutils| and |GNU GCC|.
+ 
 .. _sect-user-workflow:
 
 Workflow
