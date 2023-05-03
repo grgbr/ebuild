@@ -21,7 +21,7 @@ class HelpWrap(textwrap.TextWrapper):
                     lines.append(line)
             else:
                 lines.append(self.subsequent_indent)
-        
+
         return lines
 
 
@@ -122,7 +122,7 @@ def main():
                         help = 'Pathname to output file')
 
     args = parser.parse_args()
-    
+
     try:
         kconf = Kconfig(args.kconf_fpath[0])
     except Exception as e:
