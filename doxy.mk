@@ -62,7 +62,7 @@ doc: doxy
 # Make doxy target depend on every other build targets so that doxygen may
 # build documentation for generated sources if needed.
 .PHONY: doxy
-doxy: $(build_prereqs) | $(doxydir)
+doxy: | $(doxydir)
 	$(call doxy_recipe,$(doxyconf),$(|),$(doxyenv))
 
 ifneq ($(strip $(config-in)),)

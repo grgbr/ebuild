@@ -208,7 +208,7 @@ doc: html
 
 # Make html target depend onto doxy target if doxygen support is enabled.
 .PHONY: html
-html: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
+html: $(if $(doxyconf),doxy) | $(sphinxdir)
 	$(call sphinx_html_recipe,$(sphinxdir), \
 	                          $(sphinxhtmldir), \
 	                          $(sphinxcachedir), \
@@ -244,7 +244,7 @@ doc: pdf
 
 # Make pdf target depend onto doxy target if doxygen support is enabled.
 .PHONY: pdf
-pdf: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
+pdf: $(if $(doxyconf),doxy) | $(sphinxdir)
 	$(call sphinx_pdf_recipe,$(sphinxdir), \
 	                         $(sphinxpdfdir), \
 	                         $(sphinxcachedir), \
@@ -283,7 +283,7 @@ doc: info
 
 # Make info target depend onto doxy target if doxygen support is enabled.
 .PHONY: info
-info: $(build_prereqs) $(if $(doxyconf),doxy) | $(sphinxdir)
+info: $(if $(doxyconf),doxy) | $(sphinxdir)
 	$(call sphinx_info_recipe,$(sphinxdir), \
 	                          $(sphinxinfodir), \
 	                          $(sphinxcachedir), \
