@@ -142,6 +142,7 @@ $(Q)$(if $(4),env $(4)) \
                    -j auto
 @echo "  PDF     $(strip $(2))"
 +$(Q)$(MAKE) --directory "$(strip $(2))" \
+	     $(if $(Q),--output-sync=none) \
              all-pdf \
              PDFLATEX='$(LATEXMK) -pdf -dvi- -ps-' \
              LATEXMKOPTS='-interaction=nonstopmode -halt-on-error' \
@@ -166,6 +167,7 @@ $(Q)$(if $(4),env $(4)) \
                    -j auto
 @echo "  INFO    $(strip $(2))"
 +$(Q)$(MAKE) --directory "$(strip $(2))" \
+	     $(if $(Q),--output-sync=none) \
              info \
              MAKEINFO='$(MAKEINFO) --no-split' \
              $(if $(Q),>/dev/null 2>&1)
