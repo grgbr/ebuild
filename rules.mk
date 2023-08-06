@@ -7,6 +7,8 @@ $(if $($(1)-src),$($(1)-src),$(SRCDIR)/$(patsubst %.o,%.c,$(1)))
 endef
 
 define gen_obj_rule
+-include $(BUILDDIR)/$$(patsubst %.o,%.d,$(1))
+
 $(BUILDDIR)/$(1): $(call get_obj_src,$(notdir $(strip $(1)))) \
                   $(all_deps) \
                   | $(dir $(BUILDDIR)/$(1)) $(addprefix build-,$(subdirs))
@@ -219,5 +221,3 @@ endif # config-in
 
 $(BUILDDIR)/%/:
 	@mkdir -p $(@)
-
--include $(wildcard $(BUILDDIR)/*.d)
