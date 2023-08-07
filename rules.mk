@@ -61,7 +61,10 @@ define make_subdir_cmd
 $$(MAKE) --directory $(CURDIR)/$(2) \
          --makefile $(EBUILDDIR)/subdir.mk \
          $(1) \
+         TOPDIR:="$(TOPDIR)" \
          BUILDDIR:="$(BUILDDIR)/$(2)" \
+         $(if $(PACKAGE),PACKAGE:="$(PACKAGE)") \
+         $(if $(VERSION),VERSION:="$(VERSION)") \
          kconf_autoconf:="$(kconf_autoconf)" \
          kconf_head:="$(kconf_head)"
 endef
