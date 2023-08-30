@@ -8,7 +8,8 @@ sphinxsrc := $(TOPDIR)/sphinx
 include sphinx.mk
 
 destdatadir   := $(DESTDIR)$(DATADIR)/ebuild
-install_files := $(notdir $(wildcard $(TOPDIR)/*.mk))
+install_files := $(patsubst $(TOPDIR)/%,%,$(wildcard $(TOPDIR)/*.mk) \
+                                          $(wildcard $(TOPDIR)/scripts/*))
 
 .PHONY: build
 build: doc

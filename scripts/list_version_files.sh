@@ -48,7 +48,7 @@ git_list_files()
 {
 	local top="$1"
 
-	if [ "$top" != "$(pwd)" ]; then
+	if [ "$top" != "$(realpath --canonicalize-existing .)" ]; then
 		echo "$(basename $0): invalid top-level directory" >&2
 		return 1
 	fi
@@ -58,7 +58,17 @@ git_list_files()
 
 git_get_top()
 {
-	$git_cmd rev-parse --show-toplevel 2>/dev/null
+	local top
+
+	if ! top=$($git_cmd rev-parse --show-toplevel 2>/dev/null); then
+		return 1
+	fi
+
+	if ! realpath --canonicalize-existing "$top"; then
+		return 1
+	fi
+
+	return 0
 }
 
 git_cmd=${GIT:-git}
