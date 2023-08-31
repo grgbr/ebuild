@@ -1,5 +1,5 @@
-Welcome to Enbox documentation
-##############################
+Welcome to eBuild documentation
+###############################
 
 .. Caption of toctrees are not translated into latex, hence the dirty trick
 .. below. See https://github.com/sphinx-doc/sphinx/issues/3169 for more infos.
