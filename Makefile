@@ -56,6 +56,8 @@ $(Q)$(TAR) -C $(dir $(2)) -cJf $(1) $(notdir $(2))
 endef
 
 distdir := $(BUILDDIR)/ebuild-$(VERSION)
+
+.PHONY: dist
 dist: doc
 	$(call sync_src_recipe,$(distdir))
 	$(call installdir_recipe,--chmod=D755 --chmod=F644, \
