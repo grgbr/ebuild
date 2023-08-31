@@ -1,6 +1,8 @@
 override PACKAGE := ebuild
 override VERSION := 1.0
 
+export PACKAGE VERSION
+
 include vars.mk
 include helpers.mk
 
