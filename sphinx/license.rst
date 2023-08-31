@@ -3,6 +3,10 @@
    This file is part of eBuild.
    Copyright (C) 2019-2023 Grégor Boirie <gregor.boirie@free.fr>
 
-.. todo::
+*********
+Licensing
+*********
 
-   Fill me
+.. include:: license/lgpl.rst
+.. include:: license/gpl.rst
+.. include:: license/gfdl.rst

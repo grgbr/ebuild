@@ -1,3 +1,8 @@
+.. SPDX-License-Identifier: GFDL-1.3-only
+   
+   This file is part of eBuild.
+   Copyright (C) 2019-2023 Grégor Boirie <gregor.boirie@free.fr>
+
 .. include:: _cdefs.rst
 
 .. |Build|     replace:: :ref:`Build <sect-user-build>`
@@ -11,6 +16,8 @@ Overview
 This guide mainly focuses upon how to build and deploy software projects which
 build system is based upon |eBuild|.
 This document mainly targets software package integration.
+
+|eBuild| is distributed under the :ref:`GNU General Public License <gpl>`.
 
 .. _sect-user-prerequisites:
 

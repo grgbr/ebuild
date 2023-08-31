@@ -1,4 +1,10 @@
 #!/bin/sh -e
+################################################################################
+# SPDX-License-Identifier: GPL-3.0-only
+#
+# This file is part of eBuild.
+# Copyright (C) 2019-2023 Grégor Boirie <gregor.boirie@free.fr>
+################################################################################
 
 usage() {
 	echo "Usage: $(basename $0) [srctree]" >&2
