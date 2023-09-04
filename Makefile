@@ -70,6 +70,7 @@ distdir := $(BUILDDIR)/ebuild-$(VERSION)
 
 .PHONY: dist
 dist: doc
+	@$(RM) -r $(distdir)
 	$(call sync_src_recipe,$(distdir))
 	$(call installdir_recipe,--chmod=D755 --chmod=F644, \
 	                         $(sphinxhtmldir), \
@@ -84,7 +85,7 @@ dist: doc
 	          $(sphinx_list_info), \
 	          $(call install_recipe,-m644, \
 	                                $(sphinxinfodir)/$(f), \
-	                                $(distdir)/docs/$(f))$(newline))
+	                                $(distdir)/docs/info/$(f))$(newline))
 	$(call make_tarball,$(BUILDDIR)/ebuild-$(VERSION).tar.xz,$(distdir))
 
 .PHONY: distclean
