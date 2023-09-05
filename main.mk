@@ -176,25 +176,29 @@ ifneq ($(strip $(sphinxsrc)),)
 include $(EBUILDDIR)/sphinx.mk
 endif # ($(strip $(sphinxsrc)),)
 
-################################################################################
-# Distclean handling
-################################################################################
-
-.PHONY: distclean
-distclean: clean
-ifdef config-in
-	$(call rmr_recipe,$(kconfdir))
-	$(call rm_recipe,$(kconf_autoconf))
-	$(call rm_recipe,$(kconf_autohead))
-	$(call rm_recipe,$(kconf_head))
-	$(call rm_recipe,$(kconf_config))
-	$(call rm_recipe,$(kconf_config).old)
-	$(call rm_recipe,$(BUILDDIR)/defconfig)
-endif # config-in
+# Handle source distribution targets
+include $(EBUILDDIR)/dist.mk
 
 ################################################################################
 # Help handling
 ################################################################################
+
+ifneq ($(strip $(distfiles)),)
+define help_dist_msg :=
+
+::Distribution::
+  dist          -- build source distribution tarball
+  distclean     -- run `clean' target, remove build configuration and
+                   distribution tarball
+endef
+endif
+
+define help_section_msg :=
+
+::Help::
+  help          -- this help message
+  help-full     -- a full reference help message
+endef
 
 # Help message common block
 # $(1): project name
@@ -215,7 +219,7 @@ make <TARGET> [<VARIABLE>[=<VALUE>]]...
 
 ::Configuration::
   menuconfig    -- configure build using a NCurses menu-driven interface
-  xconfig       -- configure build using a QT menu-driven interface
+  xconfig       -- configure build using a QT menu-driven interface
   gconfig       -- configure build using a GTK menu-driven interface
   defconfig     -- configure build using default settings
   saveconfig    -- save current build configuration as default settings
@@ -232,11 +236,7 @@ make <TARGET> [<VARIABLE>[=<VALUE>]]...
   install       -- install built objects and documentation
   install-strip -- run `install' target and strip installed objects
   uninstall     -- remove installed objects and documentation
-  distclean     -- run `clean' target then remove build configuration
-
-::Help::
-  help          -- this help message
-  help-full     -- a full reference help message
+$(help_dist_msg)$(help_section_msg)
 endef
 
 # Short help message
@@ -250,7 +250,7 @@ EBUILDDIR       -- directory where ebuild logic is located
                    [$(EBUILDDIR)]
 DEFCONFIG       -- optional file containing default build configuration settings
                    [$(DEFCONFIG)]
-PREFIX          -- prefix prepended to install location variables default value
+PREFIX          -- prefix prepended to install location variables default value
                    [$(PREFIX)]
 DESTDIR         -- root install hierarchy top-level directory
                    [$(DESTDIR)]
@@ -359,7 +359,7 @@ $(call help_common_msg,$(1))
                    [$(MAKEINFO)]
   MANDIR        -- man pages install directory
                    [$(MANDIR)]
-  PREFIX        --  prefix prepended to install variable default values.
+  PREFIX        --  prefix prepended to install variable default values.
                    [$(PREFIX)]
   PKG_CONFIG    -- `pkg-config' compile and link helper tool
                    [$(PKG_CONFIG)]

@@ -70,7 +70,7 @@ $$(MAKE) --directory $(CURDIR)/$(2) \
          $(1) \
          TOPDIR:="$(TOPDIR)" \
          BUILDDIR:="$(BUILDDIR)/$(2)" \
-         $(if $(PACKAGE),PACKAGE:="$(PACKAGE)") \
+         PACKAGE:="$(PACKAGE)" \
          $(if $(VERSION),VERSION:="$(VERSION)") \
          kconf_autoconf:="$(kconf_autoconf)" \
          kconf_head:="$(kconf_head)"

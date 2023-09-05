@@ -76,6 +76,8 @@
 .. |Texinfo|                    replace:: `Texinfo <texinfo_>`_
 .. |Info files|                 replace:: `Info files <texinfo_>`_
 
+.. _xz:                         https://tukaani.org/xz/
+.. |XZ|                         replace:: `XZ Utils <xz_>`_
 
 ..
    Man page reference

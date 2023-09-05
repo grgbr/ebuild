@@ -10,6 +10,9 @@ $(error Missing PACKAGE definition !)
 endif
 export PACKAGE
 
+VERSION ?= ??
+export VERSION
+
 export CROSS_COMPILE :=
 export DESTDIR       :=
 export PREFIX        := /usr/local

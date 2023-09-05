@@ -45,51 +45,8 @@ install: install-doc
 uninstall: uninstall-doc
 	$(call uninstall_recipe,$(destdatadir),$(install_files))
 
-define sync_src_recipe
-@echo "  SYNC    $(strip $(1))"
-$(Q)mkdir -p -m755 $(1)
-$(Q)env GIT=$(GIT) SVN="$(SVN)" \
-    $(CURDIR)/scripts/list_version_files.sh | \
-    $(RSYNC) --recursive \
-             --links \
-             --times \
-             --perms \
-             --delete \
-             --chmod=D755 --chmod=F644 \
-             --files-from=- \
-             $(CURDIR)/ \
-             $(1)/
-endef
-
-define make_tarball
-@echo "  TARBALL $(strip $(1))"
-$(Q)$(TAR) -C $(dir $(2)) -cJf $(1) $(notdir $(2))
-endef
-
-distdir := $(BUILDDIR)/ebuild-$(VERSION)
-
-.PHONY: dist
-dist: doc
-	@$(RM) -r $(distdir)
-	$(call sync_src_recipe,$(distdir))
-	$(call installdir_recipe,--chmod=D755 --chmod=F644, \
-	                         $(sphinxhtmldir), \
-	                         $(distdir)/docs/html)
-	$(foreach f, \
-	          $(sphinx_list_pdf), \
-	          $(call install_recipe, \
-	                 -m644, \
-	                 $(sphinxpdfdir)/$(f), \
-	                 $(distdir)/docs/$(f))$(newline))
-	$(foreach f, \
-	          $(sphinx_list_info), \
-	          $(call install_recipe,-m644, \
-	                                $(sphinxinfodir)/$(f), \
-	                                $(distdir)/docs/info/$(f))$(newline))
-	$(call make_tarball,$(BUILDDIR)/ebuild-$(VERSION).tar.xz,$(distdir))
-
-.PHONY: distclean
-distclean: clean
+override distfiles = $(list_versioned_recipe)
+include dist.mk
 
 # Help message common block
 # $(1): project name
@@ -119,9 +76,13 @@ make <TARGET> [<VARIABLE>[=<VALUE>]]...
   clean         -- remove built objects and documentation
   install       -- install built objects and documentation
   uninstall     -- remove installed objects and documentation
-  distclean     -- run `clean' target then remove build configuration
 
-::Help::
+::Distribution::
+  dist          -- build source distribution tarball
+  distclean     -- run `clean' target, remove build configuration and
+                   distribution tarball
+
+ ::Help::
   help          -- this help message
   help-full     -- a full reference help message
 endef

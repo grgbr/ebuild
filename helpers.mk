@@ -179,6 +179,11 @@ fi
 $(call rm_recipe,$(2)/$(1))
 endef
 
+# List project files that are under revision control
+define list_versioned_recipe
+$(shell env GIT="$(GIT)" SVN="$(SVN)" \
+        $(EBUILDDIR)/scripts/list_version_files.sh "$(TOPDIR)")
+endef
 
 .DEFAULT_GOAL := build
 
