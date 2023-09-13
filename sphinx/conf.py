@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ################################################################################
-# SPDX-License-Identifier: GFDL-1.3-only
+# SPDX-License-Identifier: GPL-3.0-only
 #
 # This file is part of eBuild.
 # Copyright (C) 2019-2023 Grégor Boirie <gregor.boirie@free.fr>
@@ -54,7 +54,7 @@ master_title = u'eBuild Documentation'
 
 # General information about the project.
 project = u'eBuild'
-copyright = u'Copyright (c) 2019-2023 Grégor Boirie'
+copyright = u'2019-2023 Grégor Boirie'
 author = u'Grégor Boirie'
 
 # The version info for the project you're documenting, acts as replacement for

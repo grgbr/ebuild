@@ -1,4 +1,4 @@
-.. SPDX-License-Identifier: GFDL-1.3-only
+.. SPDX-License-Identifier: GPL-3.0-only
    
    This file is part of eBuild.
    Copyright (C) 2019-2023 Grégor Boirie <gregor.boirie@free.fr>
@@ -10,13 +10,17 @@ Welcome to eBuild documentation
 
 **Copyright** |copy| 2019-2023 Grégor Boirie.
 
-Permission is granted to copy, distribute and/or modify this document under the
-terms of the GNU Free Documentation License, Version 1.3 or any later version
-published by the Free Software Foundation; with no Invariant Sections, no
-Front-Cover Texts, and no Back-Cover Texts.
+This manual is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version.
+
+This manual is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 A copy of the license is included in the section entitled
-:ref:`GNU Free Documentation License <gfdl>`.
+:ref:`GNU General Public License <gpl>`.
 
 .. Caption of toctrees are not translated into latex, hence the dirty trick
 .. below. See https://github.com/sphinx-doc/sphinx/issues/3169 for more infos.

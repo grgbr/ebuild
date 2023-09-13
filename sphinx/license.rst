@@ -1,4 +1,4 @@
-.. SPDX-License-Identifier: GFDL-1.3-only
+.. SPDX-License-Identifier: GPL-3.0-only
    
    This file is part of eBuild.
    Copyright (C) 2019-2023 Grégor Boirie <gregor.boirie@free.fr>
@@ -7,6 +7,4 @@
 Licensing
 *********
 
-.. include:: license/lgpl.rst
 .. include:: license/gpl.rst
-.. include:: license/gfdl.rst
