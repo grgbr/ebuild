@@ -22,6 +22,16 @@ destdatadir   := $(DESTDIR)$(DATADIR)/ebuild
 install_files := $(patsubst $(TOPDIR)/%,%,$(wildcard $(TOPDIR)/*.mk) \
                                           $(wildcard $(TOPDIR)/scripts/*))
 
+.PHONY: gh
+gh: html
+	@$(RM) -r $(TOPDIR)/docs
+	$(call installdir_recipe,,$(sphinxhtmldir),$(TOPDIR)/docs)
+	@touch $(TOPDIR)/docs/.nojekyll
+
+.PHONY: clean-gh
+clean-gh:
+	$(call rmr_recipe,$(TOPDIR)/docs)
+
 .PHONY: build
 build:
 
@@ -45,7 +55,7 @@ install:
 uninstall: uninstall-doc
 	$(call uninstall_recipe,$(destdatadir),$(install_files))
 
-override distfiles = $(list_versioned_recipe)
+override distfiles = $(filter-out .nojekyll,$(list_versioned_recipe))
 include dist.mk
 
 # Help message common block
@@ -78,6 +88,10 @@ make <TARGET> [<VARIABLE>[=<VALUE>]]...
   clean-doc     -- remove built documentation
   install-doc   -- install built documentation
   uninstall-doc -- remove installed documentation
+
+::GitHub::
+  gh            -- generate GitHub pages into source directory
+  clean-gh      -- cleanup generated GitHub pages from source directory
 
 ::Distribution::
   dist          -- build source distribution tarball
