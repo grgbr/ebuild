@@ -13,10 +13,19 @@ define get_obj_src
 $(if $($(1)-src),$($(1)-src),$(SRCDIR)/$(patsubst %.o,%.c,$(1)))
 endef
 
+define get_obj_targets
+$(filter-out $(config-obj),$($(1)-objs))
+endef
+
+define get_obj_paths
+$(addprefix $(BUILDDIR)/,$(call get_obj_targets,$(1))) \
+$(filter $(config-obj),$($(1)-objs))
+endef
+
 define gen_obj_rule
 -include $(BUILDDIR)/$$(patsubst %.o,%.d,$(1))
 
-$(BUILDDIR)/$(1): $(call get_obj_src,$(notdir $(strip $(1)))) \
+$(BUILDDIR)/$(1): $(call get_obj_src,$(notdir $(1))) \
                   $(all_deps) \
                   | $(dir $(BUILDDIR)/$(1)) $(addprefix build-,$(subdirs))
 	@echo "  CC      $$(@)"
@@ -25,21 +34,25 @@ $(BUILDDIR)/$(1): $(call get_obj_src,$(notdir $(strip $(1)))) \
 endef
 
 define gen_arlib_rule
-$(BUILDDIR)/$(1): $(addprefix $(BUILDDIR)/,$($(1)-objs))
+$(BUILDDIR)/$(1): $(call get_obj_paths,$(1))
 	$(if $($(1)-objs),,$$(error Missing '$(1)' build objects declaration !))
 	@echo "  AR      $$(@)"
 	$(Q)$(AR) rcs $$(@) $$(^)
 
-$(foreach o,$($(1)-objs),$(call gen_obj_rule,$(o),$(1))$(newline))
+$(foreach o, \
+          $(call get_obj_targets,$(1)), \
+          $(call gen_obj_rule,$(o),$(1))$(newline))
 endef
 
 define gen_solib_rule
-$(BUILDDIR)/$(1): $(addprefix $(BUILDDIR)/,$($(1)-objs))
+$(BUILDDIR)/$(1): $(call get_obj_paths,$(1))
 	$(if $($(1)-objs),,$$(error Missing '$(1)' build objects declaration !))
 	@echo "  LD      $$(@)"
 	$(Q)$(LD) -o $$(@) $$(^) -L$(BUILDDIR) $(call link_ldflags,$(1))
 
-$(foreach o,$($(1)-objs),$(call gen_obj_rule,$(o),$(1))$(newline))
+$(foreach o, \
+          $(call get_obj_targets,$(1)), \
+          $(call gen_obj_rule,$(o),$(1))$(newline))
 endef
 
 define gen_pkgconfig_rule
@@ -52,16 +65,18 @@ $(BUILDDIR)/$(1): $(all_deps) | $(BUILDDIR)
 endef
 
 define gen_bin_rule
-$(BUILDDIR)/$(1): $(addprefix $(BUILDDIR)/,$($(1)-objs)) \
+$(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) \
                   $(addprefix $(BUILDDIR)/,$(builtins)) \
                   $(addprefix $(BUILDDIR)/,$(solibs)) \
                   $(addprefix $(BUILDDIR)/,$(arlibs))
 	@echo "  LD      $$(@)"
 	$(Q)$(LD) -o $$(@) \
-	          $(addprefix $(BUILDDIR)/,$($(1)-objs)) \
+	          $(call get_obj_paths,$(1)) \
 	          -L$(BUILDDIR) $(call link_ldflags,$(1))
 
-$(foreach o,$($(1)-objs),$(call gen_obj_rule,$(o),$(1))$(newline))
+$(foreach o, \
+          $(call get_obj_targets,$(1)), \
+          $(call gen_obj_rule,$(o),$(1))$(newline))
 endef
 
 define make_subdir_cmd
@@ -73,12 +88,14 @@ $$(MAKE) --directory $(CURDIR)/$(2) \
          PACKAGE:="$(PACKAGE)" \
          $(if $(VERSION),VERSION:="$(VERSION)") \
          kconf_autoconf:="$(kconf_autoconf)" \
-         kconf_head:="$(kconf_head)"
+         kconf_head:="$(kconf_head)" \
+         config-obj:="$(config-obj)" \
+         config-src:="$(config-src)"
 endef
 
 define gen_subdir_rule
 .PHONY: build-$(1)
-build-$(1): $(addprefix build-,$($(1)-deps)) $(kconf_head)
+build-$(1): $(addprefix build-,$($(1)-deps)) $(kconf_head) $(config-obj)
 	$(Q)$(call make_subdir_cmd,build,$(1))
 
 .PHONY: clean-$(1)
@@ -86,7 +103,7 @@ clean-$(1):
 	$(Q)$(call make_subdir_cmd,clean,$(1))
 
 .PHONY: install-$(1)
-install-$(1): $(addprefix install-,$($(1)-deps)) $(kconf_head)
+install-$(1): $(addprefix install-,$($(1)-deps)) $(kconf_head) $(config-obj)
 	$(Q)$(call make_subdir_cmd,install,$(1))
 
 .PHONY: uninstall-$(1)
@@ -99,7 +116,8 @@ override build_prereqs := $(addprefix build-,$(subdirs)) \
                                                    $(arlibs) \
                                                    $(solibs) \
                                                    $(pkgconfigs) \
-                                                   $(bins))
+                                                   $(bins)) \
+                          $(config-obj)
 
 .PHONY: build
 build: $(build_prereqs)
@@ -119,6 +137,18 @@ $(eval $(foreach b,$(bins),$(call gen_bin_rule,$(b))$(newline)))
 ################################################################################
 # Clean handling
 ################################################################################
+
+define clean_recipe
+$(foreach l, \
+          $(1), \
+          $(foreach o, \
+                    $(call get_obj_targets,$(l)) \
+                    $(patsubst %.o,%.d,$(call get_obj_targets,$(l))) \
+                    $(patsubst %.o,%.gcno,$(call get_obj_targets,$(l))) \
+                    $(patsubst %.o,%.gcda,$(call get_obj_targets,$(l))), \
+                    $(call rm_recipe,$(BUILDDIR)/$(o))$(newline)) \
+          $(call rm_recipe,$(BUILDDIR)/$(l))$(newline))
+endef
 
 .PHONY: clean
 clean: $(addprefix clean-,$(subdirs))

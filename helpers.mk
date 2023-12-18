@@ -107,18 +107,6 @@ $(strip $(if $(kconf_head),-I$(abspath $(kconf_head)/../..)) \
         $(if $(HEADERDIR),-I$(HEADERDIR)))
 endef
 
-define clean_recipe
-$(foreach l, \
-          $(1), \
-          $(foreach o, \
-                    $($(l)-objs) \
-                    $(patsubst %.o,%.d,$($(l)-objs)) \
-                    $(patsubst %.o,%.gcno,$($(l)-objs)) \
-                    $(patsubst %.o,%.gcda,$($(l)-objs)), \
-                    $(call rm_recipe,$(BUILDDIR)/$(o))$(newline)) \
-          $(call rm_recipe,$(BUILDDIR)/$(l))$(newline))
-endef
-
 define strip_solib_recipe
 @echo "  STRIP   $(strip $(1))"
 $(Q)$(STRIP) --strip-unneeded $(1)

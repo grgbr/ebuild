@@ -42,6 +42,10 @@ ifeq ($(wildcard $(config-in)),)
 $(error '$(config-in)' configuration template file not found !)
 endif
 
+ifeq ($(strip $(config-h)),)
+$(error Missing '$(config-h)' configuration header path !)
+endif
+
 kconfdir       := $(BUILDDIR)/include/config/
 kconf_autoconf := $(__kconf_autoconf_path)
 kconf_autohead := $(BUILDDIR)/autoconf.h
@@ -138,6 +142,31 @@ saveconfig: $(kconf_config)
 	@echo "  KSAVE   $(BUILDDIR)/defconfig"
 	$(call kconf_sync_cmd,savedefconfig $(BUILDDIR)/defconfig)
 
+ifneq ($(strip $(config-obj)),)
+
+override config-obj := $(BUILDDIR)/$(config-obj)
+override config-src := $(patsubst %.o,%.c,$(config-obj))
+
+$(config-obj): $(config-src)
+	@echo "  CC      $(@)"
+	$(Q)$(CC) -MD -Wall -Wextra $(EXTRA_CFLAGS) -o $(@) -c $(<)
+
+$(config-src): $(kconf_config) $(EBUILDDIR)/scripts/gen_conf_obj_src.sh
+	@echo "  CONFSRC $(strip $(@))"
+	$(EBUILDDIR)/scripts/gen_conf_obj_src.sh $(<) > $(@) || \
+		{ $(RM) $(@); exit 1; }
+
+.PHONY: _clean-config
+_clean-config:
+	$(if $(strip $(config-obj)),$(call rm_recipe,$(config-obj)))
+	$(if $(strip $(config-src)),$(call rm_recipe,$(config-src)))
+
+else  # !(ifneq ($(strip $(config-obj)),))
+
+_clean-config:
+
+endif # ifneq ($(strip $(config-obj)),)
+
 else  # ifndef config-in
 
 all_deps := $(ebuild_deps)
@@ -153,7 +182,7 @@ include $(EBUILDDIR)/rules.mk
 .PHONY: doc
 doc:
 
-clean: clean-doc
+clean: clean-doc _clean-config
 
 .PHONY: clean-doc
 clean-doc:
