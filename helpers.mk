@@ -141,7 +141,7 @@ $(Q)$(RSYNC) --recursive \
 endef
 
 define has_cmd
-$(shell type $(1) 2>&1 >/dev/null && echo y)
+$(shell type '$(strip $(1))' 2>&1 >/dev/null && echo y || echo n)
 endef
 
 # Run install-info to register an info page into info directory

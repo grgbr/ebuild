@@ -54,6 +54,8 @@ export INSTALL_INFO  := install-info
 export GIT           := git
 export SVN           := svn
 export TAR           := tar
+export CTAGS         := ctags
+export CSCOPE        := cscope
 
 override TOPDIR      := $(CURDIR)
 export TOPDIR

@@ -205,6 +205,11 @@ ifneq ($(strip $(sphinxsrc)),)
 include $(EBUILDDIR)/sphinx.mk
 endif # ($(strip $(sphinxsrc)),)
 
+# Handle source code tags targets only when $(tag-files) is defined.
+ifneq ($(strip $(tagfiles)),)
+include $(EBUILDDIR)/tags.mk
+endif # ($(strip $(tag-files)),)
+
 # Handle source distribution targets
 include $(EBUILDDIR)/dist.mk
 

@@ -6,6 +6,12 @@
 ..
    External hyperlinks
 
+.. _cscope:                     https://cscope.sourceforge.net/
+.. |Cscope|                     replace:: `Cscope <cscope_>`_
+
+.. _ctags:                      https://ctags.sourceforge.net/
+.. |Ctags|                      replace:: `Exuberant Ctags <ctags_>`_
+
 .. _doxygen:                    https://www.doxygen.nl/
 .. |Doxygen|                    replace:: `Doxygen <doxygen_>`_
 
