@@ -9,7 +9,10 @@
 # Source code tags generation handling
 ################################################################################
 
-ifeq ($(call has_cmd,$(CTAGS))$(call has_cmd,$(CSCOPE)),nn)
+# Handle source code tags targets only when $(tag-files) is defined.
+ifneq ($(strip $(tagfiles)),)
+
+ifeq ($(call has_cmd,$(CTAGS))$(call has_cmd,$(CSCOPE)),)
 $(error Neither ctags nor cscope found ! Setup $$(CTAGS) and/or $$(CSCOPE) \
         to generate source code tags)
 endif # ($(call has_cmd,$(CTAGS))$(call has_cmd,$(CSCOPE)),nn)
@@ -29,6 +32,12 @@ ctags: | $(BUILDDIR)
 
 tags: ctags
 
+define help_ctags_var :=
+
+  CTAGS         -- exuberant ctags source tags generator
+                   [$(CTAGS)]
+endef
+
 endif # ($(call has_cmd,$(CTAGS)),y)
 
 ifeq ($(call has_cmd,$(CSCOPE)),y)
@@ -43,11 +52,35 @@ cscope: | $(BUILDDIR)
 
 tags: cscope
 
-endif # ($(call has_cmd,$(CSCOPE)),y)
-
 clean: clean-tags
 
 .PHONY: clean-tags
 clean-tags:
 	$(call rm_recipe,$(ctagsfile))
 	$(call rm_recipe,$(cscopefile)*)
+
+define help_cscope_var :=
+
+  CSCOPE        -- cscope source tags generator
+                   [$(CSCOPE)]
+endef
+
+endif # ifeq ($(call has_cmd,$(CSCOPE)),y)
+
+define help_tags_targets :=
+
+
+::Source tags::
+  tags          -- build source tag databases
+  clean-tags    -- remove built source tag databases
+endef
+
+define help_tags_vars :=
+
+
+::Source tags::
+  $(strip $(if $(call has_cmd,$(CSCOPE)),CSCOPE) \
+          $(if $(call has_cmd,$(CTAGS)),CTAGS))
+endef
+
+endif # ifneq ($(strip $(tagfiles)),)

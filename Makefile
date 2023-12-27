@@ -23,7 +23,7 @@ install_files := $(patsubst $(TOPDIR)/%,%,$(wildcard $(TOPDIR)/*.mk) \
                                           $(wildcard $(TOPDIR)/scripts/*))
 
 .PHONY: build
-build: doc
+build:
 
 .PHONY: clean
 clean:
@@ -34,7 +34,7 @@ clean:
 doc:
 
 .PHONY: install
-install: install-doc
+install:
 	$(foreach f, \
 	          $(install_files), \
 	          $(call install_recipe,-m644, \
@@ -65,17 +65,19 @@ make <TARGET> [<VARIABLE>[=<VALUE>]]...
 
 ==Targets==
 
+::Build::
+  build         -- compile and link objects
+  clean         -- remove built objects and documentation
+
+::Install::
+  install       -- install built objects and documentation
+  uninstall     -- remove installed objects and documentation
+
 ::Documentation::
   doc           -- build documentation
   clean-doc     -- remove built documentation
   install-doc   -- install built documentation
   uninstall-doc -- remove installed documentation
-
-::Construction::
-  build         -- compile and link objects
-  clean         -- remove built objects and documentation
-  install       -- install built objects and documentation
-  uninstall     -- remove installed objects and documentation
 
 ::Distribution::
   dist          -- build source distribution tarball
@@ -113,17 +115,20 @@ $(call help_common_msg,$(1))
 
 ::Build::
   * BUILDDIR
-  * PREFIX DATADIR DOCDIR INFODIR
+  * PREFIX DATADIR
 
 ::Install::
   * EBUILDDIR DEFCONFIG KCONF
   * BUILDDIR
-  * PREFIX DATADIR DOCDIR INFODIR
+  * PREFIX DATADIR
   * DESTDIR
+
+::Documentation::
+  * DOCDIR INFODIR
+  * INSTALL_INFO LATEXMK MAKEINFO PYTHON SPHINXBUILD
 
 ::Tools::
   ECHOE INSTALL LN RM RSYNC
-  INSTALL_INFO LATEXMK MAKEINFO PYTHON SPHINXBUILD
 
 ::Reference::
   BUILDDIR     -- build directory

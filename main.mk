@@ -179,36 +179,16 @@ endif # config-in
 
 include $(EBUILDDIR)/rules.mk
 
-.PHONY: doc
-doc:
-
-clean: clean-doc _clean-config
-
-.PHONY: clean-doc
-clean-doc:
-
-.PHONY: install-doc
-install-doc:
-
-uninstall: uninstall-doc
-
-.PHONY: uninstall-doc
-uninstall-doc:
+clean: _clean-config
 
 # Handle doxygen targets only when $(doxyconf) is defined.
-ifneq ($(strip $(doxyconf)),)
 include $(EBUILDDIR)/doxy.mk
-endif # ($(strip $(doxyconf)),)
 
 # Handle sphinx targets only when $(sphinxsrc) is defined.
-ifneq ($(strip $(sphinxsrc)),)
 include $(EBUILDDIR)/sphinx.mk
-endif # ($(strip $(sphinxsrc)),)
 
 # Handle source code tags targets only when $(tag-files) is defined.
-ifneq ($(strip $(tagfiles)),)
 include $(EBUILDDIR)/tags.mk
-endif # ($(strip $(tag-files)),)
 
 # Handle source distribution targets
 include $(EBUILDDIR)/dist.mk
@@ -217,17 +197,8 @@ include $(EBUILDDIR)/dist.mk
 # Help handling
 ################################################################################
 
-ifneq ($(strip $(distfiles)),)
-define help_dist_msg :=
-
-::Distribution::
-  dist          -- build source distribution tarball
-  distclean     -- run `clean' target, remove build configuration and
-                   distribution tarball
-endef
-endif
-
 define help_section_msg :=
+
 
 ::Help::
   help          -- this help message
@@ -258,19 +229,18 @@ make <TARGET> [<VARIABLE>[=<VALUE>]]...
   defconfig     -- configure build using default settings
   saveconfig    -- save current build configuration as default settings
 
-::Documentation::
-  doc           -- build documentation
-  clean-doc     -- remove built documentation
-  install-doc   -- install built documentation
-  uninstall-doc -- remove installed documentation
-
-::Construction::
+::Build::
   build         -- compile and link objects
   clean         -- remove built objects and documentation
+
+::Install::
   install       -- install built objects and documentation
   install-strip -- run `install' target and strip installed objects
-  uninstall     -- remove installed objects and documentation
-$(help_dist_msg)$(help_section_msg)
+  uninstall     -- remove installed objects\
+$(help_tags_targets)\
+$(help_doc_targets)\
+$(help_dist_targets)\
+$(help_section_msg)
 endef
 
 # Short help message
@@ -317,20 +287,21 @@ $(call help_common_msg,$(1))
   * EBUILDDIR DEFCONFIG KCONF
   * BUILDDIR
   * PREFIX SYSCONFDIR BINDIR SBINDIR LIBDIR LIBEXECDIR LOCALSTATEDIR RUNSTATEDIR
-    INCLUDEDIR PKGCONFIGDIR DATADIR DOCDIR INFODIR MANDIR
+    INCLUDEDIR PKGCONFIGDIR DATADIR
   * CROSS_COMPILE AR CC LD PKG_CONFIG EXTRA_CFLAGS EXTRA_LDFLAGS
 
 ::Install::
   * EBUILDDIR DEFCONFIG KCONF
   * BUILDDIR
   * PREFIX SYSCONFDIR BINDIR SBINDIR LIBDIR LIBEXECDIR LOCALSTATEDIR RUNSTATEDIR
-    INCLUDEDIR  PKGCONFIGDIR DATADIR DOCDIR INFODIR MANDIR
+    INCLUDEDIR  PKGCONFIGDIR DATADIR
   * CROSS_COMPILE STRIP
-  * DESTDIR
+  * DESTDIR\
+$(help_tags_vars)\
+$(help_doc_vars)
 
 ::Tools::
-  ECHOE INSTALL LN RM RSYNC
-  DOXY INSTALL_INFO LATEXMK MAKEINFO PYTHON SPHINXBUILD
+  ECHOE INSTALL LN RM RSYNC PYTHON
 
 ::Reference::
   AR            -- objects archiver `ar'
@@ -342,17 +313,17 @@ $(call help_common_msg,$(1))
   CC            -- C compiler `cc'
                    [$(CC)]
   CROSS_COMPILE -- cross compile tool prefix
-                   [$(CROSS_COMPILE)]
+                   [$(CROSS_COMPILE)]\
+$(help_cscope_var)\
+$(help_ctags_var)
   DEFCONFIG     -- default build configuration file
                    [$(DEFCONFIG)]
   DATADIR       -- read-only architecture-independent data install directory
-                   [$(DATADIR)]
-  DOXY          -- `doxygen' documentation generation tool
-                   [$(DOXY)]
+                   [$(DATADIR)]\
+$(help_doxy_var)
   DESTDIR       -- top-level staged / root install directory
-                   [$(DESTDIR)]
-  DOCDIR        -- documentation install directory
-                   [$(DOCDIR)]
+                   [$(DESTDIR)]\
+$(help_docdir_var)
   EBUILDDIR     -- ebuild directory
                    [$(EBUILDDIR)]
   ECHOE         -- shell escaped string `echo' tool
@@ -360,15 +331,13 @@ $(call help_common_msg,$(1))
   EXTRA_CFLAGS  -- additional flags passed to $$(CC) at compile time
                    [$(EXTRA_CFLAGS)]
   EXTRA_LDFLAGS -- additional flags passed to $$(LD) at link time
-                   [$(EXTRA_LDFLAGS)]
-  INFODIR       -- Info files install directory
-                   [$(INFODIR)]
+                   [$(EXTRA_LDFLAGS)]\
+$(help_infodir_var)
   INCLUDEDIR    -- Header files install directory
                    [$(INCLUDEDIR)]
   INSTALL       -- `install' tool
-                   [$(INSTALL)]
-  INSTALL_INFO  -- `install-info' Texinfo info page installer tool
-                   [$(INSTALL_INFO)]
+                   [$(INSTALL)]\
+$(help_install_info_var)
   KCONF         -- KConfig `conf' line-oriented tool
                    [$(KCONF)]
   KGCONF        -- KConfig `gconf' GTK menu based tool
@@ -376,9 +345,8 @@ $(call help_common_msg,$(1))
   KMCONF        -- Kconfig `mconf' NCurses menu based tool
                    [$(KMCONF)]
   KXCONF        -- Kconfig `qconf' QT menu based tool
-                   [$(KXCONF)]
-  LATEXMK       -- `latexmk' LaTeX documentation builder tool
-                   [$(LATEXMK)]
+                   [$(KXCONF)]\
+$(help_latexmk_var)
   LD            -- linker `ld' tool
                    [$(LD)]
   LIBDIR        -- libraries install directory
@@ -388,12 +356,10 @@ $(call help_common_msg,$(1))
   LN            -- link maker `ln' tool
                    [$(LN)]
   LOCALSTATEDIR -- machine specific persistent data files install directory
-                   [$(LOCALSTATEDIR)]
-  MAKEINFO      -- `makeinfo' Texinfo documentation conversion tool
-                   [$(MAKEINFO)]
-  MANDIR        -- man pages install directory
-                   [$(MANDIR)]
-  PREFIX        --  prefix prepended to install variable default values.
+                   [$(LOCALSTATEDIR)]\
+$(help_makeinfo_var)\
+$(help_mandir_var)
+  PREFIX        -- prefix prepended to install variable default values.
                    [$(PREFIX)]
   PKG_CONFIG    -- `pkg-config' compile and link helper tool
                    [$(PKG_CONFIG)]
@@ -406,9 +372,8 @@ $(call help_common_msg,$(1))
   RSYNC         -- `rsync' filesystem synchronization tool
                    [$(RSYNC)]
   RUNSTATEDIR   -- machine specific temporary data files install directory
-                   [$(RUNSTATEDIR)]
-  SPHINXBUILD   -- `sphinx-build' documentation generation tool
-                   [$(SPHINXBUILD)]
+                   [$(RUNSTATEDIR)]\
+$(help_sphinxbuild_var)
   SBINDIR       -- system administration executable programs install directory
                    [$(SBINDIR)]
   STRIP         -- `strip' object symbols discarding tool.

@@ -41,22 +41,6 @@ $(Q)$(ECHOE) "$(subst $(space),\n,$(1))" | \
              $(distdir)/
 endef
 
-define dist_doc_cmds :=
-$(call installdir_recipe,--chmod=D755 --chmod=F644, \
-                         $(sphinxhtmldir), \
-                         $(distdir)/docs/html)
-$(foreach f, \
-          $(sphinx_list_pdf), \
-          $(call install_recipe,--mode=644, \
-                                $(sphinxpdfdir)/$(f), \
-                                $(distdir)/docs/$(f))$(newline))
-$(foreach f, \
-          $(sphinx_list_info), \
-          $(call install_recipe,--mode=644, \
-                                $(sphinxinfodir)/$(f), \
-                                $(distdir)/docs/info/$(f))$(newline))
-endef
-
 define dist_tar_cmd
 @echo "  TARBALL $(disttarball)"
 $(Q)$(TAR) --owner=1000 \
@@ -67,16 +51,21 @@ $(Q)$(TAR) --owner=1000 \
 endef
 
 .PHONY: dist
-dist: doc
+dist: $(doc_dist_targets)
 	$(if $(strip $(distfiles)),,\
 	             $(error Missing distribution files definition !))
 	@$(RM) -r $(distdir)
 	$(dist_ebuild_cmds)
 	$(call dist_src_cmds,$(distfiles))
-	$(dist_doc_cmds)
+	$(doc_dist_cmds)
 	$(dist_tar_cmd)
 
-endif # ($(strip $(distfiles)),)
+define _help_dist_target :=
+
+  dist          -- build source distribution tarball
+endef
+
+endif # ifneq ($(strip $(distfiles)),)
 
 .PHONY: distclean
 distclean: clean
@@ -93,3 +82,12 @@ ifneq ($(strip $(distfiles)),)
 	$(call rmr_recipe,$(distdir))
 	$(call rm_recipe,$(disttarball))
 endif # ($(strip $(distfiles)),)
+
+define help_dist_targets =
+
+
+::Distribution::\
+  $(_help_dist_target)
+  distclean     -- run `clean' target, remove build configuration and
+                   distribution tarball
+endef

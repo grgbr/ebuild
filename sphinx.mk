@@ -32,6 +32,8 @@
 # See above for informations about how to enable doxygen output.
 ################################################################################
 
+ifneq ($(strip $(sphinxsrc)),)
+
 ifneq ($(call has_cmd,$(SPHINXBUILD)),y)
 $(error sphinx-build tool not found ! \
         Setup $$(SPHINXBUILD) to generate documentation)
@@ -195,19 +197,48 @@ override sphinxpdfdir   := $(BUILDDIR)/doc/pdf
 # Sphinx generated (tex)info page output directory
 override sphinxinfodir  := $(BUILDDIR)/doc/info
 
+# Used by dist target to generate documentation when enabled
+doc_dist_targets := doc
+
+# Used by dist target to install documentation when enabled
+define doc_dist_cmds =
+$(call installdir_recipe,--chmod=D755 --chmod=F644, \
+                         $(sphinxhtmldir), \
+                         $(distdir)/docs/html)
+$(foreach f, \
+          $(sphinx_list_pdf), \
+          $(call install_recipe,--mode=644, \
+                                $(sphinxpdfdir)/$(f), \
+                                $(distdir)/docs/$(f))$(newline))
+$(foreach f, \
+          $(sphinx_list_info), \
+          $(call install_recipe,--mode=644, \
+                                $(sphinxinfodir)/$(f), \
+                                $(distdir)/docs/info/$(f))$(newline))
+endef
+
 # Sphinx does not like running multiple generation processes in parallel.
 .NOTPARALLEL: doc
+.PHONY: doc
 
 $(sphinxdir): | $(sphinxsrc)
 	@mkdir -p $(dir $(@))
 	@$(LN) -s $(|) $(@)
 
+clean: clean-doc
+
+.PHONY: clean-doc
 clean-doc: clean-sphinx
 
 .PHONY: clean-sphinx
 clean-sphinx:
 	$(call rm_recipe,$(sphinxdir))
 	$(call rmr_recipe,$(sphinxcachedir))
+
+.PHONY: install-doc
+
+.PHONY: uninstall-doc
+uninstall: uninstall-doc
 
 ################################################################################
 # HTML handling
@@ -325,3 +356,66 @@ uninstall-info:
 	$(foreach page, \
 	          $(sphinx_list_info), \
 	          $(call uninstall_info_recipe,$(page),$(infodir))$(newline))
+
+define help_doc_targets :=
+
+
+::Documentation::
+  doc           -- build documentation
+  clean-doc     -- remove built documentation
+  install-doc   -- install built documentation
+  uninstall-doc -- remove installed documentation
+endef
+
+define help_doc_vars :=
+
+
+::Documentation::
+  * DOCDIR INFODIR MANDIR
+  * $(strip $(if $(strip $(doxyconf)),DOXY) \
+            INSTALL_INFO LATEXMK MAKEINFO SPHINXBUILD)
+endef
+
+define help_docdir_var :=
+
+  DOCDIR        -- documentation install directory
+                   [$(DOCDIR)]
+endef
+
+define help_infodir_var :=
+
+  INFODIR       -- Info files install directory
+                   [$(INFODIR)]
+endef
+
+define help_mandir_var :=
+
+  MANDIR        -- man pages install directory
+                   [$(MANDIR)]
+endef
+
+define help_install_info_var :=
+
+  INSTALL_INFO  -- `install-info' Texinfo info page installer tool
+                   [$(INSTALL_INFO)]
+endef
+
+define help_latexmk_var :=
+
+  LATEXMK       -- `latexmk' LaTeX documentation builder tool
+                   [$(LATEXMK)]
+endef
+
+define help_makeinfo_var :=
+
+  MAKEINFO      -- `makeinfo' Texinfo documentation conversion tool
+                   [$(MAKEINFO)]
+endef
+
+define help_sphinxbuild_var :=
+
+  SPHINXBUILD   -- `sphinx-build' documentation generation tool
+                   [$(SPHINXBUILD)]
+endef
+
+endif # ifneq ($(strip $(sphinxsrc)),)

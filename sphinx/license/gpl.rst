@@ -3,9 +3,9 @@
    This file is part of eBuild.
    Copyright (C) 2023 Grégor Boirie <gregor.boirie@free.fr>
 
-.. highlight:: text
+.. _lgpl: https://www.gnu.org/licenses/lgpl-3.0.html
 
-.. _gpl:
+.. highlight:: text
 
 GNU GENERAL PUBLIC LICENSE
 ##########################
@@ -694,5 +694,5 @@ The GNU General Public License does not permit incorporating your
 program into proprietary programs. If your program is a subroutine
 library, you may consider it more useful to permit linking proprietary
 applications with the library. If this is what you want to do, use the
-:ref:`GNU Lesser General Public License <lgpl>` instead of this License.
+`GNU Lesser General Public License <lgpl_>`_ instead of this License.
 But first, please read <https://www.gnu.org/licenses/why-not-lgpl.html>.

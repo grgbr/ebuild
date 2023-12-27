@@ -27,6 +27,8 @@
 # See below for more about sphinx / breathe setup.
 ###############################################################################
 
+ifneq ($(strip $(doxyconf)),)
+
 ifneq ($(call has_cmd,$(DOXY)),y)
 $(error Doxygen tool not found ! Setup $$(DOXY) to generate documentation)
 endif # ($(call has_cmd,$(DOXY)),y)
@@ -91,6 +93,9 @@ $(doxyconfdoc): $(config-in) $(EBUILDDIR)/scripts/gen_conf_doc.py | $(doxydir)
 
 endif # ($(strip $(config-in)),)
 
+clean: clean-doc
+
+.PHONY: clean-doc
 clean-doc: clean-doxy
 
 .PHONY: clean-doxy
@@ -99,3 +104,11 @@ clean-doxy:
 
 $(doxydir):
 	@mkdir -p $(@)
+
+define help_doxy_var :=
+
+  DOXY          -- `doxygen' documentation generation tool
+                   [$(DOXY)]
+endef
+
+endif # ifneq ($(strip $(doxyconf)),)
