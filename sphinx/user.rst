@@ -386,7 +386,7 @@ available for documentation generation customization purpose:
 
 * PREFIX_,
 * DATADIR_, DOCDIR_,
-* MANDIR_,
+* MANDIR_, MANDB_,
 * INSTALL_INFO_, INFODIR_.
 
 In addition, when following a `Staged install`_ workflow, you may alter final
@@ -476,6 +476,7 @@ tool customization purpose:
 * KGCONF_,
 * LATEXMK_,
 * MAKEINFO_,
+* MANDB_,
 * LD_,
 * LN_,
 * PKG_CONFIG_,
@@ -840,6 +841,8 @@ Pathname to optional file containing default build configuration settings. This
 file may be generated from current configuration as explained into section
 configure_.
 
+.. _var-datadir:
+
 DATADIR
 *******
 
@@ -872,6 +875,8 @@ embedded file names will not be modified.
 
 *DESTDIR* is commonly used in package creation and cross compile environment.
 See section `Staged install`_ and |gnu_install_destdir| for more informations.
+
+.. _var-docdir:
 
 DOCDIR
 ******
@@ -1119,6 +1124,16 @@ MAKEINFO
 Tool used to generate |info(5)| pages for the |texinfo(5)| documentation system.
 See also |install-info(1)|.
  
+MANDB
+*****
+
+`Man pages`_ index maintainer tool
+
+:Default: ``mandb``
+:Mutable: yes
+
+|mandb(8)| is the tool used to maintain |man(7)| page index caches.
+
 MANDIR
 ******
 

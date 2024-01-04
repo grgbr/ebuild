@@ -358,7 +358,8 @@ $(help_latexmk_var)
   LOCALSTATEDIR -- machine specific persistent data files install directory
                    [$(LOCALSTATEDIR)]\
 $(help_makeinfo_var)\
-$(help_mandir_var)
+$(help_mandir_var)\
+$(help_mandb_var)
   PREFIX        -- prefix prepended to install variable default values.
                    [$(PREFIX)]
   PKG_CONFIG    -- `pkg-config' compile and link helper tool

@@ -167,6 +167,30 @@ fi
 $(call rm_recipe,$(2)/$(1))
 endef
 
+# Extract man page section from file path given in argument
+# $(1): pathname to man page
+define man_section
+$(shell echo $(notdir $(1)) | sed --silent 's/.*\.\([^.]\+\)/\1/pg')
+endef
+
+# Install a man page
+# $(1): pathname to man page to install
+# $(2): pathname to base man pages directory
+define install_man_recipe
+$(call install_recipe,-m644, \
+                      $(1), \
+                      $(2)/man$(call man_section,$(1))/$(notdir $(1)))
+$(Q)$(MANDB) $(if $(Q),--quiet) $(2)
+endef
+
+# Remove installed man page
+# $(1): basename of man page to uninstall
+# $(2): pathname to base man pages directory
+define uninstall_man_recipe
+$(call rm_recipe,$(2)/man$(call man_section,$(1))/$(notdir $(1)))
+$(Q)$(MANDB) $(if $(Q),--quiet) $(2)
+endef
+
 # List project files that are under revision control
 define list_versioned_recipe
 $(shell env GIT="$(GIT)" SVN="$(SVN)" \

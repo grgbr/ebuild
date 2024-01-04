@@ -82,8 +82,7 @@
 .. |Texinfo|                    replace:: `Texinfo <texinfo_>`_
 .. |Info files|                 replace:: `Info files <texinfo_>`_
 
-.. _xz:                         https://tukaani.org/xz/
-.. |XZ|                         replace:: `XZ Utils <xz_>`_
+.. _man pages:                  https://www.gnu.org/prep/standards/html_node/Man-Pages.html
 
 ..
    Man page reference
@@ -103,6 +102,8 @@
 .. |texinfo(5)|      replace:: :manpage:`texinfo(5)`
 .. |info(5)|         replace:: :manpage:`info(5)`
 .. |makeinfo(1)|     replace:: :manpage:`makeinfo(1)`
+.. |man(7)|          replace:: :manpage:`man(7)`
+.. |mandb(8)|        replace:: :manpage:`mandb(8)`
 .. |install-info(1)| replace:: :manpage:`install-info(1)`
 .. |latexmk(1)|      replace:: :manpage:`latexmk(1)`
 .. |python3(1)|      replace:: :manpage:`python3(1)`

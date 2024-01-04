@@ -46,7 +46,7 @@ define sphinx_list_docs_cmd
 import os;
 import conf as cfg;
 
-print(*[os.path.splitext(doc[1])[0] for doc in cfg.$(1)]);
+hasattr(cfg, "$(1)") and print(*[os.path.splitext(doc[1])[0] for doc in cfg.$(1)]);
 endef
 
 define sphinx_list_docs
@@ -61,6 +61,21 @@ endef
 
 define sphinx_list_info
 $(notdir $(addsuffix .info,$(call sphinx_list_docs,texinfo_documents)))
+endef
+
+# Source / import conf.py configuration file from sphinx documentation directory
+# and retrieve the list of generated man pages
+define sphinx_list_man_cmd
+import conf as cfg;
+
+hasattr(cfg, "man_pages") and print(*[doc[1] + "." + str(doc[4]) for doc in cfg.man_pages]);
+endef
+
+define sphinx_list_man
+$(notdir \
+  $(shell cd $(sphinxsrc); \
+          $(PYTHON) -X pycache_prefix="$(abspath $(BUILDDIR))/__pycache__" \
+                    -c '$(sphinx_list_man_cmd)'))
 endef
 
 # Return top-level directory menu entry attribute of info page given in
@@ -176,7 +191,7 @@ $(Q)$(if $(4),env $(4)) \
                    -j auto
 @echo "  INFO    $(strip $(2))"
 +$(Q)$(MAKE) --directory "$(strip $(2))" \
-	     $(if $(Q),--output-sync=none) \
+             $(if $(Q),--output-sync=none) \
              info \
              MAKEINFO='$(MAKEINFO) --no-split' \
              $(if $(Q),>/dev/null 2>&1)
@@ -186,6 +201,8 @@ endef
 override docdir         := $(DESTDIR)$(DOCDIR)/$(PACKAGE)
 # Final destination (tex)info page install directory
 override infodir        := $(DESTDIR)$(INFODIR)
+# Final destination man pages install directory
+override mandir         := $(DESTDIR)$(MANDIR)
 # Sphinx generated documentation base output directory
 override sphinxdir      := $(BUILDDIR)/doc/sphinx
 # Internal sphinx doctrees / caching directory
@@ -196,6 +213,8 @@ override sphinxhtmldir  := $(BUILDDIR)/doc/html
 override sphinxpdfdir   := $(BUILDDIR)/doc/pdf
 # Sphinx generated (tex)info page output directory
 override sphinxinfodir  := $(BUILDDIR)/doc/info
+# Sphinx generated man pages output directory
+override sphinxmandir   := $(BUILDDIR)/doc/man
 
 # Used by dist target to generate documentation when enabled
 doc_dist_targets := doc
@@ -357,6 +376,66 @@ uninstall-info:
 	          $(sphinx_list_info), \
 	          $(call uninstall_info_recipe,$(page),$(infodir))$(newline))
 
+################################################################################
+# Manual pages handling
+################################################################################
+
+# Run sphinx-build to generate man pages
+# $(1): pathname to sphinx documentation source directory
+# $(2): pathname to generated man pages output directory
+# $(3): pathname to sphinx cache directory
+# $(4): additional environment variables given to sphinx-build
+define sphinx_man_recipe
+@echo "  MAN     $(strip $(2))"
+$(Q)$(if $(4),env $(4)) \
+    $(SPHINXBUILD) -b man \
+                   "$(strip $(1))" \
+                   "$(strip $(2))" \
+                   $(if $(Q),-Q,-q) \
+                   -d "$(strip $(3))" \
+                   -a \
+                   -E \
+                   -j auto
+endef
+
+
+doc: man
+
+# Make man target depend onto doxy target if doxygen support is enabled.
+.PHONY: man
+man: $(if $(doxyconf),doxy) | $(sphinxdir)
+	$(call sphinx_man_recipe,$(sphinxdir), \
+	                         $(sphinxmandir), \
+	                         $(sphinxcachedir), \
+	                         $(sphinxenv) \
+	                         MANDIR="$(mandir)" \
+	                         DOXYXMLDIR="$(doxyxmldir)")
+
+clean-sphinx: clean-man
+
+.PHONY: clean-man
+clean-man:
+	$(call rmr_recipe,$(sphinxmandir))
+
+install-doc: install-man
+
+.PHONY: install-man
+install-man: man
+	$(foreach page, \
+	          $(sphinx_list_man), \
+	          $(call install_man_recipe,\
+	                 $(sphinxmandir)/$(page),\
+	                 $(mandir)))
+
+uninstall-doc: uninstall-man
+
+.PHONY: uninstall-man
+uninstall-man:
+	$(foreach page, \
+	          $(sphinx_list_man), \
+	          $(call uninstall_man_recipe,$(page),$(mandir))$(newline))
+
+
 define help_doc_targets :=
 
 
@@ -373,7 +452,7 @@ define help_doc_vars :=
 ::Documentation::
   * DOCDIR INFODIR MANDIR
   * $(strip $(if $(strip $(doxyconf)),DOXY) \
-            INSTALL_INFO LATEXMK MAKEINFO SPHINXBUILD)
+            INSTALL_INFO LATEXMK MAKEINFO MANDB SPHINXBUILD)
 endef
 
 define help_docdir_var :=
@@ -392,6 +471,12 @@ define help_mandir_var :=
 
   MANDIR        -- man pages install directory
                    [$(MANDIR)]
+endef
+
+define help_mandb_var :=
+
+  MANDB         -- man pages index maintainer tool
+                   [$(MANDB)]
 endef
 
 define help_install_info_var :=
