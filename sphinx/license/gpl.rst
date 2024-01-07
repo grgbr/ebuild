@@ -7,6 +7,8 @@
 
 .. highlight:: text
 
+.. _gpl:
+
 GNU GENERAL PUBLIC LICENSE
 ##########################
 

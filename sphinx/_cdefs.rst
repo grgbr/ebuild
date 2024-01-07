@@ -82,6 +82,9 @@
 .. |Texinfo|                    replace:: `Texinfo <texinfo_>`_
 .. |Info files|                 replace:: `Info files <texinfo_>`_
 
+.. _xz:                         https://tukaani.org/xz/
+.. |XZ|                         replace:: `XZ Utils <xz_>`_
+
 .. _man pages:                  https://www.gnu.org/prep/standards/html_node/Man-Pages.html
 
 ..
