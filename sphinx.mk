@@ -148,6 +148,8 @@ $(Q)$(if $(4),env $(4)) \
                    -j auto
 endef
 
+ifneq ($(strip $(sphinx_list_pdf)),)
+
 # Run sphinx-build to generate PDF
 # $(1): pathname to sphinx documentation source directory
 # $(2): pathname to generated PDF documentation output directory
@@ -166,12 +168,16 @@ $(Q)$(if $(4),env $(4)) \
                    -j auto
 @echo "  PDF     $(strip $(2))"
 +$(Q)$(MAKE) --directory "$(strip $(2))" \
-	     $(if $(Q),--output-sync=none) \
+             $(if $(Q),--output-sync=none) \
              all-pdf \
              PDFLATEX='$(LATEXMK) -pdf -dvi- -ps-' \
              LATEXMKOPTS='-interaction=nonstopmode -halt-on-error' \
              $(if $(Q),>/dev/null 2>&1)
 endef
+
+endif # ifneq ($(strip $(sphinx_list_pdf)),)
+
+ifneq ($(strip $(sphinx_list_info)),)
 
 # Run sphinx-build to generate info pages
 # $(1): pathname to sphinx documentation source directory
@@ -196,6 +202,8 @@ $(Q)$(if $(4),env $(4)) \
              MAKEINFO='$(MAKEINFO) --no-split' \
              $(if $(Q),>/dev/null 2>&1)
 endef
+
+endif # ifneq ($(strip $(sphinx_list_info)),)
 
 # Final destination documentation install directory
 override docdir         := $(DESTDIR)$(DOCDIR)/$(PACKAGE)
@@ -234,6 +242,11 @@ $(foreach f, \
           $(call install_recipe,--mode=644, \
                                 $(sphinxinfodir)/$(f), \
                                 $(distdir)/docs/info/$(f))$(newline))
+$(foreach f, \
+          $(sphinx_list_man), \
+          $(call install_recipe,--mode=644, \
+                                $(sphinxmandir)/$(f), \
+                                $(distdir)/docs/man/$(f))$(newline))
 endef
 
 # Sphinx does not like running multiple generation processes in parallel.
@@ -380,6 +393,8 @@ uninstall-info:
 # Manual pages handling
 ################################################################################
 
+ifneq ($(strip $(sphinx_list_man)),)
+
 # Run sphinx-build to generate man pages
 # $(1): pathname to sphinx documentation source directory
 # $(2): pathname to generated man pages output directory
@@ -398,6 +413,7 @@ $(Q)$(if $(4),env $(4)) \
                    -j auto
 endef
 
+endif # ifneq ($(strip $(sphinx_list_man)),)
 
 doc: man
 
