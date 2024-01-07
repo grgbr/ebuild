@@ -424,6 +424,7 @@ man: $(if $(doxyconf),doxy) | $(sphinxdir)
 	                         $(sphinxmandir), \
 	                         $(sphinxcachedir), \
 	                         $(sphinxenv) \
+	                         DOCDIR="$(docdir)" \
 	                         MANDIR="$(mandir)" \
 	                         DOXYXMLDIR="$(doxyxmldir)")
 

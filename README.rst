@@ -48,7 +48,7 @@ userland software for embedded systems.
 
 .. rubric:: Licensing
 
-eBUild_ is distributed under the `GNU General Public License
+eBuild_ is distributed under the `GNU General Public License
 <https://www.gnu.org/licenses/gpl-3.0.html>`_.
 
 Trivial Example
