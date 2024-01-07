@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1. Overview &mdash; eBuild 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="install.html" />
+    <link rel="prev" title="Welcome to eBuild documentation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            eBuild
+          </a>
+              <div class="version">
+                1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#prerequisites">2. Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#workflow">3. Workflow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#configure">3.1. Configure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build">3.2. Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install">3.3. Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#staged-install">3.4. Staged install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cleanup">3.5. Cleanup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">3.6. Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#generation">3.6.1. Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installation">3.6.2. Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#source-tags">3.7. Source tags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distribution">3.8. Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tools">3.9. Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#reference">4. Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#targets">4.1. Targets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#target-build">4.1.1. build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clean">4.1.2. clean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clean-doc">4.1.3. clean-doc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clean-tags">4.1.4. clean-tags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#defconfig">4.1.5. defconfig</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dist">4.1.6. dist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#distclean">4.1.7. distclean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#doc">4.1.8. doc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gconfig">4.1.9. gconfig</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#help">4.1.10. help</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#help-full">4.1.11. help-full</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#target-install">4.1.12. install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-doc">4.1.13. install-doc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-strip">4.1.14. install-strip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#menuconfig">4.1.15. menuconfig</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#saveconfig">4.1.16. saveconfig</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tags">4.1.17. tags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uninstall">4.1.18. uninstall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#uninstall-doc">4.1.19. uninstall-doc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#xconfig">4.1.20. xconfig</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#variables">4.2. Variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ar">4.2.1. AR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bindir">4.2.2. BINDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#builddir">4.2.3. BUILDDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cc">4.2.4. CC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cross-compile">4.2.5. CROSS_COMPILE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#var-cscope">4.2.6. CSCOPE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#var-ctags">4.2.7. CTAGS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#var-defconfig">4.2.8. DEFCONFIG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#datadir">4.2.9. DATADIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#destdir">4.2.10. DESTDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docdir">4.2.11. DOCDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#doxy">4.2.12. DOXY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ebuilddir">4.2.13. EBUILDDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#echoe">4.2.14. ECHOE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">4.2.15. GIT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#infodir">4.2.16. INFODIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#includedir">4.2.17. INCLUDEDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#var-install">4.2.18. INSTALL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#install-info">4.2.19. INSTALL_INFO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kconf">4.2.20. KCONF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kgconf">4.2.21. KGCONF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kmconf">4.2.22. KMCONF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#kxconf">4.2.23. KXCONF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">4.2.24. LATEXMK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ld">4.2.25. LD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#libdir">4.2.26. LIBDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#libexecdir">4.2.27. LIBEXECDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ln">4.2.28. LN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#localstatedir">4.2.29. LOCALSTATEDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#makeinfo">4.2.30. MAKEINFO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mandb">4.2.31. MANDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mandir">4.2.32. MANDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#prefix">4.2.33. PREFIX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">4.2.34. PKG_CONFIG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pkgconfigdir">4.2.35. PKGCONFIGDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">4.2.36. PYTHON</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rm">4.2.37. RM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">4.2.38. RSYNC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#runstatedir">4.2.39. RUNSTATEDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sbindir">4.2.40. SBINDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sphinxbuild">4.2.41. SPHINXBUILD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#strip">4.2.42. STRIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#svn">4.2.43. SVN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sysconfdir">4.2.44. SYSCONFDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#topdir">4.2.45. TOPDIR</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#troubleshooting">5. Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Licensing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="license.html#gnu-general-public-license">GNU GENERAL PUBLIC LICENSE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="license.html#preamble">Preamble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="license.html#terms-and-conditions">TERMS AND CONDITIONS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="license.html#definitions">Definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#source-code">Source Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#basic-permissions">Basic Permissions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#protecting-users-legal-rights-from-anti-circumvention-law">Protecting Users’ Legal Rights From Anti-Circumvention Law</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#conveying-verbatim-copies">Conveying Verbatim Copies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#conveying-modified-source-versions">Conveying Modified Source Versions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#conveying-non-source-forms">Conveying Non-Source Forms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#additional-terms">Additional Terms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#termination">Termination</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#acceptance-not-required-for-having-copies">Acceptance Not Required for Having Copies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#automatic-licensing-of-downstream-recipients">Automatic Licensing of Downstream Recipients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#patents">Patents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#no-surrender-of-others-freedom">No Surrender of Others’ Freedom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#use-with-the-gnu-affero-general-public-license">Use with the GNU Affero General Public License</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#revised-versions-of-this-license">Revised Versions of this License</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#disclaimer-of-warranty">Disclaimer of Warranty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#limitation-of-liability">Limitation of Liability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#interpretation-of-sections-15-and-16">Interpretation of Sections 15 and 16</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="license.html#how-to-apply-these-terms-to-your-new-programs">How to Apply These Terms to Your New Programs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">Todo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">eBuild</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">1. </span>Overview</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/user.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="overview">
+<h1><span class="section-number">1. </span>Overview<a class="headerlink" href="#overview" title="Permalink to this heading"></a></h1>
+<p>This guide mainly focuses upon how to build and deploy software projects which
+build system is based upon <a class="reference external" href="https://github.com/grgbr/ebuild/">eBuild</a>.
+This document mainly targets software package integration.</p>
+<p><a class="reference external" href="https://github.com/grgbr/ebuild/">eBuild</a> is distributed under the <a class="reference internal" href="license/gpl.html#gpl"><span class="std std-ref">GNU General Public License</span></a>.</p>
+</section>
+<section id="prerequisites">
+<span id="sect-user-prerequisites"></span><h1><span class="section-number">2. </span>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h1>
+<p class="rubric">Minimal requirements</p>
+<p>The following installed package is required to build <a class="reference external" href="https://github.com/grgbr/ebuild/">eBuild</a> based packages :</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.gnu.org/software/make/">GNU Make</a>.</p></li>
+</ul>
+<p class="rubric">Documentation generation</p>
+<p>In addition, you might need the following installed packages to build the
+documentation :</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.doxygen.nl/">Doxygen</a>,</p></li>
+<li><p><a class="reference external" href="https://github.com/ulfalizer/Kconfiglib">Kconfiglib</a>,</p></li>
+<li><p><a class="reference external" href="https://www.latex-project.org/">LaTeX</a>,</p></li>
+<li><p><a class="reference external" href="https://personal.psu.edu/jcc8/software/latexmk-jcc/">Latexmk</a>,</p></li>
+<li><p><a class="reference external" href="https://www.python.org/">Python</a> version 3,</p></li>
+<li><p><a class="reference external" href="http://sphinx-doc.org/">Sphinx</a>,</p></li>
+<li><p><a class="reference external" href="https://sphinx-rtd-theme.readthedocs.io/">Sphinx Read The Docs theme</a>,</p></li>
+<li><p><a class="reference external" href="https://www.gnu.org/software/texinfo/">Texinfo</a>,</p></li>
+<li><p><a class="reference external" href="https://rsync.samba.org/">Rsync</a>.</p></li>
+</ul>
+<p class="rubric">Full-feature requirements</p>
+<p>For a full-featured <a class="reference external" href="https://github.com/grgbr/ebuild/">eBuild</a> based package, the following is also required in
+addition to the above :</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://salsa.debian.org/philou/kconfig-frontends/">KConfig</a>,</p></li>
+<li><p><a class="reference external" href="https://www.freedesktop.org/wiki/Software/pkg-config/">Pkg-config</a>,</p></li>
+<li><p>a compile and link toolchain such as <a class="reference external" href="https://www.gnu.org/software/binutils/">GNU Binutils</a> and <a class="reference external" href="https://gcc.gnu.org/">GNU GCC</a>,</p></li>
+<li><p><a class="reference external" href="https://ctags.sourceforge.net/">Exuberant Ctags</a> and / or <a class="reference external" href="https://cscope.sourceforge.net/">Cscope</a> source tag database tools,</p></li>
+<li><p><a class="reference external" href="https://tukaani.org/xz/">XZ Utils</a> compression tools.</p></li>
+</ul>
+</section>
+<section id="workflow">
+<span id="sect-user-workflow"></span><h1><span class="section-number">3. </span>Workflow<a class="headerlink" href="#workflow" title="Permalink to this heading"></a></h1>
+<p>The typical build and install workflow for a software project based upon
+<a class="reference external" href="https://github.com/grgbr/ebuild/">eBuild</a> is the following:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#configure">Configure</a> the construction logic</p></li>
+<li><p><a class="reference internal" href="#sect-user-build"><span class="std std-ref">Build</span></a> programs, libraries and other objects required at running time,</p></li>
+<li><p><a class="reference internal" href="#sect-user-install"><span class="std std-ref">Install</span></a> components, copying files previously built to system-wide
+directories</p></li>
+</ol>
+<p>The 3 phases mentioned above are subject to customization thanks to multiple
+<strong class="command">make</strong> variable settings that may be passed on the command line.  You
+are encouraged to adjust values according to your specific needs. Most of the
+time, setting <a class="reference internal" href="#builddir">BUILDDIR</a>, <a class="reference internal" href="#prefix">PREFIX</a> and <a class="reference internal" href="#cross-compile">CROSS_COMPILE</a> is sufficient. Refer to the
+following sections for further informations.</p>
+<p>After a successful <a class="reference internal" href="#sect-user-install"><span class="std std-ref">Install</span></a> phase, final constructed objects are located under
+the directory pointed to by <code class="docutils literal notranslate"><span class="pre">$(DESTDIR)$(PREFIX)</span></code> where <a class="reference internal" href="#destdir">DESTDIR</a> and <a class="reference internal" href="#prefix">PREFIX</a>
+are 2 <strong class="command">make</strong> variables the user may specify on the command line to
+customize the final install location.</p>
+<p>Alternatively, you are also provided with the ability to :</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#cleanup">cleanup</a> generated objects,</p></li>
+<li><p>generate <a class="reference internal" href="#documentation">documentation</a>,</p></li>
+<li><p>generate <a class="reference internal" href="#source-tags">source tags</a>,</p></li>
+<li><p>generate source <a class="reference internal" href="#distribution">distribution</a> tarball.</p></li>
+</ul>
+<p>To begin with, <a class="reference internal" href="#configure">configure</a> the build process according to the following section.</p>
+<section id="configure">
+<span id="sect-user-configure"></span><h2><span class="section-number">3.1. </span>Configure<a class="headerlink" href="#configure" title="Permalink to this heading"></a></h2>
+<p>To apply the project’s <strong>default build configuration</strong>, run the following
+command from the top-level project’s source tree:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>defconfig
+</pre></div>
+</div>
+<p>You may specify an alternate default build configuration file by giving
+<strong class="command">make</strong> a <a class="reference internal" href="#var-defconfig"><span class="std std-ref">DEFCONFIG</span></a> variable which value points to an arbitrary file
+path:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>defconfig<span class="w"> </span><span class="nv">DEFCONFIG</span><span class="o">=</span><span class="nv">$HOME</span>/build/config/project.defconfig
+</pre></div>
+</div>
+<p>This alternate default build configuration file may be generated from current
+configuration into the <code class="file docutils literal notranslate"><span class="pre">defconfig</span></code> file located under directory pointed to
+by the <a class="reference internal" href="#builddir">BUILDDIR</a> variable:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>saveconfig<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project
+<span class="go">  KSAVE   /home/worker/build/project/defconfig</span>
+</pre></div>
+</div>
+<p>Optionally, you may <strong>tweak build options</strong> interactively:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>menuconfig<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="#target-menuconfig"><span class="std std-ref">menuconfig target</span></a> runs a menu-driven
+user interface allowing you to configure build options. You may run alternate
+user interfaces using the following <strong class="command">make</strong> targets :</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#xconfig">xconfig</a> for a QT menu-driven interface,</p></li>
+<li><p>and <a class="reference internal" href="#gconfig">gconfig</a> for GTK menu-driven interface.</p></li>
+</ul>
+<p>The default build directory location is overwritten by giving <strong class="command">make</strong>
+the <a class="reference internal" href="#builddir">BUILDDIR</a> variable which value points to an arbitrary pathname. Intermediate
+objects are built under the passed directory to prevent from polluting the
+project’s source tree as in the following example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>defconfig<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project
+</pre></div>
+</div>
+<p>You may refine the configuration logic by giving <strong class="command">make</strong> additional
+variables.  <em>You are encouraged to adjust values according to your specific
+needs</em>. Section <a class="reference internal" href="#variables">Variables</a> describes the following variables which are available
+for configuration customization purpose:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ebuilddir">EBUILDDIR</a>,</p></li>
+<li><p><a class="reference internal" href="#var-defconfig"><span class="std std-ref">DEFCONFIG</span></a>,</p></li>
+<li><p><a class="reference internal" href="#builddir">BUILDDIR</a>,</p></li>
+<li><p><a class="reference internal" href="#kconf">KCONF</a>, <a class="reference internal" href="#kgconf">KGCONF</a>, <a class="reference internal" href="#kmconf">KMCONF</a>, <a class="reference internal" href="#kxconf">KXCONF</a>,</p></li>
+<li><p>in addition to variables listed in the <a class="reference internal" href="#tools">Tools</a> section.</p></li>
+</ul>
+<p>You may also customize tools used at configuration time. Refer to section <a class="reference internal" href="#tools">Tools</a>
+for more informations.</p>
+<p>You can now proceed to the <a class="reference internal" href="#sect-user-build"><span class="std std-ref">Build</span></a> phase.</p>
+</section>
+<section id="build">
+<span id="sect-user-build"></span><h2><span class="section-number">3.2. </span>Build<a class="headerlink" href="#build" title="Permalink to this heading"></a></h2>
+<p>To build / compile / link programs, libraries, etc., run the <strong class="command">make</strong>
+command like so:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>build
+</pre></div>
+</div>
+<p>To store intermediate objects under an alternate location, give <strong class="command">make</strong>
+the <a class="reference internal" href="#builddir">BUILDDIR</a> variable like so:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>build<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project
+</pre></div>
+</div>
+<p>If not completed, the <code class="docutils literal notranslate"><span class="pre">build</span></code> target performs the configuration phase
+implicitly using default configuration settings.</p>
+<p>In addition, you may specify the <a class="reference internal" href="#prefix">PREFIX</a> variable to change the default final
+install location:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>build<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project<span class="w"> </span><span class="nv">PREFIX</span><span class="o">=</span>/
+</pre></div>
+</div>
+<p>You may refine the build logic by giving <strong class="command">make</strong> additional variables.
+<em>You are encouraged to adjust values according to your specific needs</em>. Section
+<a class="reference internal" href="#reference">Reference</a> describes the following variables which are available for build
+customization purpose:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ebuilddir">EBUILDDIR</a>, <a class="reference internal" href="#var-defconfig"><span class="std std-ref">DEFCONFIG</span></a>, <a class="reference internal" href="#kconf">KCONF</a>,</p></li>
+<li><p><a class="reference internal" href="#builddir">BUILDDIR</a>,</p></li>
+<li><p><a class="reference internal" href="#prefix">PREFIX</a>, <a class="reference internal" href="#sysconfdir">SYSCONFDIR</a>, <a class="reference internal" href="#bindir">BINDIR</a>, <a class="reference internal" href="#sbindir">SBINDIR</a>, <a class="reference internal" href="#libdir">LIBDIR</a>, <a class="reference internal" href="#libexecdir">LIBEXECDIR</a>, <a class="reference internal" href="#localstatedir">LOCALSTATEDIR</a>,
+<a class="reference internal" href="#runstatedir">RUNSTATEDIR</a>, <a class="reference internal" href="#includedir">INCLUDEDIR</a>, <a class="reference internal" href="#pkgconfigdir">PKGCONFIGDIR</a>, <a class="reference internal" href="#datadir">DATADIR</a>, <a class="reference internal" href="#docdir">DOCDIR</a>, <a class="reference internal" href="#infodir">INFODIR</a>,
+<a class="reference internal" href="#mandir">MANDIR</a>,</p></li>
+<li><p><a class="reference internal" href="#cross-compile">CROSS_COMPILE</a>, <a class="reference internal" href="#ar">AR</a>, <a class="reference internal" href="#cc">CC</a>, <a class="reference internal" href="#ld">LD</a>, <a class="reference internal" href="#id9">PKG_CONFIG</a>,</p></li>
+<li><p>in addition to variables listed in the <a class="reference internal" href="#tools">Tools</a> section.</p></li>
+</ul>
+<p>You may also customize tools used at build time. Refer to section <a class="reference internal" href="#tools">Tools</a> for
+more informations.</p>
+<p>You can now proceed to the <a class="reference internal" href="#sect-user-install"><span class="std std-ref">Install</span></a> phase.</p>
+</section>
+<section id="install">
+<span id="sect-user-install"></span><h2><span class="section-number">3.3. </span>Install<a class="headerlink" href="#install" title="Permalink to this heading"></a></h2>
+<p>To install programs, libraries, etc., run the <strong class="command">make</strong> command like so:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>install
+</pre></div>
+</div>
+<p>To store intermediate objects under an alternate location, give <strong class="command">make</strong>
+the <a class="reference internal" href="#builddir">BUILDDIR</a> variable like so:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>install<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project
+</pre></div>
+</div>
+<p>If not completed, the <a class="reference internal" href="#target-install"><span class="std std-ref">install</span></a> target performs the
+<a class="reference internal" href="#sect-user-build"><span class="std std-ref">Build</span></a> phase implicitly.  Files are installed under directory pointed to by the
+<a class="reference internal" href="#prefix">PREFIX</a> <strong class="command">make</strong> variable which defaults to <code class="file docutils literal notranslate"><span class="pre">/usr/local</span></code>.</p>
+<p>You may specify the <a class="reference internal" href="#prefix">PREFIX</a> variable to change the default final install
+location:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>install<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project<span class="w"> </span><span class="nv">PREFIX</span><span class="o">=</span>/
+</pre></div>
+</div>
+<p>You may refine the install logic by giving <strong class="command">make</strong> additional variables.
+You are encouraged to adjust values according to your specific needs. Section
+<a class="reference internal" href="#reference">Reference</a> describes the following variables which are available for install
+customization purpose:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ebuilddir">EBUILDDIR</a>, <a class="reference internal" href="#var-defconfig"><span class="std std-ref">DEFCONFIG</span></a>, <a class="reference internal" href="#kconf">KCONF</a>,</p></li>
+<li><p><a class="reference internal" href="#builddir">BUILDDIR</a>,</p></li>
+<li><p><a class="reference internal" href="#prefix">PREFIX</a>, <a class="reference internal" href="#sysconfdir">SYSCONFDIR</a>, <a class="reference internal" href="#bindir">BINDIR</a>, <a class="reference internal" href="#sbindir">SBINDIR</a>, <a class="reference internal" href="#libdir">LIBDIR</a>, <a class="reference internal" href="#libexecdir">LIBEXECDIR</a>, <a class="reference internal" href="#localstatedir">LOCALSTATEDIR</a>,
+<a class="reference internal" href="#runstatedir">RUNSTATEDIR</a>, <a class="reference internal" href="#includedir">INCLUDEDIR</a>, <a class="reference internal" href="#pkgconfigdir">PKGCONFIGDIR</a>, <a class="reference internal" href="#datadir">DATADIR</a>, <a class="reference internal" href="#docdir">DOCDIR</a>, <a class="reference internal" href="#infodir">INFODIR</a>,
+<a class="reference internal" href="#mandir">MANDIR</a>,</p></li>
+<li><p><a class="reference internal" href="#cross-compile">CROSS_COMPILE</a>, <a class="reference internal" href="#strip">STRIP</a>,</p></li>
+<li><p>in addition to variables listed in the <a class="reference internal" href="#tools">Tools</a> section.</p></li>
+</ul>
+<p>You may also customize tools used at install time. Refer to section <a class="reference internal" href="#tools">Tools</a> for
+more informations.</p>
+</section>
+<section id="staged-install">
+<span id="sect-user-staged-install"></span><h2><span class="section-number">3.4. </span>Staged install<a class="headerlink" href="#staged-install" title="Permalink to this heading"></a></h2>
+<p><a class="reference internal" href="#destdir">DESTDIR</a> <strong class="command">make</strong> variable allows support for staged install, i.e. an
+install workflow where files are deployed under an alternate top-level root
+directory instead of the usual directory pointed to by <a class="reference internal" href="#prefix">PREFIX</a>.</p>
+<p>Basically, the <a class="reference internal" href="#destdir">DESTDIR</a> variable is prepended to each installed target file so
+that an install recipe might look something like:</p>
+<div class="highlight-make notranslate"><div class="highlight"><pre><span></span><span class="nf">install</span><span class="o">:</span>
+<span class="w">     </span><span class="k">$(</span>INSTALL<span class="k">)</span><span class="w"> </span>foo<span class="w"> </span><span class="k">$(</span>DESTDIR<span class="k">)$(</span>BINDIR<span class="k">)</span>/foo
+<span class="w">     </span><span class="k">$(</span>INSTALL<span class="k">)</span><span class="w"> </span>libfoo.a<span class="w"> </span><span class="k">$(</span>DESTDIR<span class="k">)$(</span>LIBDIR<span class="k">)</span>/libfoo.a
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="#destdir">DESTDIR</a> variable should be specified by the user on the <strong class="command">make</strong>
+command line as an absolute file name. For example:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>install<span class="w"> </span><span class="nv">DESTDIR</span><span class="o">=</span><span class="nv">$HOME</span>/staging
+</pre></div>
+</div>
+<p>If usual installation step would normally install <code class="file docutils literal notranslate"><span class="pre">$(BINDIR)/foo</span></code> and
+<code class="file docutils literal notranslate"><span class="pre">$(LIBDIR)/libfoo.a</span></code>, then an installation invoked as in the example above
+would install <code class="file docutils literal notranslate"><span class="pre">$(HOME)/staging/$(BINDIR)/foo</span></code> and
+<code class="file docutils literal notranslate"><span class="pre">$(HOME)/staging/$(LIBDIR)/libfoo.a</span></code> instead.</p>
+<p>Prepending the variable <a class="reference internal" href="#destdir">DESTDIR</a> to each target in this way provides for staged
+installs, where the installed files are not placed directly into their expected
+location but are instead copied into a temporary location (DESTDIR). However,
+installed files maintain their relative directory structure and any embedded
+file names will not be modified.</p>
+<p><a class="reference internal" href="#destdir">DESTDIR</a> support is commonly used in package creation. It is also helpful to
+users who want to understand what a given package will install where, and to
+allow users who don’t normally have permissions to install into protected areas
+to build and install before gaining those permissions.</p>
+<p>Finally, it can be usefull when installing in a cross compile environment where
+installation is performed according to a 2 stages process.
+An initial stage installs files under a top-level root directory hierarchy
+pointed to by the <a class="reference internal" href="#destdir">DESTDIR</a> variable onto the development host. This step is
+generally part of a larger process which constructs the whole final system image
+to install onto the target host.
+Then, the second stage carries out final system image installation onto the
+target host thanks to a specific <em>installer</em> runtime that is out of scope of
+this document.</p>
+<p>Refer to <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/DESTDIR.html#DESTDIR">DESTDIR: support for staged installs</a> for more informations.</p>
+</section>
+<section id="cleanup">
+<h2><span class="section-number">3.5. </span>Cleanup<a class="headerlink" href="#cleanup" title="Permalink to this heading"></a></h2>
+<p>3 additional <strong class="command">make</strong> targets are available to cleanup generated objects.</p>
+<p>The <a class="reference internal" href="#target-clean"><span class="std std-ref">clean</span></a> target remove built objects from the <a class="reference internal" href="#builddir">BUILDDIR</a>
+directory without cleaning up installed objects.
+In other words, this performs the inverse operation of <a class="reference internal" href="#sect-user-build"><span class="std std-ref">Build</span></a> target:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>clean<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="#target-distclean"><span class="std std-ref">distclean</span></a> target runs
+<a class="reference internal" href="#target-clean"><span class="std std-ref">clean</span></a> target then removes build configuration objects and
+<a class="reference internal" href="#distribution">distribution</a> tarball from the <a class="reference internal" href="#builddir">BUILDDIR</a> directory.
+In other words, this removes every intermediate objects, i.e., all generated
+objects that have not been installed:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>distclean<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="#target-uninstall"><span class="std std-ref">uninstall</span></a> target removes
+installed objects from the $(<a class="reference internal" href="#destdir">DESTDIR</a>)$(<a class="reference internal" href="#prefix">PREFIX</a>) directory.
+In other words, this performs the inverse operation of <a class="reference internal" href="#sect-user-install"><span class="std std-ref">Install</span></a> target:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>uninstall<span class="w"> </span><span class="nv">PREFIX</span><span class="o">=</span><span class="w"> </span><span class="nv">DESTDIR</span><span class="o">=</span><span class="nv">$HOME</span>/staging
+</pre></div>
+</div>
+</section>
+<section id="documentation">
+<h2><span class="section-number">3.6. </span>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading"></a></h2>
+<p>When enabled internally by a project, <a class="reference external" href="https://github.com/grgbr/ebuild/">eBuild</a> may also generates project’s
+documentation thanks to (and restricted to) the <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a> ecosystem.</p>
+<section id="generation">
+<h3><span class="section-number">3.6.1. </span>Generation<a class="headerlink" href="#generation" title="Permalink to this heading"></a></h3>
+<p>The <a class="reference internal" href="#target-doc"><span class="std std-ref">doc</span></a> <strong class="command">make</strong> target builds documentation under
+<code class="file docutils literal notranslate"><span class="pre">$(BUILDDIR)/doc</span></code> directory :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>doc<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project
+</pre></div>
+</div>
+<p>In addition, objects generated by the <a class="reference internal" href="#target-doc"><span class="std std-ref">doc</span></a> target may be
+removed using the <a class="reference internal" href="#target-clean-doc"><span class="std std-ref">clean-doc</span></a> or
+<a class="reference internal" href="#target-clean"><span class="std std-ref">clean</span></a> target as described into section <a class="reference internal" href="#cleanup">cleanup</a>.</p>
+<p>You may refine the build logic by giving <strong class="command">make</strong> additional variables.
+<em>You are encouraged to adjust values according to your specific needs</em>. Section
+<a class="reference internal" href="#reference">Reference</a> describes the following variables which are available for
+documentation generation customization purpose:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#builddir">BUILDDIR</a>,</p></li>
+<li><p><a class="reference internal" href="#sphinxbuild">SPHINXBUILD</a>, <a class="reference external" href="https://www.python.org/">PYTHON</a>, <a class="reference internal" href="#makeinfo">MAKEINFO</a>, <a class="reference external" href="https://personal.psu.edu/jcc8/software/latexmk-jcc/">LATEXMK</a>, <a class="reference internal" href="#doxy">DOXY</a>,</p></li>
+<li><p>in addition to variables listed in the <a class="reference internal" href="#tools">Tools</a> section.</p></li>
+</ul>
+</section>
+<section id="installation">
+<h3><span class="section-number">3.6.2. </span>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h3>
+<p>To install documentation built thanks to <a class="reference internal" href="#target-doc"><span class="std std-ref">doc</span></a> target
+under <a class="reference internal" href="#docdir">DOCDIR</a> directory, use the <a class="reference internal" href="#target-install-doc"><span class="std std-ref">install-doc</span></a> target.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>install-doc<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project
+</pre></div>
+</div>
+<p>If not completed, the <a class="reference internal" href="#target-install-doc"><span class="std std-ref">install-doc</span></a> target builds the
+documentation implicitly. Files are installed under directory pointed to by the
+<a class="reference internal" href="#docdir">DOCDIR</a> <strong class="command">make</strong> variable.</p>
+<p>In addition, objects installed by the <a class="reference internal" href="#target-install-doc"><span class="std std-ref">install-doc</span></a>
+target may be removed using the <a class="reference internal" href="#target-uninstall-doc"><span class="std std-ref">uninstall-doc</span></a> or
+<a class="reference internal" href="#target-uninstall"><span class="std std-ref">uninstall</span></a> target as described into section <a class="reference internal" href="#cleanup">cleanup</a>.</p>
+<p>You may refine the documentation (un)install logic by giving <strong class="command">make</strong>
+additional variables.  <em>You are encouraged to adjust values according to your
+specific needs</em>. Section <a class="reference internal" href="#reference">Reference</a> describes the following variables which are
+available for documentation generation customization purpose:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#prefix">PREFIX</a>,</p></li>
+<li><p><a class="reference internal" href="#datadir">DATADIR</a>, <a class="reference internal" href="#docdir">DOCDIR</a>,</p></li>
+<li><p><a class="reference internal" href="#mandir">MANDIR</a>, <a class="reference internal" href="#mandb">MANDB</a>,</p></li>
+<li><p><a class="reference internal" href="#install-info">INSTALL_INFO</a>, <a class="reference internal" href="#infodir">INFODIR</a>.</p></li>
+</ul>
+<p>In addition, when following a <a class="reference internal" href="#staged-install">Staged install</a> workflow, you may alter final
+installation directory thanks to the <a class="reference internal" href="#destdir">DESTDIR</a> variable so that final
+documentation is deployed under $(<a class="reference internal" href="#destdir">DESTDIR</a>)$(<a class="reference internal" href="#docdir">DOCDIR</a>) filesystem hierarchy
+instead.</p>
+</section>
+</section>
+<section id="source-tags">
+<span id="sect-user-tags"></span><h2><span class="section-number">3.7. </span>Source tags<a class="headerlink" href="#source-tags" title="Permalink to this heading"></a></h2>
+<p>A <a class="reference internal" href="#target-tags"><span class="std std-ref">tags</span></a> <strong class="command">make</strong> target is also available to generate
+source code tag databases using <a class="reference external" href="https://ctags.sourceforge.net/">Exuberant Ctags</a> and / or <a class="reference external" href="https://cscope.sourceforge.net/">Cscope</a> tools.</p>
+<p>When available, <a class="reference external" href="https://ctags.sourceforge.net/">Exuberant Ctags</a> database is generated into the
+<code class="file docutils literal notranslate"><span class="pre">$(BUILDDIR)/tags</span></code> file whereas <a class="reference external" href="https://cscope.sourceforge.net/">Cscope</a> database is generated into
+<code class="file docutils literal notranslate"><span class="pre">$(BUILDDIR)/cscope.out</span></code> file.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>tags<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project
+</pre></div>
+</div>
+<p>In addition, objects generated by the <a class="reference internal" href="#target-tags"><span class="std std-ref">tags</span></a> target may be
+removed using the <a class="reference internal" href="#target-clean-tags"><span class="std std-ref">clean-tags</span></a> or
+<a class="reference internal" href="#target-clean"><span class="std std-ref">clean</span></a> target as described into section <a class="reference internal" href="#cleanup">cleanup</a>.</p>
+<p>You may refine the build logic by giving <strong class="command">make</strong> additional variables.
+<em>You are encouraged to adjust values according to your specific needs</em>. Section
+<a class="reference internal" href="#reference">Reference</a> describes the following variables which are available for source tags
+generation customization purpose:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#builddir">BUILDDIR</a>,</p></li>
+<li><p><a class="reference external" href="https://ctags.sourceforge.net/">CTAGS</a>, <a class="reference external" href="https://cscope.sourceforge.net/">CSCOPE</a>.</p></li>
+<li><p>in addition to variables listed in the <a class="reference internal" href="#tools">Tools</a> section.</p></li>
+</ul>
+</section>
+<section id="distribution">
+<h2><span class="section-number">3.8. </span>Distribution<a class="headerlink" href="#distribution" title="Permalink to this heading"></a></h2>
+<p>A <a class="reference internal" href="#target-dist"><span class="std std-ref">dist</span></a> <strong class="command">make</strong> target is also available to generate
+a source distribution tarball compressed according to the <a class="reference external" href="https://tukaani.org/xz/">XZ Utils</a> format into
+<code class="file docutils literal notranslate"><span class="pre">$(BUILDDIR)/&lt;package_name&gt;-&lt;package_version&gt;.tar.xz</span></code>.</p>
+<p>Basically, the <a class="reference internal" href="#target-dist"><span class="std std-ref">dist target</span></a> generates, collects and include
+the following components into the tarball :</p>
+<ul class="simple">
+<li><p>files required to build the project when no <a class="reference external" href="https://github.com/grgbr/ebuild/">eBuild</a> installation is found ;</p></li>
+<li><p>project’s files found under revision control ;</p></li>
+<li><p>if any, the project’s documentation files.</p></li>
+</ul>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>dist<span class="w"> </span><span class="nv">BUILDDIR</span><span class="o">=</span><span class="nv">$HOME</span>/build/project
+</pre></div>
+</div>
+<p>In addition, objects generated by the <a class="reference internal" href="#target-dist"><span class="std std-ref">dist</span></a> target may be
+removed using the <a class="reference internal" href="#target-distclean"><span class="std std-ref">distclean</span></a> target as described into
+section <a class="reference internal" href="#cleanup">cleanup</a>.</p>
+</section>
+<section id="tools">
+<span id="sect-user-tools"></span><h2><span class="section-number">3.9. </span>Tools<a class="headerlink" href="#tools" title="Permalink to this heading"></a></h2>
+<p>You may customize tools used during construction phases by giving
+<strong class="command">make</strong> additional variables like so:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>build<span class="w"> </span><span class="nv">CROSS_COMPILE</span><span class="o">=</span><span class="s1">&#39;armv7-linaro-linux-gnueabihf-&#39;</span>
+</pre></div>
+</div>
+<p>Section <a class="reference internal" href="#variables">Variables</a> describes the following variables which are available for
+tool customization purpose:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#ar">AR</a>,</p></li>
+<li><p><a class="reference internal" href="#cross-compile">CROSS_COMPILE</a>,</p></li>
+<li><p><a class="reference external" href="https://cscope.sourceforge.net/">CSCOPE</a>,</p></li>
+<li><p><a class="reference external" href="https://ctags.sourceforge.net/">CTAGS</a>,</p></li>
+<li><p><a class="reference internal" href="#cc">CC</a>,</p></li>
+<li><p><a class="reference internal" href="#doxy">DOXY</a>,</p></li>
+<li><p><a class="reference internal" href="#echoe">ECHOE</a>,</p></li>
+<li><p><a class="reference external" href="https://git-scm.com/">GIT</a>,</p></li>
+<li><p><a class="reference internal" href="#var-install"><span class="std std-ref">INSTALL</span></a>,</p></li>
+<li><p><a class="reference internal" href="#install-info">INSTALL_INFO</a>,</p></li>
+<li><p><a class="reference internal" href="#kconf">KCONF</a>,</p></li>
+<li><p><a class="reference internal" href="#kmconf">KMCONF</a>,</p></li>
+<li><p><a class="reference internal" href="#kxconf">KXCONF</a>,</p></li>
+<li><p><a class="reference internal" href="#kgconf">KGCONF</a>,</p></li>
+<li><p><a class="reference external" href="https://personal.psu.edu/jcc8/software/latexmk-jcc/">LATEXMK</a>,</p></li>
+<li><p><a class="reference internal" href="#makeinfo">MAKEINFO</a>,</p></li>
+<li><p><a class="reference internal" href="#mandb">MANDB</a>,</p></li>
+<li><p><a class="reference internal" href="#ld">LD</a>,</p></li>
+<li><p><a class="reference internal" href="#ln">LN</a>,</p></li>
+<li><p><a class="reference internal" href="#id9">PKG_CONFIG</a>,</p></li>
+<li><p><a class="reference external" href="https://www.python.org/">PYTHON</a>,</p></li>
+<li><p><a class="reference internal" href="#rm">RM</a>,</p></li>
+<li><p><a class="reference external" href="https://rsync.samba.org/">RSYNC</a>,</p></li>
+<li><p><a class="reference internal" href="#sphinxbuild">SPHINXBUILD</a>,</p></li>
+<li><p><a class="reference internal" href="#strip">STRIP</a>,</p></li>
+<li><p><a class="reference internal" href="#svn">SVN</a>.</p></li>
+</ul>
+</section>
+</section>
+<section id="reference">
+<span id="sect-user-reference"></span><h1><span class="section-number">4. </span>Reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h1>
+<section id="targets">
+<h2><span class="section-number">4.1. </span>Targets<a class="headerlink" href="#targets" title="Permalink to this heading"></a></h2>
+<p>This section describes all <strong class="command">make</strong> targets that may be given on the
+command line to run a particular construction phase.</p>
+<section id="target-build">
+<span id="id1"></span><h3><span class="section-number">4.1.1. </span>build<a class="headerlink" href="#target-build" title="Permalink to this heading"></a></h3>
+<p>Compile / link objects and optionally, build documentation objects. Built
+objects are stored under <a class="reference internal" href="#builddir">BUILDDIR</a> directory.</p>
+<p>If not completed, the build target performs the configuration phase implicitly
+using default configuration settings.</p>
+<p>Refer to section <a class="reference internal" href="#sect-user-build"><span class="std std-ref">Build</span></a> for a list of variables affecting this target
+behavior.</p>
+</section>
+<section id="clean">
+<span id="target-clean"></span><h3><span class="section-number">4.1.2. </span>clean<a class="headerlink" href="#clean" title="Permalink to this heading"></a></h3>
+<p>Remove built objects and documentation from the <a class="reference internal" href="#builddir">BUILDDIR</a> directory.</p>
+<p>Refer to sections <a class="reference internal" href="#sect-user-build"><span class="std std-ref">Build</span></a> and <a class="reference internal" href="#tools">Tools</a> for a list of variables affecting this
+target behavior.</p>
+</section>
+<section id="clean-doc">
+<span id="target-clean-doc"></span><h3><span class="section-number">4.1.3. </span>clean-doc<a class="headerlink" href="#clean-doc" title="Permalink to this heading"></a></h3>
+<p>Remove built documentation from the $(<a class="reference internal" href="#builddir">BUILDDIR</a>)/doc directory.</p>
+<p>Refer to section <a class="reference internal" href="#tools">Tools</a> for a list of variables affecting this target behavior.</p>
+</section>
+<section id="clean-tags">
+<span id="target-clean-tags"></span><h3><span class="section-number">4.1.4. </span>clean-tags<a class="headerlink" href="#clean-tags" title="Permalink to this heading"></a></h3>
+<p>Remove built tag databases from the <a class="reference internal" href="#builddir">BUILDDIR</a> directory.</p>
+<p>Refer to section <a class="reference internal" href="#tools">Tools</a> for a list of variables affecting this target behavior.</p>
+</section>
+<section id="defconfig">
+<span id="target-defconfig"></span><h3><span class="section-number">4.1.5. </span>defconfig<a class="headerlink" href="#defconfig" title="Permalink to this heading"></a></h3>
+<p>Configure build using default settings. Created configuration objects are stored
+under the <a class="reference internal" href="#builddir">BUILDDIR</a> directory.</p>
+<p>Refer to section <a class="reference internal" href="#configure">Configure</a> for a list of variables affecting this target
+behavior.</p>
+</section>
+<section id="dist">
+<span id="target-dist"></span><h3><span class="section-number">4.1.6. </span>dist<a class="headerlink" href="#dist" title="Permalink to this heading"></a></h3>
+<p>Build source <a class="reference internal" href="#distribution">distribution</a> tarball including :</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/grgbr/ebuild/">eBuild</a> files required to build a project under <code class="file docutils literal notranslate"><span class="pre">ebuild</span></code> directory,</p></li>
+<li><p>project’s documentation under <code class="file docutils literal notranslate"><span class="pre">docs</span></code> directory,</p></li>
+<li><p>project’s files that are under revision control.</p></li>
+</ul>
+<p>Tarball will be located under the <a class="reference internal" href="#builddir">BUILDDIR</a> directory and named after the
+following scheme : <code class="file docutils literal notranslate"><span class="pre">&lt;package_name&gt;-&lt;package_version&gt;.tar.xz</span></code>.</p>
+</section>
+<section id="distclean">
+<span id="target-distclean"></span><h3><span class="section-number">4.1.7. </span>distclean<a class="headerlink" href="#distclean" title="Permalink to this heading"></a></h3>
+<p>Run <a class="reference internal" href="#target-clean"><span class="std std-ref">clean target</span></a> then remove build configuration objects
+created by the build configuration and <a class="reference internal" href="#distribution">distribution</a> targets from the <a class="reference internal" href="#builddir">BUILDDIR</a>
+directory.</p>
+<p>Refer to section <a class="reference internal" href="#configure">Configure</a> for a list of configuration targets variables
+affecting this target behavior.</p>
+</section>
+<section id="doc">
+<span id="target-doc"></span><h3><span class="section-number">4.1.8. </span>doc<a class="headerlink" href="#doc" title="Permalink to this heading"></a></h3>
+<p>Build documentation under $(<a class="reference internal" href="#builddir">BUILDDIR</a>)/doc directory.</p>
+<p>Refer to section <a class="reference internal" href="#documentation">Documentation</a> for a list of variables affecting this target
+behavior.</p>
+</section>
+<section id="gconfig">
+<h3><span class="section-number">4.1.9. </span>gconfig<a class="headerlink" href="#gconfig" title="Permalink to this heading"></a></h3>
+<p>Edit build configuration using an interactive <a class="reference external" href="https://www.gtk.org/">GTK</a> menu-driven interface.</p>
+<p>An arbitrary file containing default options may be specified using <a class="reference internal" href="#var-defconfig"><span class="std std-ref">DEFCONFIG</span></a>
+variable.
+These default options are applied when no previous configuration target has been
+run.</p>
+<p>Refer to section <a class="reference internal" href="#configure">Configure</a> for a list of variables affecting this target
+behavior.</p>
+</section>
+<section id="help">
+<span id="target-help"></span><h3><span class="section-number">4.1.10. </span>help<a class="headerlink" href="#help" title="Permalink to this heading"></a></h3>
+<p>Show a brief help message.</p>
+</section>
+<section id="help-full">
+<span id="target-help-full"></span><h3><span class="section-number">4.1.11. </span>help-full<a class="headerlink" href="#help-full" title="Permalink to this heading"></a></h3>
+<p>Show a detailed help message.</p>
+</section>
+<section id="target-install">
+<span id="id2"></span><h3><span class="section-number">4.1.12. </span>install<a class="headerlink" href="#target-install" title="Permalink to this heading"></a></h3>
+<p>Install objects and optionally documentation constructed at
+<a class="reference internal" href="#sect-user-build"><span class="std std-ref">building</span></a> time. Objects are basically installed under
+<a class="reference internal" href="#prefix">PREFIX</a> directory.</p>
+<p>If not completed, the install target performs the build phase implicitly using
+default configuration settings.</p>
+<p>Refer to section <a class="reference internal" href="#sect-user-install"><span class="std std-ref">Install</span></a> for a list of variables affecting this target
+behavior.</p>
+<p>In addition, when following a <a class="reference internal" href="#staged-install">Staged install</a> workflow, you may alter final
+installation directory thanks to the <a class="reference internal" href="#destdir">DESTDIR</a> variable so that final objects are
+deployed under <code class="file docutils literal notranslate"><span class="pre">$(DESTDIR)$(PREFIX)</span></code> instead.</p>
+</section>
+<section id="install-doc">
+<span id="target-install-doc"></span><h3><span class="section-number">4.1.13. </span>install-doc<a class="headerlink" href="#install-doc" title="Permalink to this heading"></a></h3>
+<p>Install documentation built thanks to <a class="reference internal" href="#target-doc"><span class="std std-ref">doc</span></a> target under
+<a class="reference internal" href="#docdir">DOCDIR</a> directory.</p>
+<p>Refer to section <a class="reference internal" href="#documentation">Documentation</a> for a list of variables affecting this target
+behavior.</p>
+<p>In addition, when following a <a class="reference internal" href="#staged-install">Staged install</a> workflow, you may alter final
+installation directory thanks to the <a class="reference internal" href="#destdir">DESTDIR</a> variable so that final objects are
+deployed under <code class="file docutils literal notranslate"><span class="pre">$(DESTDIR)$(DOCDIR)</span></code> instead.</p>
+</section>
+<section id="install-strip">
+<h3><span class="section-number">4.1.14. </span>install-strip<a class="headerlink" href="#install-strip" title="Permalink to this heading"></a></h3>
+<p>Run <a class="reference internal" href="#target-install"><span class="std std-ref">install target</span></a> and discard symbols from installed
+objects.</p>
+</section>
+<section id="menuconfig">
+<span id="target-menuconfig"></span><h3><span class="section-number">4.1.15. </span>menuconfig<a class="headerlink" href="#menuconfig" title="Permalink to this heading"></a></h3>
+<p>Edit build configuration using an interactive <a class="reference external" href="https://invisible-island.net/ncurses/">NCurses</a> menu-driven interface.</p>
+<p>An arbitrary file containing default options may be specified using <a class="reference internal" href="#var-defconfig"><span class="std std-ref">DEFCONFIG</span></a>
+variable.
+These default options are applied when no previous configuration target has been
+run.</p>
+<p>Refer to section <a class="reference internal" href="#configure">Configure</a> for a list of variables affecting this target
+behavior.</p>
+</section>
+<section id="saveconfig">
+<h3><span class="section-number">4.1.16. </span>saveconfig<a class="headerlink" href="#saveconfig" title="Permalink to this heading"></a></h3>
+<p>Save current build configuration into <code class="file docutils literal notranslate"><span class="pre">$(BUILDDIR)/defconfig</span></code> default
+settings file that can be loaded using a subsequent <a class="reference internal" href="#target-defconfig"><span class="std std-ref">defconfig target</span></a> run.</p>
+<p>Refer to section <a class="reference internal" href="#configure">Configure</a> for a list of variables affecting this target
+behavior.</p>
+</section>
+<section id="tags">
+<span id="target-tags"></span><h3><span class="section-number">4.1.17. </span>tags<a class="headerlink" href="#tags" title="Permalink to this heading"></a></h3>
+<p>Build source tag databases under <a class="reference internal" href="#builddir">BUILDDIR</a> directory.</p>
+<p>Refer to section <a class="reference internal" href="#source-tags">Source tags</a> for a list of variables affecting this target
+behavior.</p>
+</section>
+<section id="uninstall">
+<span id="target-uninstall"></span><h3><span class="section-number">4.1.18. </span>uninstall<a class="headerlink" href="#uninstall" title="Permalink to this heading"></a></h3>
+<p>Remove installed objects and documentation from the <a class="reference internal" href="#prefix">PREFIX</a> directory.</p>
+<p>In addition, when following a <a class="reference internal" href="#staged-install">Staged install</a> workflow, you may alter final
+installation directory thanks to the <a class="reference internal" href="#destdir">DESTDIR</a> variable so that final objects are
+removed from the <code class="file docutils literal notranslate"><span class="pre">$(DESTDIR)$(PREFIX)</span></code> directory instead.</p>
+<p>Refer to sections <a class="reference internal" href="#sect-user-install"><span class="std std-ref">Install</span></a> and <a class="reference internal" href="#cleanup">Cleanup</a> for a list of variables affecting this
+target behavior.</p>
+</section>
+<section id="uninstall-doc">
+<span id="target-uninstall-doc"></span><h3><span class="section-number">4.1.19. </span>uninstall-doc<a class="headerlink" href="#uninstall-doc" title="Permalink to this heading"></a></h3>
+<p>Remove installed documentation from the <a class="reference internal" href="#docdir">DOCDIR</a> directory.</p>
+<p>In addition, when following a <a class="reference internal" href="#staged-install">Staged install</a> workflow, you may alter final
+installation directory thanks to the <a class="reference internal" href="#destdir">DESTDIR</a> variable so that final objects are
+removed from the <code class="file docutils literal notranslate"><span class="pre">$(DESTDIR)$(DOCDIR)</span></code> directory instead.</p>
+<p>Refer to sections <a class="reference internal" href="#documentation">Documentation</a> and <a class="reference internal" href="#cleanup">Cleanup</a> for a list of variables affecting this
+target behavior.</p>
+</section>
+<section id="xconfig">
+<h3><span class="section-number">4.1.20. </span>xconfig<a class="headerlink" href="#xconfig" title="Permalink to this heading"></a></h3>
+<p>Edit build configuration using an interactive <a class="reference external" href="http://qt-project.org/">QT</a> menu-driven interface.</p>
+<p>An arbitrary file containing default options may be specified using <a class="reference internal" href="#var-defconfig"><span class="std std-ref">DEFCONFIG</span></a>
+variable.
+These default options are applied when no previous configuration target has been
+run.</p>
+<p>Refer to section <a class="reference internal" href="#configure">Configure</a> for a list of variables affecting this target
+behavior.</p>
+</section>
+</section>
+<section id="variables">
+<span id="sect-user-variables"></span><h2><span class="section-number">4.2. </span>Variables<a class="headerlink" href="#variables" title="Permalink to this heading"></a></h2>
+<p>This section describes all <strong class="command">make</strong> variables that may be given on the
+command line to customize the construction logic.</p>
+<section id="ar">
+<h3><span class="section-number">4.2.1. </span>AR<a class="headerlink" href="#ar" title="Permalink to this heading"></a></h3>
+<p>Object archiver</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#cross-compile">CROSS_COMPILE</a>}ar</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to create static libraries, i.e. built objects archives.</p>
+<p>See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/ar.1.html">ar(1)</a></em>.</p>
+</section>
+<section id="bindir">
+<h3><span class="section-number">4.2.2. </span>BINDIR<a class="headerlink" href="#bindir" title="Permalink to this heading"></a></h3>
+<p>Executable programs install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#prefix">PREFIX</a>}/bin</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where to install executable programs. Note that final
+install location is also affected by the <a class="reference internal" href="#destdir">DESTDIR</a> variable.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="builddir">
+<span id="var-builddir"></span><h3><span class="section-number">4.2.3. </span>BUILDDIR<a class="headerlink" href="#builddir" title="Permalink to this heading"></a></h3>
+<p>Build directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#topdir">TOPDIR</a>}/build</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory under which intermediate objects are generated. Applies to
+all construction phases.</p>
+</section>
+<section id="cc">
+<h3><span class="section-number">4.2.4. </span>CC<a class="headerlink" href="#cc" title="Permalink to this heading"></a></h3>
+<p>C compiler</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#cross-compile">CROSS_COMPILE</a>}gcc</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to build C objects.</p>
+<p>See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/gcc.1.html">gcc(1)</a></em>.</p>
+</section>
+<section id="cross-compile">
+<span id="var-cross-compile"></span><h3><span class="section-number">4.2.5. </span>CROSS_COMPILE<a class="headerlink" href="#cross-compile" title="Permalink to this heading"></a></h3>
+<p>Cross compile tool prefix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Optional prefix prepended to build tools used during construction. The following
+variables are affected: <a class="reference internal" href="#ar">AR</a>, <a class="reference internal" href="#cc">CC</a>, <a class="reference internal" href="#ld">LD</a>, <a class="reference internal" href="#strip">STRIP</a>.</p>
+</section>
+<section id="var-cscope">
+<span id="id3"></span><h3><span class="section-number">4.2.6. </span>CSCOPE<a class="headerlink" href="#var-cscope" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://cscope.sourceforge.net/">Cscope</a> source tag database generation tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">cscope</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to generate <a class="reference external" href="https://cscope.sourceforge.net/">Cscope</a> source code tag database.
+See also <a class="reference external" href="https://ctags.sourceforge.net/">CTAGS</a>.</p>
+</section>
+<section id="var-ctags">
+<span id="id4"></span><h3><span class="section-number">4.2.7. </span>CTAGS<a class="headerlink" href="#var-ctags" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://ctags.sourceforge.net/">Exuberant Ctags</a> source tag database generation tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">ctags</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to generate <a class="reference external" href="https://ctags.sourceforge.net/">Exuberant Ctags</a> source code tag database.
+See also <a class="reference external" href="https://cscope.sourceforge.net/">CSCOPE</a>.</p>
+</section>
+<section id="var-defconfig">
+<span id="id5"></span><h3><span class="section-number">4.2.8. </span>DEFCONFIG<a class="headerlink" href="#var-defconfig" title="Permalink to this heading"></a></h3>
+<p>Defaut build configuration file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to optional file containing default build configuration settings. This
+file may be generated from current configuration as explained into section
+<a class="reference internal" href="#configure">configure</a>.</p>
+</section>
+<section id="datadir">
+<span id="var-datadir"></span><h3><span class="section-number">4.2.9. </span>DATADIR<a class="headerlink" href="#datadir" title="Permalink to this heading"></a></h3>
+<p>Read-only architecture-independent data install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#prefix">PREFIX</a>}/share</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where to install read-only architecture-independent data
+files.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="destdir">
+<span id="var-destdir"></span><h3><span class="section-number">4.2.10. </span>DESTDIR<a class="headerlink" href="#destdir" title="Permalink to this heading"></a></h3>
+<p>Top-level staged / root install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p><em>DESTDIR</em> variable is prepended to each installed target file so that the
+installed files are not placed directly into their expected location but are
+instead copied into an alternate location, <em>DESTDIR</em>.
+However, installed files maintain their relative directory structure and any
+embedded file names will not be modified.</p>
+<p><em>DESTDIR</em> is commonly used in package creation and cross compile environment.
+See section <a class="reference internal" href="#staged-install">Staged install</a> and <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/DESTDIR.html#DESTDIR">DESTDIR: support for staged installs</a> for more informations.</p>
+</section>
+<section id="docdir">
+<span id="var-docdir"></span><h3><span class="section-number">4.2.11. </span>DOCDIR<a class="headerlink" href="#docdir" title="Permalink to this heading"></a></h3>
+<p>Documentation install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#datadir">DATADIR</a>}/doc</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where to install documentation files other than man pages
+and info files.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="doxy">
+<h3><span class="section-number">4.2.12. </span>DOXY<a class="headerlink" href="#doxy" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://www.doxygen.nl/">Doxygen</a> documentation generation tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">doxygen</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to generate source code documentation.
+See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/doxygen.1.html">doxygen(1)</a></em>.</p>
+</section>
+<section id="ebuilddir">
+<h3><span class="section-number">4.2.13. </span>EBUILDDIR<a class="headerlink" href="#ebuilddir" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://github.com/grgbr/ebuild/">Ebuild</a> directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>empty</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where <a class="reference external" href="https://github.com/grgbr/ebuild/">ebuild</a> logic is located.</p>
+</section>
+<section id="echoe">
+<h3><span class="section-number">4.2.14. </span>ECHOE<a class="headerlink" href="#echoe" title="Permalink to this heading"></a></h3>
+<p>Shell escaped string echo’ing tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">/bin/echo</span> <span class="pre">-e</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to print strings to console with shell backslash escapes
+interpretation enabled. See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/echo.1.html">echo(1)</a></em>.</p>
+</section>
+<section id="id6">
+<h3><span class="section-number">4.2.15. </span>GIT<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://git-scm.com/">Git</a>, the stupid content tracker command line tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">git</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to build source distribution tarballs for <a class="reference external" href="https://git-scm.com/">Git</a> based projects.
+See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/git.1.html">git(1)</a></em>.</p>
+</section>
+<section id="infodir">
+<h3><span class="section-number">4.2.16. </span>INFODIR<a class="headerlink" href="#infodir" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://www.gnu.org/software/texinfo/">Info files</a> install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#datadir">DATADIR</a>}/info</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where to install <a class="reference external" href="https://www.gnu.org/software/texinfo/">Info files</a>.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="includedir">
+<h3><span class="section-number">4.2.17. </span>INCLUDEDIR<a class="headerlink" href="#includedir" title="Permalink to this heading"></a></h3>
+<p>Header files install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#prefix">PREFIX</a>}/include</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where to install development header files to be included
+by the C <code class="docutils literal notranslate"><span class="pre">#include</span></code> preprocessor directive.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="var-install">
+<span id="id7"></span><h3><span class="section-number">4.2.18. </span>INSTALL<a class="headerlink" href="#var-install" title="Permalink to this heading"></a></h3>
+<p>Install tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">install</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to copy filesytem entries and set their attributes.
+See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/install.1.html">install(1)</a></em>.</p>
+</section>
+<section id="install-info">
+<h3><span class="section-number">4.2.19. </span>INSTALL_INFO<a class="headerlink" href="#install-info" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://www.gnu.org/software/texinfo/">Info files</a> page installer tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">install-info</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to install <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man5/texinfo.5.html">texinfo(5)</a></em> documentation system <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man5/info.5.html">info(5)</a></em> pages generated
+using <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/makeinfo.1.html">makeinfo(1)</a></em> tool.
+See also <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/install-info.1.html">install-info(1)</a></em>.</p>
+</section>
+<section id="kconf">
+<h3><span class="section-number">4.2.20. </span>KCONF<a class="headerlink" href="#kconf" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://salsa.debian.org/philou/kconfig-frontends/">KConfig</a> line-oriented tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">kconfig-conf</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to configure the build logic thanks to a line-oriented user interface
+(questions - answers).</p>
+<p>See <a class="reference external" href="https://salsa.debian.org/philou/kconfig-frontends/">KConfig</a>.</p>
+</section>
+<section id="kgconf">
+<h3><span class="section-number">4.2.21. </span>KGCONF<a class="headerlink" href="#kgconf" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://salsa.debian.org/philou/kconfig-frontends/">KConfig</a> <a class="reference external" href="https://www.gtk.org/">GTK</a> menu based tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">kconfig-gconf</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to configure the build logic thanks to a <a class="reference external" href="https://www.gtk.org/">GTK</a> menu driven user
+interface.</p>
+<p>See <a class="reference external" href="https://salsa.debian.org/philou/kconfig-frontends/">KConfig</a>.</p>
+</section>
+<section id="kmconf">
+<h3><span class="section-number">4.2.22. </span>KMCONF<a class="headerlink" href="#kmconf" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://salsa.debian.org/philou/kconfig-frontends/">KConfig</a> <a class="reference external" href="https://invisible-island.net/ncurses/">NCurses</a> menu based tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">kconfig-mconf</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to configure the build logic thanks to a text menu driven user
+interface.</p>
+<p>See <a class="reference external" href="https://salsa.debian.org/philou/kconfig-frontends/">KConfig</a>.</p>
+</section>
+<section id="kxconf">
+<h3><span class="section-number">4.2.23. </span>KXCONF<a class="headerlink" href="#kxconf" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://salsa.debian.org/philou/kconfig-frontends/">KConfig</a> <a class="reference external" href="http://qt-project.org/">QT</a> menu based tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">kconfig-qconf</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to configure the build logic thanks to a <a class="reference external" href="http://qt-project.org/">QT</a> menu driven user
+interface.</p>
+<p>See <a class="reference external" href="https://salsa.debian.org/philou/kconfig-frontends/">KConfig</a>.</p>
+</section>
+<section id="id8">
+<h3><span class="section-number">4.2.24. </span>LATEXMK<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://www.latex-project.org/">LaTeX</a> documentation builder tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">latexmk</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to automate the process of building <a class="reference external" href="https://www.latex-project.org/">LaTeX</a> documents.
+See also <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/latexmk.1.html">latexmk(1)</a></em>.</p>
+</section>
+<section id="ld">
+<h3><span class="section-number">4.2.25. </span>LD<a class="headerlink" href="#ld" title="Permalink to this heading"></a></h3>
+<p>Program linker</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#cross-compile">CROSS_COMPILE</a>}gcc</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to link objects.</p>
+<p>See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/gcc.1.html">gcc(1)</a></em> and <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/ld.1.html">ld(1)</a></em>.</p>
+</section>
+<section id="libdir">
+<h3><span class="section-number">4.2.26. </span>LIBDIR<a class="headerlink" href="#libdir" title="Permalink to this heading"></a></h3>
+<p>Libraries install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#prefix">PREFIX</a>}/lib</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where to install object files and libraries of object
+code.
+Note that final install location is also affected by the <a class="reference internal" href="#destdir">DESTDIR</a> variable.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="libexecdir">
+<h3><span class="section-number">4.2.27. </span>LIBEXECDIR<a class="headerlink" href="#libexecdir" title="Permalink to this heading"></a></h3>
+<p>Executable programs install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#prefix">PREFIX</a>}/libexec</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where to install executable programs to be run by other
+programs rather than by users.
+Note that final install location is also affected by the <a class="reference internal" href="#destdir">DESTDIR</a> variable.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="ln">
+<h3><span class="section-number">4.2.28. </span>LN<a class="headerlink" href="#ln" title="Permalink to this heading"></a></h3>
+<p>Link maker tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">ln</span> <span class="pre">-f</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to make links between filesystem entries.
+See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/ln.1.html">ln(1)</a></em>.</p>
+</section>
+<section id="localstatedir">
+<h3><span class="section-number">4.2.29. </span>LOCALSTATEDIR<a class="headerlink" href="#localstatedir" title="Permalink to this heading"></a></h3>
+<p>Machine specific persistent data files install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#prefix">PREFIX</a>}/var</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where to install data files which the programs modify
+while they run, and that pertain to one specific machine.
+Note that final install location is also affected by the <a class="reference internal" href="#destdir">DESTDIR</a> variable.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="makeinfo">
+<h3><span class="section-number">4.2.30. </span>MAKEINFO<a class="headerlink" href="#makeinfo" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://www.gnu.org/software/texinfo/">Info files</a> documentation conversion tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">makeinfo</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to generate <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man5/info.5.html">info(5)</a></em> pages for the <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man5/texinfo.5.html">texinfo(5)</a></em> documentation system.
+See also <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/install-info.1.html">install-info(1)</a></em>.</p>
+</section>
+<section id="mandb">
+<h3><span class="section-number">4.2.31. </span>MANDB<a class="headerlink" href="#mandb" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Man-Pages.html">Man pages</a> index maintainer tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">mandb</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p><em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man8/mandb.8.html">mandb(8)</a></em> is the tool used to maintain <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man7/man.7.html">man(7)</a></em> page index caches.</p>
+</section>
+<section id="mandir">
+<h3><span class="section-number">4.2.32. </span>MANDIR<a class="headerlink" href="#mandir" title="Permalink to this heading"></a></h3>
+<p>Man pages install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#datadir">DATADIR</a>}/man</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to top-level directory where to install man pages.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a> and <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man7/man-pages.7.html">man-pages(7)</a></em>.</p>
+</section>
+<section id="prefix">
+<span id="var-prefix"></span><h3><span class="section-number">4.2.33. </span>PREFIX<a class="headerlink" href="#prefix" title="Permalink to this heading"></a></h3>
+<p>Prefix prepended to install variable default values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="file docutils literal notranslate"><span class="pre">/usr/local</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>A prefix used in constructing the default values of some of the variables listed
+in the <a class="reference internal" href="#variables">Variables</a> section.
+Note that final install location is also affected by the <a class="reference internal" href="#destdir">DESTDIR</a> variable.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="id9">
+<h3><span class="section-number">4.2.34. </span>PKG_CONFIG<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://www.freedesktop.org/wiki/Software/pkg-config/">pkg-config</a> compile and link helper tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">pkg-config</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Helper tool used to retrieve flags when compiling applications and libraries.
+See <a class="reference external" href="https://www.freedesktop.org/wiki/Software/pkg-config/">pkg-config</a> and <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/pkg-config.1.html">pkg-config(1)</a></em>.</p>
+</section>
+<section id="pkgconfigdir">
+<h3><span class="section-number">4.2.35. </span>PKGCONFIGDIR<a class="headerlink" href="#pkgconfigdir" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://www.freedesktop.org/wiki/Software/pkg-config/">pkg-config</a> metadata files install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#libdir">LIBDIR</a>}/pkgconfig</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where to install <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/pkg-config.1.html">pkg-config(1)</a></em> metadata files.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="id10">
+<h3><span class="section-number">4.2.36. </span>PYTHON<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
+<p>The <a class="reference external" href="https://www.python.org/">Python</a> interpreter version 3.x</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">python3</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p><a class="reference external" href="https://www.python.org/">Python</a> interpreter required by the <a class="reference external" href="http://sphinx-doc.org/">Sphinx</a> documentation system.
+See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/python3.1.html">python3(1)</a></em> and <a class="reference internal" href="#sphinxbuild">SPHINXBUILD</a>.</p>
+</section>
+<section id="rm">
+<h3><span class="section-number">4.2.37. </span>RM<a class="headerlink" href="#rm" title="Permalink to this heading"></a></h3>
+<p>Filesystem entry removal tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-f</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to delete filesystem entries.
+See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/rm.1.html">rm(1)</a></em>.</p>
+</section>
+<section id="id11">
+<h3><span class="section-number">4.2.38. </span>RSYNC<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://rsync.samba.org/">Rsync</a> filesystem synchronization tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">rsync</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to copy / synchronize filesystem hierarchies.
+See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/rsync.1.html">rsync(1)</a></em>.</p>
+</section>
+<section id="runstatedir">
+<h3><span class="section-number">4.2.39. </span>RUNSTATEDIR<a class="headerlink" href="#runstatedir" title="Permalink to this heading"></a></h3>
+<p>Machine specific temporary data files install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#prefix">PREFIX</a>}/run</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where to install data files which the programs modify
+while they run, and that pertain to one specific machine, and which need not
+persist longer than the execution of the program.
+Note that final install location is also affected by the <a class="reference internal" href="#destdir">DESTDIR</a> variable.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="sbindir">
+<h3><span class="section-number">4.2.40. </span>SBINDIR<a class="headerlink" href="#sbindir" title="Permalink to this heading"></a></h3>
+<p>System administration executable programs install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#prefix">PREFIX</a>}/sbin</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where to install executable programs that are only
+generally useful to system administrators. Note that final install location is
+also affected by the <a class="reference internal" href="#destdir">DESTDIR</a> variable.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="sphinxbuild">
+<h3><span class="section-number">4.2.41. </span>SPHINXBUILD<a class="headerlink" href="#sphinxbuild" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="http://sphinx-doc.org/">Sphinx</a> documentation generation tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">sphinx-build</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to generate documentation from a <a class="reference external" href="https://docutils.sourceforge.io/rst.html">reStructuredText</a> file hierarchy.
+<em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/sphinx-build.1.html">sphinx-build(1)</a></em> may output documentation to multiple format, i.e.
+<a class="reference external" href="https://www.gnu.org/software/texinfo/">Info files</a>, <a class="reference external" href="https://www.latex-project.org/">LaTeX</a>, <em>PDF</em> and <em>HTML</em>.
+See also <a class="reference external" href="https://www.python.org/">PYTHON</a>, <a class="reference internal" href="#makeinfo">MAKEINFO</a>, <a class="reference external" href="https://personal.psu.edu/jcc8/software/latexmk-jcc/">LATEXMK</a> and <a class="reference internal" href="#doxy">DOXY</a>.</p>
+</section>
+<section id="strip">
+<h3><span class="section-number">4.2.42. </span>STRIP<a class="headerlink" href="#strip" title="Permalink to this heading"></a></h3>
+<p>Object symbols discarding tool.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#cross-compile">CROSS_COMPILE</a>}strip</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to discard symbols from compiled and linked object files.
+See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/strip.1.html">strip(1)</a></em>.</p>
+</section>
+<section id="svn">
+<h3><span class="section-number">4.2.43. </span>SVN<a class="headerlink" href="#svn" title="Permalink to this heading"></a></h3>
+<p><a class="reference external" href="https://subversion.apache.org/">Subversion</a>, the Subversion version control system command line tool</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">svn</span></code></p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Tool used to build source distribution tarballs for <a class="reference external" href="https://subversion.apache.org/">Subversion</a> based projects.
+See <em class="manpage"><a class="manpage reference external" href="https://man7.org/linux/man-pages/man1/svn.1.html">svn(1)</a></em>.</p>
+</section>
+<section id="sysconfdir">
+<h3><span class="section-number">4.2.44. </span>SYSCONFDIR<a class="headerlink" href="#sysconfdir" title="Permalink to this heading"></a></h3>
+<p>Machine specific read-only configuration install directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>${<a class="reference internal" href="#prefix">PREFIX</a>}/etc</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>yes</p>
+</dd>
+</dl>
+<p>Pathname to directory where to install read-only data files that pertain to a
+single machine, i.e., files for configuring a host.
+Note that final install location is also affected by the <a class="reference internal" href="#destdir">DESTDIR</a> variable.</p>
+<p>See <a class="reference external" href="https://www.gnu.org/prep/standards/html_node/Directory-Variables.html">GNU variables for installation Directories</a>.</p>
+</section>
+<section id="topdir">
+<h3><span class="section-number">4.2.45. </span>TOPDIR<a class="headerlink" href="#topdir" title="Permalink to this heading"></a></h3>
+<p>Source tree top-level directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Default<span class="colon">:</span></dt>
+<dd class="field-odd"><p>not applicable</p>
+</dd>
+<dt class="field-even">Mutable<span class="colon">:</span></dt>
+<dd class="field-even"><p>no</p>
+</dd>
+</dl>
+<p>Pathname to source tree top-level directory.</p>
+</section>
+</section>
+</section>
+<section id="troubleshooting">
+<span id="sect-user-troubleshooting"></span><h1><span class="section-number">5. </span>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading"></a></h1>
+<p>In case an error happens such as the one below:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span><span class="nb">help</span>
+<span class="go">Makefile:10: *** &#39;/usr/share/ebuild&#39;: no valid Ebuild install found !.  Stop.</span>
+</pre></div>
+</div>
+<p>This means the project is not able to find the location where <a class="reference external" href="https://github.com/grgbr/ebuild/">ebuild</a> is
+installed.  This <em>may</em> happen when working with a project source tree that has
+been retrieved from version control system, i.e., not extracted from a source
+distribution tarball.</p>
+<p>Give <strong class="command">make</strong> an <a class="reference internal" href="#ebuilddir">EBUILDDIR</a> variable pointing to the top-level <a class="reference external" href="https://github.com/grgbr/ebuild/">ebuild</a>
+read-only data directory like so:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span><span class="nb">help</span><span class="w"> </span><span class="nv">EBUILDDIR</span><span class="o">=</span>/usr/local/share/ebuild
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to eBuild documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="install.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2023 Grégor Boirie.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

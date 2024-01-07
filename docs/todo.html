@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo &mdash; eBuild 1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Index" href="genindex.html" />
+    <link rel="prev" title="Licensing" href="license.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            eBuild
+          </a>
+              <div class="version">
+                1.0
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user.html">1. Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user.html#prerequisites">2. Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user.html#workflow">3. Workflow</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user.html#configure">3.1. Configure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.html#build">3.2. Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.html#install">3.3. Install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.html#staged-install">3.4. Staged install</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.html#cleanup">3.5. Cleanup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.html#documentation">3.6. Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user.html#generation">3.6.1. Generation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#installation">3.6.2. Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user.html#source-tags">3.7. Source tags</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.html#distribution">3.8. Distribution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user.html#tools">3.9. Tools</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user.html#reference">4. Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user.html#targets">4.1. Targets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user.html#target-build">4.1.1. build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#clean">4.1.2. clean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#clean-doc">4.1.3. clean-doc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#clean-tags">4.1.4. clean-tags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#defconfig">4.1.5. defconfig</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#dist">4.1.6. dist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#distclean">4.1.7. distclean</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#doc">4.1.8. doc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#gconfig">4.1.9. gconfig</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#help">4.1.10. help</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#help-full">4.1.11. help-full</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#target-install">4.1.12. install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#install-doc">4.1.13. install-doc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#install-strip">4.1.14. install-strip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#menuconfig">4.1.15. menuconfig</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#saveconfig">4.1.16. saveconfig</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#tags">4.1.17. tags</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#uninstall">4.1.18. uninstall</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#uninstall-doc">4.1.19. uninstall-doc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#xconfig">4.1.20. xconfig</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user.html#variables">4.2. Variables</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="user.html#ar">4.2.1. AR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#bindir">4.2.2. BINDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#builddir">4.2.3. BUILDDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#cc">4.2.4. CC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#cross-compile">4.2.5. CROSS_COMPILE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#var-cscope">4.2.6. CSCOPE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#var-ctags">4.2.7. CTAGS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#var-defconfig">4.2.8. DEFCONFIG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#datadir">4.2.9. DATADIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#destdir">4.2.10. DESTDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#docdir">4.2.11. DOCDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#doxy">4.2.12. DOXY</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#ebuilddir">4.2.13. EBUILDDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#echoe">4.2.14. ECHOE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#id6">4.2.15. GIT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#infodir">4.2.16. INFODIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#includedir">4.2.17. INCLUDEDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#var-install">4.2.18. INSTALL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#install-info">4.2.19. INSTALL_INFO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#kconf">4.2.20. KCONF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#kgconf">4.2.21. KGCONF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#kmconf">4.2.22. KMCONF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#kxconf">4.2.23. KXCONF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#id8">4.2.24. LATEXMK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#ld">4.2.25. LD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#libdir">4.2.26. LIBDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#libexecdir">4.2.27. LIBEXECDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#ln">4.2.28. LN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#localstatedir">4.2.29. LOCALSTATEDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#makeinfo">4.2.30. MAKEINFO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#mandb">4.2.31. MANDB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#mandir">4.2.32. MANDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#prefix">4.2.33. PREFIX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#id9">4.2.34. PKG_CONFIG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#pkgconfigdir">4.2.35. PKGCONFIGDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#id10">4.2.36. PYTHON</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#rm">4.2.37. RM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#id11">4.2.38. RSYNC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#runstatedir">4.2.39. RUNSTATEDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#sbindir">4.2.40. SBINDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#sphinxbuild">4.2.41. SPHINXBUILD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#strip">4.2.42. STRIP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#svn">4.2.43. SVN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#sysconfdir">4.2.44. SYSCONFDIR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="user.html#topdir">4.2.45. TOPDIR</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="user.html#troubleshooting">5. Troubleshooting</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Appendix</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="license.html">Licensing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="license.html#gnu-general-public-license">GNU GENERAL PUBLIC LICENSE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="license.html#preamble">Preamble</a></li>
+<li class="toctree-l3"><a class="reference internal" href="license.html#terms-and-conditions">TERMS AND CONDITIONS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="license.html#definitions">Definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#source-code">Source Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#basic-permissions">Basic Permissions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#protecting-users-legal-rights-from-anti-circumvention-law">Protecting Users’ Legal Rights From Anti-Circumvention Law</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#conveying-verbatim-copies">Conveying Verbatim Copies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#conveying-modified-source-versions">Conveying Modified Source Versions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#conveying-non-source-forms">Conveying Non-Source Forms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#additional-terms">Additional Terms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#termination">Termination</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#acceptance-not-required-for-having-copies">Acceptance Not Required for Having Copies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#automatic-licensing-of-downstream-recipients">Automatic Licensing of Downstream Recipients</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#patents">Patents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#no-surrender-of-others-freedom">No Surrender of Others’ Freedom</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#use-with-the-gnu-affero-general-public-license">Use with the GNU Affero General Public License</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#revised-versions-of-this-license">Revised Versions of this License</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#disclaimer-of-warranty">Disclaimer of Warranty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#limitation-of-liability">Limitation of Liability</a></li>
+<li class="toctree-l4"><a class="reference internal" href="license.html#interpretation-of-sections-15-and-16">Interpretation of Sections 15 and 16</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="license.html#how-to-apply-these-terms-to-your-new-programs">How to Apply These Terms to Your New Programs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Todo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">eBuild</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Todo</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/todo.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="todo">
+<h1>Todo<a class="headerlink" href="#todo" title="Permalink to this heading"></a></h1>
+<div class="admonition-todo admonition">
+<p class="admonition-title">Todo</p>
+<p>Fill me</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="install.html#id1"><em>original entry</em></a> is located in /mnt/devel/greg/tidor/out/build/ebuild/doc/sphinx/install.rst, line 6.)</p>
+<div class="admonition-todo admonition">
+<p class="admonition-title">Todo</p>
+<p>Fill me</p>
+</div>
+<p class="todo-source">(The <a class="reference internal" href="programmer.html#id1"><em>original entry</em></a> is located in /mnt/devel/greg/tidor/out/build/ebuild/doc/sphinx/programmer.rst, line 6.)</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="license.html" class="btn btn-neutral float-left" title="Licensing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="genindex.html" class="btn btn-neutral float-right" title="Index" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019-2023 Grégor Boirie.</p>
+  </div>
+
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
