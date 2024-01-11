@@ -440,9 +440,9 @@ install-doc: install-man
 install-man: man
 	$(foreach page, \
 	          $(sphinx_list_man), \
-	          $(call install_man_recipe,\
-	                 $(sphinxmandir)/$(page),\
-	                 $(mandir)))
+	          $(call install_man_recipe, \
+	                 $(sphinxmandir)/$(page), \
+	                 $(mandir))$(newline))
 
 uninstall-doc: uninstall-man
 
