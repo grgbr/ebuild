@@ -51,6 +51,7 @@ endef
 
 define sphinx_list_docs
 $(shell cd $(sphinxsrc); \
+        env $(sphinxenv) \
         $(PYTHON) -X pycache_prefix="$(abspath $(BUILDDIR))/__pycache__" \
                   -c '$(call sphinx_list_docs_cmd,$(1))')
 endef
@@ -74,6 +75,7 @@ endef
 define sphinx_list_man
 $(notdir \
   $(shell cd $(sphinxsrc); \
+          env $(sphinxenv) \
           $(PYTHON) -X pycache_prefix="$(abspath $(BUILDDIR))/__pycache__" \
                     -c '$(sphinx_list_man_cmd)'))
 endef
