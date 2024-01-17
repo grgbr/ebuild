@@ -268,6 +268,7 @@ clean-doc: clean-sphinx
 clean-sphinx:
 	$(call rm_recipe,$(sphinxdir))
 	$(call rmr_recipe,$(sphinxcachedir))
+	$(call rmr_recipe,$(abspath $(BUILDDIR))/__pycache__)
 
 .PHONY: install-doc
 

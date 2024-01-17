@@ -160,6 +160,8 @@ $(config-src): $(kconf_config) $(EBUILDDIR)/scripts/gen_conf_obj_src.sh
 _clean-config:
 	$(if $(strip $(config-obj)),$(call rm_recipe,$(config-obj)))
 	$(if $(strip $(config-src)),$(call rm_recipe,$(config-src)))
+	$(if $(strip $(config-src)),$(call rm_recipe, \
+	                                   $(patsubst %.o,%.d,$(config-obj))))
 
 else  # !(ifneq ($(strip $(config-obj)),))
 
