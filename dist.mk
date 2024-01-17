@@ -62,7 +62,7 @@ dist: $(doc_dist_targets)
 
 define _help_dist_target :=
 
-  dist          -- build source distribution tarball
+  dist                -- build source distribution tarball
 endef
 
 endif # ifneq ($(strip $(distfiles)),)
@@ -88,6 +88,6 @@ define help_dist_targets =
 
 ::Distribution::\
   $(_help_dist_target)
-  distclean     -- run `clean' target, remove build configuration and
-                   distribution tarball
+  distclean           -- run `clean' target, remove build configuration and
+                         distribution tarball
 endef

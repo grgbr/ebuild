@@ -460,10 +460,10 @@ define help_doc_targets :=
 
 
 ::Documentation::
-  doc           -- build documentation
-  clean-doc     -- remove built documentation
-  install-doc   -- install built documentation
-  uninstall-doc -- remove installed documentation
+  doc                 -- build documentation
+  clean-doc           -- remove built documentation
+  install-doc         -- install built documentation
+  uninstall-doc       -- remove installed documentation
 endef
 
 define help_doc_vars :=

@@ -71,8 +71,8 @@ define help_tags_targets :=
 
 
 ::Source tags::
-  tags          -- build source tag databases
-  clean-tags    -- remove built source tag databases
+  tags                -- build source tag databases
+  clean-tags          -- remove built source tag databases
 endef
 
 define help_tags_vars :=

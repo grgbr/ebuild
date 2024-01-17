@@ -203,8 +203,8 @@ define help_section_msg :=
 
 
 ::Help::
-  help          -- this help message
-  help-full     -- a full reference help message
+  help                -- this help message
+  help-full           -- a full reference help message
 endef
 
 # Help message common block
@@ -225,20 +225,28 @@ make <TARGET> [<VARIABLE>[=<VALUE>]]...
 ==Targets==
 
 ::Configuration::
-  menuconfig    -- configure build using a NCurses menu-driven interface
-  xconfig       -- configure build using a QT menu-driven interface
-  gconfig       -- configure build using a GTK menu-driven interface
-  defconfig     -- configure build using default settings
-  saveconfig    -- save current build configuration as default settings
+  menuconfig          -- configure build using a NCurses menu-driven interface
+  xconfig             -- configure build using a QT menu-driven interface
+  gconfig             -- configure build using a GTK menu-driven interface
+  defconfig           -- configure build using default settings
+  saveconfig          -- save current build configuration as default settings
 
 ::Build::
-  build         -- compile and link objects
-  clean         -- remove built objects and documentation
+  build               -- compile and link objects
+  clean               -- remove all built objects and documentation
 
 ::Install::
-  install       -- install built objects and documentation
-  install-strip -- run `install' target and strip installed objects
-  uninstall     -- remove installed objects\
+  install             -- install built objects and documentation
+  install-strip       -- run `install' target and strip installed objects
+  uninstall           -- remove all installed objects and documentation
+
+::Check::
+  build-check         -- compile and link testing objects
+  clean-check         -- remove built testing objects
+  install-check       -- install built testing objects
+  install-strip-check -- run `install-check' target and strip installed testing
+                         objects
+  uninstall-check     -- remove installed testing objects\
 $(help_tags_targets)\
 $(help_doc_targets)\
 $(help_dist_targets)\
