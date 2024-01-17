@@ -12,21 +12,15 @@
 # Handle source code tags targets only when $(tag-files) is defined.
 ifneq ($(strip $(tagfiles)),)
 
-ifeq ($(call has_cmd,$(CTAGS))$(call has_cmd,$(CSCOPE)),)
-$(error Neither ctags nor cscope found ! Setup $$(CTAGS) and/or $$(CSCOPE) \
-        to generate source code tags)
-endif # ($(call has_cmd,$(CTAGS))$(call has_cmd,$(CSCOPE)),nn)
-
 .PHONY: tags
 tags:
-
-ifeq ($(call has_cmd,$(CTAGS)),y)
 
 override ctagsfile := $(BUILDDIR)/tags
 ctagsopts          ?= -F -B
 
 .PHONY: ctags
 ctags: | $(BUILDDIR)
+	$(call has_cmd_or_die,CTAGS)
 	@echo "  CTAGS   $(ctagsfile)"
 	$(Q)env CTAGS= $(CTAGS) $(ctagsopts) -f $(ctagsfile) $(tagfiles)
 
@@ -38,15 +32,12 @@ define help_ctags_var :=
                    [$(CTAGS)]
 endef
 
-endif # ($(call has_cmd,$(CTAGS)),y)
-
-ifeq ($(call has_cmd,$(CSCOPE)),y)
-
 override cscopefile := $(BUILDDIR)/cscope.out
 cscopeopts          ?= -b -q -u
 
 .PHONY: cscope
 cscope: | $(BUILDDIR)
+	$(call has_cmd_or_die,CSCOPE)
 	@echo "  CSCOPE  $(cscopefile)"
 	$(Q)$(CSCOPE) $(cscopeopts) -f$(cscopefile) $(tagfiles)
 
@@ -64,8 +55,6 @@ define help_cscope_var :=
   CSCOPE        -- cscope source tags generator
                    [$(CSCOPE)]
 endef
-
-endif # ifeq ($(call has_cmd,$(CSCOPE)),y)
 
 define help_tags_targets :=
 

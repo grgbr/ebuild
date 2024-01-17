@@ -144,6 +144,13 @@ define has_cmd
 $(shell type '$(strip $(1))' 2>&1 >/dev/null && echo y)
 endef
 
+define has_cmd_or_die
+$(if $(call has_cmd,$($(strip $(1)))), \
+     , \
+     $(error `$($(strip $(1)))' command not found ! \
+             Setup $(strip $(1)) variable !))
+endef
+
 # Run install-info to register an info page into info directory
 # $(1): pathname to info page to install
 # $(2): pathname to info page directory
