@@ -140,8 +140,12 @@ $(Q)$(RSYNC) --recursive \
              $(abspath $(3))/
 endef
 
+define _has_cmd
+type '$(strip $(1))' 2>&1 >/dev/null
+endef
+
 define has_cmd
-$(shell type '$(strip $(1))' 2>&1 >/dev/null && echo y)
+$(shell $(call _has_cmd,$(1)) && echo y)
 endef
 
 define has_cmd_or_die
@@ -149,53 +153,6 @@ $(if $(call has_cmd,$($(strip $(1)))), \
      , \
      $(error `$($(strip $(1)))' command not found ! \
              Setup $(strip $(1)) variable !))
-endef
-
-# Run install-info to register an info page into info directory
-# $(1): pathname to info page to install
-# $(2): pathname to info page directory
-# $(3): optional directory entry name
-# $(4): optional directory entry description
-define install_info_recipe
-$(call install_recipe,-m644,$(1),$(2)/$(notdir $(1)))
-$(Q)$(INSTALL_INFO) $(if $(strip $(3)),--name="$(strip $(3))") \
-                    $(if $(strip $(4)),--description="$(strip $(4))") \
-                    $(2)/$(notdir $(1)) \
-                    $(2)/dir
-endef
-
-# Run install-info to unregister an info page from info directory
-# $(1): basename of info page to uninstall
-# $(2): pathname to info page directory
-define uninstall_info_recipe
-$(Q)if [ -f $(2)/$(1) ]; then \
-	$(INSTALL_INFO) --delete $(2)/$(1) $(2)/dir; \
-fi
-$(call rm_recipe,$(2)/$(1))
-endef
-
-# Extract man page section from file path given in argument
-# $(1): pathname to man page
-define man_section
-$(shell echo $(notdir $(1)) | sed --silent 's/.*\.\([^.]\+\)/\1/pg')
-endef
-
-# Install a man page
-# $(1): pathname to man page to install
-# $(2): pathname to base man pages directory
-define install_man_recipe
-$(call install_recipe,-m644, \
-                      $(1), \
-                      $(2)/man$(call man_section,$(1))/$(notdir $(1)))
-$(Q)$(MANDB) $(if $(Q),--quiet) $(2)
-endef
-
-# Remove installed man page
-# $(1): basename of man page to uninstall
-# $(2): pathname to base man pages directory
-define uninstall_man_recipe
-$(call rm_recipe,$(2)/man$(call man_section,$(1))/$(notdir $(1)))
-$(Q)$(MANDB) $(if $(Q),--quiet) $(2)
 endef
 
 # List project files that are under revision control

@@ -34,11 +34,6 @@
 
 ifneq ($(strip $(sphinxsrc)),)
 
-ifneq ($(call has_cmd,$(SPHINXBUILD)),y)
-$(error sphinx-build tool not found ! \
-        Setup $$(SPHINXBUILD) to generate documentation)
-endif # ($(call has_cmd,$(SPHINXBUILD)),y)
-
 # Source / import conf.py configuration file from sphinx documentation directory
 # and retrieve the list of generated output files according to the type of
 # document given in argument.
@@ -138,6 +133,7 @@ endef
 # $(3): pathname to sphinx cache directory
 # $(4): additional environment variables given to sphinx-build
 define sphinx_html_recipe
+$(call has_cmd_or_die,SPHINXBUILD)
 @echo "  HTML    $(strip $(2))"
 $(Q)$(if $(4),env $(4)) \
     $(SPHINXBUILD) -b html \
@@ -149,63 +145,6 @@ $(Q)$(if $(4),env $(4)) \
                    -E \
                    -j auto
 endef
-
-ifneq ($(strip $(sphinx_list_pdf)),)
-
-# Run sphinx-build to generate PDF
-# $(1): pathname to sphinx documentation source directory
-# $(2): pathname to generated PDF documentation output directory
-# $(3): pathname to sphinx cache directory
-# $(4): additional environment variables given to sphinx-build
-define sphinx_pdf_recipe
-@echo "  LATEX   $(strip $(2))"
-$(Q)$(if $(4),env $(4)) \
-    $(SPHINXBUILD) -b latex \
-                   "$(strip $(1))" \
-                   "$(strip $(2))" \
-                   $(if $(Q),-Q,-q) \
-                   -d "$(strip $(3))" \
-                   -a \
-                   -E \
-                   -j auto
-@echo "  PDF     $(strip $(2))"
-+$(Q)$(MAKE) --directory "$(strip $(2))" \
-             $(if $(Q),--output-sync=none) \
-             all-pdf \
-             PDFLATEX='$(LATEXMK) -pdf -dvi- -ps-' \
-             LATEXMKOPTS='-interaction=nonstopmode -halt-on-error' \
-             $(if $(Q),>/dev/null 2>&1)
-endef
-
-endif # ifneq ($(strip $(sphinx_list_pdf)),)
-
-ifneq ($(strip $(sphinx_list_info)),)
-
-# Run sphinx-build to generate info pages
-# $(1): pathname to sphinx documentation source directory
-# $(2): pathname to generated info documentation output directory
-# $(3): pathname to sphinx cache directory
-# $(4): additional environment variables given to sphinx-build
-define sphinx_info_recipe
-@echo "  TEXINFO $(strip $(2))"
-$(Q)$(if $(4),env $(4)) \
-    $(SPHINXBUILD) -b texinfo \
-                   "$(strip $(1))" \
-                   "$(strip $(2))" \
-                   $(if $(Q),-Q,-q) \
-                   -d "$(strip $(3))" \
-                   -a \
-                   -E \
-                   -j auto
-@echo "  INFO    $(strip $(2))"
-+$(Q)$(MAKE) --directory "$(strip $(2))" \
-             $(if $(Q),--output-sync=none) \
-             info \
-             MAKEINFO='$(MAKEINFO) --no-split' \
-             $(if $(Q),>/dev/null 2>&1)
-endef
-
-endif # ifneq ($(strip $(sphinx_list_info)),)
 
 # Final destination documentation install directory
 override docdir         := $(DESTDIR)$(DOCDIR)/$(PACKAGE)
@@ -315,6 +254,37 @@ uninstall-html:
 # PDF handling
 ################################################################################
 
+ifneq ($(strip $(sphinx_list_pdf)),)
+
+# Run sphinx-build to generate PDF
+# $(1): pathname to sphinx documentation source directory
+# $(2): pathname to generated PDF documentation output directory
+# $(3): pathname to sphinx cache directory
+# $(4): additional environment variables given to sphinx-build
+define sphinx_pdf_recipe
+$(call has_cmd_or_die,SPHINXBUILD)
+$(call has_cmd_or_die,LATEXMK)
+@echo "  LATEX   $(strip $(2))"
+$(Q)$(if $(4),env $(4)) \
+    $(SPHINXBUILD) -b latex \
+                   "$(strip $(1))" \
+                   "$(strip $(2))" \
+                   $(if $(Q),-Q,-q) \
+                   -d "$(strip $(3))" \
+                   -a \
+                   -E \
+                   -j auto
+@echo "  PDF     $(strip $(2))"
++$(Q)$(MAKE) --directory "$(strip $(2))" \
+             $(if $(Q),--output-sync=none) \
+             all-pdf \
+             PDFLATEX='$(LATEXMK) -pdf -dvi- -ps-' \
+             LATEXMKOPTS='-interaction=nonstopmode -halt-on-error' \
+             $(if $(Q),>/dev/null 2>&1)
+endef
+
+endif # ifneq ($(strip $(sphinx_list_pdf)),)
+
 doc: pdf
 
 # Make pdf target depend onto doxy target if doxygen support is enabled.
@@ -353,6 +323,62 @@ uninstall-pdf:
 ################################################################################
 # (Tex)info page handling
 ################################################################################
+
+ifneq ($(strip $(sphinx_list_info)),)
+
+# Run sphinx-build to generate info pages
+# $(1): pathname to sphinx documentation source directory
+# $(2): pathname to generated info documentation output directory
+# $(3): pathname to sphinx cache directory
+# $(4): additional environment variables given to sphinx-build
+define sphinx_info_recipe
+$(call has_cmd_or_die,SPHINXBUILD)
+$(call has_cmd_or_die,MAKEINFO)
+@echo "  TEXINFO $(strip $(2))"
+$(Q)$(if $(4),env $(4)) \
+    $(SPHINXBUILD) -b texinfo \
+                   "$(strip $(1))" \
+                   "$(strip $(2))" \
+                   $(if $(Q),-Q,-q) \
+                   -d "$(strip $(3))" \
+                   -a \
+                   -E \
+                   -j auto
+@echo "  INFO    $(strip $(2))"
++$(Q)$(MAKE) --directory "$(strip $(2))" \
+             $(if $(Q),--output-sync=none) \
+             info \
+             MAKEINFO='$(MAKEINFO) --no-split' \
+             $(if $(Q),>/dev/null 2>&1)
+endef
+
+endif # ifneq ($(strip $(sphinx_list_info)),)
+
+# Run install-info to register an info page into info directory
+# $(1): pathname to info page to install
+# $(2): pathname to info page directory
+# $(3): optional directory entry name
+# $(4): optional directory entry description
+define install_info_recipe
+$(call has_cmd_or_die,INSTALL_INFO)
+$(call install_recipe,-m644,$(1),$(2)/$(notdir $(1)))
+$(Q)$(INSTALL_INFO) $(if $(strip $(3)),--name="$(strip $(3))") \
+                    $(if $(strip $(4)),--description="$(strip $(4))") \
+                    $(2)/$(notdir $(1)) \
+                    $(2)/dir
+endef
+
+# Run install-info to unregister an info page from info directory
+# $(1): basename of info page to uninstall
+# $(2): pathname to info page directory
+define uninstall_info_recipe
+$(Q)if $(call _has_cmd,$(INSTALL_INFO)); then \
+	if [ -f $(2)/$(1) ]; then \
+		$(INSTALL_INFO) --delete $(2)/$(1) $(2)/dir; \
+	fi \
+fi
+$(call rm_recipe,$(2)/$(1))
+endef
 
 doc: info
 
@@ -404,6 +430,7 @@ ifneq ($(strip $(sphinx_list_man)),)
 # $(3): pathname to sphinx cache directory
 # $(4): additional environment variables given to sphinx-build
 define sphinx_man_recipe
+$(call has_cmd_or_die,SPHINXBUILD)
 @echo "  MAN     $(strip $(2))"
 $(Q)$(if $(4),env $(4)) \
     $(SPHINXBUILD) -b man \
@@ -417,6 +444,33 @@ $(Q)$(if $(4),env $(4)) \
 endef
 
 endif # ifneq ($(strip $(sphinx_list_man)),)
+
+# Extract man page section from file path given in argument
+# $(1): pathname to man page
+define man_section
+$(shell echo $(notdir $(1)) | sed --silent 's/.*\.\([^.]\+\)/\1/pg')
+endef
+
+# Install a man page
+# $(1): pathname to man page to install
+# $(2): pathname to base man pages directory
+define install_man_recipe
+$(call has_cmd_or_die,MANDB)
+$(call install_recipe,-m644, \
+                      $(1), \
+                      $(2)/man$(call man_section,$(1))/$(notdir $(1)))
+$(Q)$(MANDB) $(if $(Q),--quiet) $(2)
+endef
+
+# Remove installed man page
+# $(1): basename of man page to uninstall
+# $(2): pathname to base man pages directory
+define uninstall_man_recipe
+$(call rm_recipe,$(2)/man$(call man_section,$(1))/$(notdir $(1)))
+$(Q)if $(call _has_cmd,$(MANDB)); then \
+	$(MANDB) $(if $(Q),--quiet) $(2); \
+fi
+endef
 
 doc: man
 
