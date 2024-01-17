@@ -29,10 +29,6 @@
 
 ifneq ($(strip $(doxyconf)),)
 
-ifneq ($(call has_cmd,$(DOXY)),y)
-$(error Doxygen tool not found ! Setup $$(DOXY) to generate documentation)
-endif # ($(call has_cmd,$(DOXY)),y)
-
 ifeq ($(strip $(PACKAGE)),)
 $(error Missing package name definition ! \
         Setup $$(PACKAGE) to generate documentation)
@@ -72,6 +68,7 @@ doc: doxy
 # build documentation for generated sources if needed.
 .PHONY: doxy
 doxy: | $(doxydir)
+	$(call has_cmd_or_die,DOXY)
 	$(call doxy_recipe,$(doxyconf),$(|),$(doxyenv))
 
 ifneq ($(strip $(config-in)),)
@@ -88,6 +85,7 @@ endef
 doxy: $(doxyconfdoc)
 
 $(doxyconfdoc): $(config-in) $(EBUILDDIR)/scripts/gen_conf_doc.py | $(doxydir)
+	$(call has_cmd_or_die,DOXY)
 	@echo "  CONFDOC $(strip $(@))"
 	$(EBUILDDIR)/scripts/gen_conf_doc.py --output $(@) $(<) $(PACKAGE)
 
