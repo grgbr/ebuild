@@ -873,6 +873,8 @@ Tool used to create static libraries, i.e. built objects archives.
 
 See |ar(1)|.
 
+.. _var-bindir:
+
 BINDIR
 ******
 
