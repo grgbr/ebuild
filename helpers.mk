@@ -102,9 +102,9 @@ endef
 
 define obj_includes
 $(strip $(if $(kconf_head),-I$(abspath $(kconf_head)/../..)) \
-        -I$(dir $(1)) \
-        -I$(dir $(2)) \
-        $(if $(HEADERDIR),-I$(HEADERDIR)))
+        -iquote $(dir $(1)) \
+        -iquote $(dir $(2)) \
+        $(if $(HEADERDIR),-iquote $(HEADERDIR)))
 endef
 
 define strip_solib_recipe
