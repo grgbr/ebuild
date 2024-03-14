@@ -33,7 +33,7 @@ $(BUILDDIR)/$(1): $(call get_obj_src,$(notdir $(1))) \
 	          -MD -g $(call obj_cflags,$(1),$(2)) -o $$(@) -c $$(<)
 endef
 
-define gen_arlib_rule
+define gen_builtin_rule
 $(BUILDDIR)/$(1): $(call get_obj_paths,$(1))
 	$(if $($(1)-objs),,$$(error Missing '$(1)' build objects declaration !))
 	@echo "  AR      $$(@)"
@@ -44,11 +44,29 @@ $(foreach o, \
           $(call gen_obj_rule,$(o),$(1))$(newline))
 endef
 
+define gen_builtin_paths
+$(if $(strip $(builtins)),$(addprefix $(BUILDDIR)/,$(builtins)))
+endef
+
+define gen_arlib_rule
+$(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) $(gen_builtin_paths)
+	$(if $($(1)-objs),,$$(error Missing '$(1)' build objects declaration !))
+	@echo "  AR      $$(@)"
+	$(Q)$(AR) rcs $$(@) $$(filter-out $(gen_builtin_paths),$$(^))
+
+$(foreach o, \
+          $(call get_obj_targets,$(1)), \
+          $(call gen_obj_rule,$(o),$(1))$(newline))
+endef
+
 define gen_solib_rule
-$(BUILDDIR)/$(1): $(call get_obj_paths,$(1))
+$(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) $(gen_builtin_paths)
 	$(if $($(1)-objs),,$$(error Missing '$(1)' build objects declaration !))
 	@echo "  LD      $$(@)"
-	$(Q)$(LD) -o $$(@) $$(^) -L$(BUILDDIR) $(call link_ldflags,$(1))
+	$(Q)$(LD) -o $$(@) \
+	          $$(filter-out $(gen_builtin_paths),$$(^)) \
+	          -L$(BUILDDIR) \
+	          $(call link_ldflags,$(1))
 
 $(foreach o, \
           $(call get_obj_targets,$(1)), \
@@ -66,7 +84,7 @@ endef
 
 define gen_bin_rule
 $(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) \
-                  $(addprefix $(BUILDDIR)/,$(builtins)) \
+                  $(gen_builtin_paths) \
                   $(addprefix $(BUILDDIR)/,$(solibs)) \
                   $(addprefix $(BUILDDIR)/,$(arlibs))
 	@echo "  LD      $$(@)"
@@ -158,7 +176,7 @@ $(eval $(foreach d,$(subdirs),$(call gen_subdir_rule,$(d))$(newline)))
 
 $(eval $(foreach l,$(arlibs),$(call gen_arlib_rule,$(l))$(newline)))
 
-$(eval $(foreach l,$(builtins),$(call gen_arlib_rule,$(l))$(newline)))
+$(eval $(foreach l,$(builtins),$(call gen_builtin_rule,$(l))$(newline)))
 
 $(eval $(foreach l,$(solibs),$(call gen_solib_rule,$(l))$(newline)))
 
@@ -233,6 +251,7 @@ endef
 
 .PHONY: install
 install: $(addprefix install-,$(subdirs)) \
+         $(gen_builtin_paths) \
          $(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(headers)) \
          $(addprefix $(DESTDIR)$(LIBDIR)/,$(arlibs)) \
          $(addprefix $(DESTDIR)$(PKGCONFIGDIR)/,$(pkgconfigs))
@@ -268,6 +287,7 @@ endif # config-in
 
 .PHONY: install-strip
 install-strip: $(addprefix install-strip-,$(subdirs)) \
+               $(gen_builtin_paths) \
                $(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(headers)) \
                $(addprefix $(DESTDIR)$(LIBDIR)/,$(arlibs)) \
                $(addprefix $(DESTDIR)$(PKGCONFIGDIR)/,$(pkgconfigs))
