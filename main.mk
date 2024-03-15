@@ -94,7 +94,7 @@ olddefconfig: $(config-in) \
 $(kconf_autohead): | $(kconfdir)
 	@:
 
-$(kconf_head): $(kconf_autohead) | $(dir $(kconf_head))
+$(kconf_head): $(kconf_autohead) $(ebuild_deps) | $(dir $(kconf_head))
 	$(Q):; > $(@); \
 	    exec >> $(@); \
 	    echo '#ifndef _$(call toupper,$(PACKAGE))_CONFIG_H'; \

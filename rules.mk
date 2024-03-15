@@ -30,7 +30,7 @@ $(BUILDDIR)/$(1): $(call get_obj_src,$(notdir $(1))) \
                   | $(dir $(BUILDDIR)/$(1)) $(addprefix build-,$(subdirs))
 	@echo "  CC      $$(@)"
 	$(Q)$(CC) $$(call obj_includes,$$(@),$$(<)) \
-	          -MD -g $(call obj_cflags,$(1),$(2)) -o $$(@) -c $$(<)
+	          -g $(call obj_cflags,$(1),$(2)) -MD -o $$(@) -c $$(<)
 endef
 
 define gen_builtin_rule
@@ -258,7 +258,7 @@ install: $(addprefix install-,$(subdirs)) \
 
 .PHONY: $(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(headers))
 $(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(headers)): \
-	$(DESTDIR)$(INCLUDEDIR)/%: $(HEADERDIR)/% $(all_deps)
+	$(DESTDIR)$(INCLUDEDIR)/%: $(HEADERDIR)/%
 	$(call install_recipe,-m644,$(<),$(@))
 
 .PHONY: $(addprefix $(DESTDIR)$(LIBDIR)/,$(arlibs))
@@ -280,7 +280,7 @@ ifdef config-in
 install install-strip: $(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(config-h))
 
 .PHONY: $(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(config-h))
-$(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(config-h)): $(all_deps)
+$(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(config-h)): $(kconf_head)
 	$(call install_recipe,-m644,$(<),$(@))
 
 endif # config-in
