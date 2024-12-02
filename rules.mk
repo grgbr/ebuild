@@ -9,6 +9,14 @@
 # Build handling
 ################################################################################
 
+define decl_error
+$$(error Missing '$(1)' build $(2) declaration !)
+endef
+
+define check_obj_lot_decl
+$(if $($(1)-objs)$($(1)-lots),,$(call decl_error,$(1),objects and/or lots))
+endef
+
 define get_obj_src
 $(if $($(1)-src),$($(1)-src),$(SRCDIR)/$(patsubst %.o,%.c,$(1)))
 endef
@@ -20,6 +28,10 @@ endef
 define get_obj_paths
 $(addprefix $(BUILDDIR)/,$(call get_obj_targets,$(1))) \
 $(filter $(config-obj),$($(1)-objs))
+endef
+
+define get_lot_paths
+$(addprefix $(BUILDDIR)/,$($(1)-lots))
 endef
 
 define gen_obj_rule
@@ -34,10 +46,14 @@ $(BUILDDIR)/$(1): $(call get_obj_src,$(notdir $(1))) \
 endef
 
 define gen_builtin_rule
-$(BUILDDIR)/$(1): $(call get_obj_paths,$(1))
-	$(if $($(1)-objs),,$$(error Missing '$(1)' build objects declaration !))
+$(call get_lot_paths,$(1)): | $(dir $(BUILDDIR)/$(1)) \
+                              $(addprefix build-,$(subdirs))
+
+$(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) $(call get_lot_paths,$(1))
+	$(call check_obj_lot_decl,$(1))
 	@echo "  AR      $$(@)"
-	$(Q)$(AR) rcs $$(@) $$(^)
+	$(Q)$(RM) $$(@)
+	$(Q)$(AR) rcsTP $$(@) $$(^)
 
 $(foreach o, \
           $(call get_obj_targets,$(1)), \
@@ -49,9 +65,15 @@ $(if $(strip $(builtins)),$(addprefix $(BUILDDIR)/,$(builtins)))
 endef
 
 define gen_arlib_rule
-$(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) $(gen_builtin_paths)
-	$(if $($(1)-objs),,$$(error Missing '$(1)' build objects declaration !))
+$(call get_lot_paths,$(1)): | $(dir $(BUILDDIR)/$(1)) \
+                              $(addprefix build-,$(subdirs))
+
+$(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) \
+                  $(call get_lot_paths,$(1)) \
+                  $(gen_builtin_paths)
+	$(call check_obj_lot_decl,$(1))
 	@echo "  AR      $$(@)"
+	$(Q)$(RM) $$(@)
 	$(Q)$(AR) rcs $$(@) $$(filter-out $(gen_builtin_paths),$$(^))
 
 $(foreach o, \
@@ -60,8 +82,13 @@ $(foreach o, \
 endef
 
 define gen_solib_rule
-$(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) $(gen_builtin_paths)
-	$(if $($(1)-objs),,$$(error Missing '$(1)' build objects declaration !))
+$(call get_lot_paths,$(1)): | $(dir $(BUILDDIR)/$(1)) \
+                              $(addprefix build-,$(subdirs))
+
+$(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) \
+                  $(call get_lot_paths,$(1)) \
+                  $(gen_builtin_paths)
+	$(call check_obj_lot_decl,$(1))
 	@echo "  LD      $$(@)"
 	$(Q)$(LD) -o $$(@) \
 	          $$(filter-out $(gen_builtin_paths),$$(^)) \
@@ -75,21 +102,25 @@ endef
 
 define gen_pkgconfig_rule
 $(BUILDDIR)/$(1): $(all_deps) | $(BUILDDIR)
-	$(if $($(1)-tmpl), \
-	     , \
-	     $$(error Missing '$(1)' pkgconfig template declaration !))
+	$(if $($(1)-tmpl),,$(call decl_error,$(1),pkgconfig template))
 	@echo "  PKGCFG  $$(@)"
 	$(Q)/bin/echo -e '$$(subst $$(newline),\n,$$($($(1)-tmpl)))' > $$(@)
 endef
 
 define gen_bin_rule
+$(call get_lot_paths,$(1)): | $(dir $(BUILDDIR)/$(1)) \
+                              $(addprefix build-,$(subdirs))
+
 $(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) \
+                  $(call get_lot_paths,$(1)) \
                   $(gen_builtin_paths) \
                   $(addprefix $(BUILDDIR)/,$(solibs)) \
                   $(addprefix $(BUILDDIR)/,$(arlibs))
+	$(call check_obj_lot_decl,$(1))
 	@echo "  LD      $$(@)"
 	$(Q)$(LD) -o $$(@) \
 	          $(call get_obj_paths,$(1)) \
+	          $(call get_lot_paths,$(1)) \
 	          -L$(BUILDDIR) $(call link_ldflags,$(1))
 
 $(foreach o, \
