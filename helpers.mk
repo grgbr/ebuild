@@ -45,6 +45,10 @@ define toupper
 $(shell echo '$(1)' | tr '[:lower:]' '[:upper:]')
 endef
 
+define toincguard
+$(call toupper,$(shell echo '$(1)' | tr '-' '_'))
+endef
+
 define rm_recipe
 @echo "  RM      $(strip $(1))"
 $(Q)$(RM) $(1)

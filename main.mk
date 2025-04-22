@@ -97,12 +97,12 @@ $(kconf_autohead): | $(kconfdir)
 $(kconf_head): $(kconf_autohead) $(ebuild_deps) | $(dir $(kconf_head))
 	$(Q):; > $(@); \
 	    exec >> $(@); \
-	    echo '#ifndef _$(call toupper,$(PACKAGE))_CONFIG_H'; \
-	    echo '#define _$(call toupper,$(PACKAGE))_CONFIG_H'; \
+	    echo '#ifndef _$(call toincguard,$(PACKAGE))_CONFIG_H'; \
+	    echo '#define _$(call toincguard,$(PACKAGE))_CONFIG_H'; \
 	    echo; \
 	    grep '^#define' $(<); \
 	    echo; \
-	    echo '#endif /* _$(call toupper,$(PACKAGE))_CONFIG_H */'
+	    echo '#endif /* _$(call toincguard,$(PACKAGE))_CONFIG_H */'
 
 .PHONY: menuconfig
 menuconfig: | $(kconfdir)
