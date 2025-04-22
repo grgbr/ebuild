@@ -31,7 +31,9 @@ cat - << _EOF
 
 static EBUILD_CONFIG(__ebuild_config) =
 $(sed --silent \
-      '/^#.*/d; :p; s/\\/\\\\/g; s/"/\\"/g; s/^\(.*\)$/"\1\\0"/p; n; bp' \
+      --expression='/^# Automatically generated file; DO NOT EDIT.$/d' \
+      --expression='/^# Configuration$/d' \
+      --expression=':p; /^[#]*$/d; s/\\/\\\\/g; s/"/\\"/g; s/^\(.*\)$/"\1\\0"/p; n; bp' \
       $kconf_path)
 ;
 _EOF
