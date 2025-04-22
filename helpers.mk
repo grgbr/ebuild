@@ -101,7 +101,7 @@ $(strip $($(1)-ldflags) $(call pkgconfig_ldflags,$($(1)-pkgconf)))
 endef
 
 define obj_includes
-$(strip $(if $(kconf_head),-I$(abspath $(kconf_head)/../..)) \
+$(strip $(if $(kconf_head),-I$(abspath $(kconf_autoconf)/../include)) \
         -iquote $(dir $(1)) \
         -iquote $(dir $(2)) \
         $(if $(HEADERDIR),-iquote $(HEADERDIR)) \
