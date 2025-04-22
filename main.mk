@@ -34,7 +34,7 @@ kconf_config := $(BUILDDIR)/.config
 
 ifdef config-in
 
-kconf_head   := $(BUILDDIR)/include/$(PACKAGE)/config.h
+kconf_head   := $(BUILDDIR)/include/$(config-h)
 all_deps     := $(kconf_head)
 
 config-in    := $(CURDIR)/$(config-in)
