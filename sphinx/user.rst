@@ -1406,6 +1406,8 @@ SVN
 Tool used to build source distribution tarballs for |Subversion| based projects.
 See |svn(1)|.
 
+.. _var-sysconfdir:
+
 SYSCONFDIR
 **********
 
