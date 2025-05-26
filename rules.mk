@@ -64,6 +64,22 @@ define gen_builtin_paths
 $(if $(strip $(builtins)),$(addprefix $(BUILDDIR)/,$(builtins)))
 endef
 
+#
+# Rule used to create and distribute an archive.
+#
+# The trick here consist in allowing to merge multiple prerequisite archives
+# without getting them nested inside. This also makes it possible to use
+# builtins (created as `thin' archive) as members of the archive to be created.
+#
+# To do this, we first create the static library archive as a `thin' archive
+# which include every members in a flattened manner. As this format only
+# references members (i.e., file content is not included within the archive), a
+# `thin' archive cannot be safely distributed.
+#
+# Then, to distribute / install the final archive, we use the scripting ability
+# of AR to convert back to the standard and portable POSIX format.
+#
+# See https://sourceware.org/binutils/docs/binutils/ar-scripts.html
 define gen_arlib_rule
 $(call get_lot_paths,$(1)): | $(dir $(BUILDDIR)/$(1)) \
                               $(addprefix build-,$(subdirs))
@@ -74,7 +90,8 @@ $(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) \
 	$(call check_obj_lot_decl,$(1))
 	@echo "  AR      $$(@)"
 	$(Q)$(RM) $$(@)
-	$(Q)$(AR) rcs $$(@) $$(filter-out $(gen_builtin_paths),$$(^))
+	$(Q)$(AR) rcsTP $$(@) $$(filter-out $(gen_builtin_paths),$$(^))
+	$(Q)$(ECHOE) 'CREATE $$(@)\nADDLIB $$(@)\nSAVE\nEND' | $(AR) -M
 
 $(foreach o, \
           $(call get_obj_targets,$(1)), \
