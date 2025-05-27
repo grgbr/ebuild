@@ -46,8 +46,9 @@ $(BUILDDIR)/$(1): $(call get_obj_src,$(notdir $(1))) \
 endef
 
 define gen_builtin_rule
-$(call get_lot_paths,$(1)): | $(dir $(BUILDDIR)/$(1)) \
-                              $(addprefix build-,$(subdirs))
+$(call get_lot_paths,$(1)): $(addprefix build-,$(subdirs)) \
+                            | $(dir $(BUILDDIR)/$(1))
+	@:
 
 $(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) $(call get_lot_paths,$(1))
 	$(call check_obj_lot_decl,$(1))
@@ -81,8 +82,9 @@ endef
 #
 # See https://sourceware.org/binutils/docs/binutils/ar-scripts.html
 define gen_arlib_rule
-$(call get_lot_paths,$(1)): | $(dir $(BUILDDIR)/$(1)) \
-                              $(addprefix build-,$(subdirs))
+$(call get_lot_paths,$(1)): $(addprefix build-,$(subdirs)) \
+                            | $(dir $(BUILDDIR)/$(1))
+	@:
 
 $(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) \
                   $(call get_lot_paths,$(1)) \
@@ -99,8 +101,9 @@ $(foreach o, \
 endef
 
 define gen_solib_rule
-$(call get_lot_paths,$(1)): | $(dir $(BUILDDIR)/$(1)) \
-                              $(addprefix build-,$(subdirs))
+$(call get_lot_paths,$(1)): $(addprefix build-,$(subdirs)) \
+                            | $(dir $(BUILDDIR)/$(1))
+	@:
 
 $(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) \
                   $(call get_lot_paths,$(1)) \
@@ -125,8 +128,9 @@ $(BUILDDIR)/$(1): $(all_deps) | $(BUILDDIR)
 endef
 
 define gen_bin_rule
-$(call get_lot_paths,$(1)): | $(dir $(BUILDDIR)/$(1)) \
-                              $(addprefix build-,$(subdirs))
+$(call get_lot_paths,$(1)): $(addprefix build-,$(subdirs)) \
+                            | $(dir $(BUILDDIR)/$(1))
+	@:
 
 $(BUILDDIR)/$(1): $(call get_obj_paths,$(1)) \
                   $(call get_lot_paths,$(1)) \
