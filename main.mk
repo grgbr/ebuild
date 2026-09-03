@@ -34,16 +34,13 @@ kconf_config := $(BUILDDIR)/.config
 
 ifdef config-in
 
-kconf_head   := $(BUILDDIR)/include/$(config-h)
+kconf_head   := \
+	$(BUILDDIR)/include/$(if $(strip $(config-h)),$(config-h),config.h)
 all_deps     := $(kconf_head)
 
 config-in    := $(CURDIR)/$(config-in)
 ifeq ($(wildcard $(config-in)),)
 $(error '$(config-in)' configuration template file not found !)
-endif
-
-ifeq ($(strip $(config-h)),)
-$(error Missing '$(config-h)' configuration header path !)
 endif
 
 kconfdir       := $(BUILDDIR)/include/config/

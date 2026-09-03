@@ -328,6 +328,7 @@ $(eval $(foreach b,$(solibs),$(call install_solib_rule,$(b))$(newline)))
 $(eval $(foreach b,$(bins),$(call install_bin_rule,$(b))$(newline)))
 
 ifdef config-in
+ifdef config-h
 
 install install-strip: $(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(config-h))
 
@@ -335,6 +336,7 @@ install install-strip: $(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(config-h))
 $(addprefix $(DESTDIR)$(INCLUDEDIR)/,$(config-h)): $(kconf_head)
 	$(call install_recipe,-m644,$(<),$(@))
 
+endif # config-h
 endif # config-in
 
 .PHONY: install-strip
